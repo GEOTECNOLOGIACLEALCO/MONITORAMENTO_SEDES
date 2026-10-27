@@ -1064,9 +1064,7 @@
           <div class="stat-item" title="8 a 15 dias (Atenção)"><span class="dot-yellow"></span> <span id="count-amarelo">0</span></div>
           <div class="stat-item" title="A partir de 16 dias / Sem visita"><span class="dot-red"></span> <span id="count-vermelho">0</span></div>
         </div>
-        <button class="btn-top" onclick="exportarExcelNavegador()" title="Baixar relatório em Excel">
-          <i class="fa-solid fa-file-excel"></i> Excel
-        </button>
+
         <button class="btn-top btn-refresh-app" id="btn-refresh-app" onclick="forcarAtualizacaoApp()" title="Atualizar aplicativo e limpar todo o cache">
           <i class="fa-solid fa-arrows-rotate" id="icon-refresh-app"></i> <span class="btn-text-full">Limpar Cache e Atualizar</span><span class="btn-text-short">Limpar Cache</span>
         </button>
@@ -1294,6 +1292,19 @@
   <script src="dados_mapa.js"></script>
 
   <script>
+        const ASSET_UID = "a6xVWc5GTZEWFzSceegC4G";
+    const KOBO_SUBMISSION_URL = "https://kc.kobotoolbox.org/monitoramento_clealco/submission";
+
+    function escapeXml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&apos;');
+    }
+
     let map;
     let markersLayer = L.layerGroup();
     let areasLayer = L.layerGroup();
@@ -1873,6 +1884,45 @@
 
       historicoVisitas.push(novaVistoria);
       localStorage.setItem("visitas_historico", JSON.stringify(historicoVisitas));
+
+      // Enviar vistoria diretamente para o KoboToolbox na nuvem
+      try {
+        const uuid = 'uuid:' + (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2));
+        const xml = `<?xml version="1.0"?>
+<data id="${ASSET_UID}" version="20261027">
+  <num_sede>${escapeXml(numSede)}</num_sede>
+  <nome_sede>${escapeXml(nomeSede)}</nome_sede>
+  <fa>${escapeXml(sedeSelecionada ? (sedeSelecionada.properties.fa || "") : "")}</fa>
+  <fazenda>${escapeXml(fazenda)}</fazenda>
+  <proprietario>${escapeXml(proprietario)}</proprietario>
+  <regiao>${escapeXml(sedeSelecionada ? (sedeSelecionada.properties.regiao || "") : "")}</regiao>
+  <data_vistoria>${dataV}</data_vistoria>
+  <hora_vistoria>${horaV}</hora_vistoria>
+  <matricula>${escapeXml(matricula)}</matricula>
+  <pressao>${pressao}</pressao>
+  <bandeiras>${parseInt(bandeiras)}</bandeiras>
+  <larva_pupa>${larvaPupa}</larva_pupa>
+  <inseticida>${inseticida}</inseticida>
+  <possiveis_causadores>${escapeXml(causador)}</possiveis_causadores>
+  <observacoes>${escapeXml(obs)}</observacoes>
+  <localizacao_gps>${lat} ${lon} 0 5</localizacao_gps>
+  <latitude>${lat}</latitude>
+  <longitude>${lon}</longitude>
+  <meta>
+    <instanceID>${uuid}</instanceID>
+  </meta>
+</data>`;
+        const formData = new FormData();
+        const xmlBlob = new Blob([xml], { type: 'text/xml' });
+        formData.append("xml_submission_file", xmlBlob, "submission.xml");
+        fetch(KOBO_SUBMISSION_URL, {
+          method: "POST",
+          body: formData,
+          mode: "no-cors"
+        }).catch(err => console.log("Kobo submission error or offline:", err));
+      } catch (koboErr) {
+        console.log("Kobo sync warning:", koboErr);
+      }
 
       showToast(`Vistoria da Sede ${numSede} salva com sucesso!`, "success");
       fecharFormulario();
