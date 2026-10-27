@@ -190,12 +190,176 @@
       display: none;
     }
 
+    /* Responsividade refinada para Mobile */
     @media (max-width: 680px) {
+      header {
+        padding: 6px 10px;
+        gap: 6px;
+      }
+      .brand {
+        gap: 6px;
+      }
+      .brand-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      .brand-title h1 {
+        font-size: 11.5px;
+        line-height: 1.15;
+      }
+      .brand-title p {
+        display: none;
+      }
+      .top-actions {
+        gap: 4px;
+        flex-shrink: 0;
+      }
+      .badge-stats {
+        padding: 3px 6px;
+        font-size: 10.5px;
+        gap: 5px;
+      }
+      .badge-stats .stat-item {
+        gap: 3px;
+      }
+      .btn-top {
+        padding: 5px 8px;
+        font-size: 11px;
+        gap: 4px;
+      }
       .btn-text-full { display: none; }
       .btn-text-short { display: inline; }
-      .brand-title p { display: none; }
-      .brand-title h1 { font-size: 13px; }
-      header { padding: 8px 10px; }
+
+      .map-legend {
+        bottom: 18px;
+        left: 10px;
+        max-width: 220px;
+        font-size: 10px;
+      }
+      .map-legend .legend-header {
+        padding: 5px 9px;
+        font-size: 10.5px;
+      }
+      .map-legend .legend-body {
+        padding: 4px 9px 8px 9px;
+        gap: 4px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand-title h1 {
+        font-size: 10px;
+      }
+      .badge-stats {
+        padding: 2px 4px;
+        font-size: 10px;
+        gap: 3px;
+      }
+      .badge-stats .dot-green,
+      .badge-stats .dot-yellow,
+      .badge-stats .dot-red {
+        width: 7px;
+        height: 7px;
+      }
+      .btn-top {
+        padding: 4px 6px;
+        font-size: 10px;
+      }
+    }
+
+    /* Redimensionamento Dinamico dos Pontos conforme o Zoom */
+    .custom-sede-icon {
+      transition: width 0.2s ease, height 0.2s ease, margin 0.2s ease !important;
+    }
+
+    .sede-pin {
+      transition: width 0.2s ease, height 0.2s ease, font-size 0.2s ease !important;
+    }
+
+    /* 1. Zoom Afastado (zoom <= 12): METADE DO TAMANHO (18px) */
+    #map.zoom-afastado .custom-sede-icon {
+      width: 18px !important;
+      height: 18px !important;
+      margin-left: -9px !important;
+      margin-top: -9px !important;
+    }
+
+    #map.zoom-afastado .sede-pin {
+      width: 18px !important;
+      height: 18px !important;
+      border: 1.5px solid #ffffff !important;
+      font-size: 8px !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    #map.zoom-afastado .sede-pin .badge-mini {
+      display: none !important;
+    }
+
+    #map.zoom-afastado .sede-pin .sede-tag {
+      display: none !important;
+    }
+
+    /* 2. Zoom Medio (zoom 13 a 14): Tamanho Intermediario (26px) */
+    #map.zoom-medio .custom-sede-icon {
+      width: 26px !important;
+      height: 26px !important;
+      margin-left: -13px !important;
+      margin-top: -13px !important;
+    }
+
+    #map.zoom-medio .sede-pin {
+      width: 26px !important;
+      height: 26px !important;
+      border: 1.5px solid #ffffff !important;
+      font-size: 11px !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !important;
+    }
+
+    #map.zoom-medio .sede-pin .badge-mini {
+      width: 13px !important;
+      height: 13px !important;
+      font-size: 6px !important;
+      top: -3px !important;
+      right: -3px !important;
+    }
+
+    #map.zoom-medio .sede-pin .sede-tag {
+      font-size: 8.5px !important;
+      bottom: -15px !important;
+      padding: 0 4px !important;
+    }
+
+    /* 3. Zoom Proximo (zoom >= 15): Tamanho Completo Original (36px) */
+    #map.zoom-proximo .custom-sede-icon {
+      width: 36px !important;
+      height: 36px !important;
+      margin-left: -18px !important;
+      margin-top: -18px !important;
+    }
+
+    #map.zoom-proximo .sede-pin {
+      width: 36px !important;
+      height: 36px !important;
+      font-size: 16px !important;
+    }
+
+    /* Tooltip elegante ao passar o dedo / cursor sobre a sede */
+    .sede-tooltip-custom {
+      background: rgba(15, 23, 42, 0.95) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+      color: #f8fafc !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      border-radius: 6px !important;
+      padding: 4px 8px !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5) !important;
+    }
+    .sede-tooltip-custom:before {
+      border-top-color: rgba(15, 23, 42, 0.95) !important;
     }
 
     /* Subbar de Busca */
@@ -1141,6 +1305,14 @@
       // Preencher Data da Vistoria automática (ex: 27/10/2026)
       atualizarCamposAutomaticos();
 
+      // No celular, iniciar a legenda recolhida para liberar espaço de mapa
+      if (window.innerWidth <= 600) {
+        const legendBody = document.getElementById("legend-body");
+        const legendChevron = document.getElementById("legend-chevron");
+        if (legendBody) legendBody.style.display = "none";
+        if (legendChevron) legendChevron.className = "fa-solid fa-chevron-up";
+      }
+
       // Lembrar matrícula do avaliador
       const mat = localStorage.getItem("clealco_matricula");
       if (mat) document.getElementById("form-matricula").value = mat;
@@ -1175,6 +1347,11 @@
 
       L.control.zoom({ position: "bottomright" }).addTo(map);
 
+      // Listener de Zoom para ajustar o tamanho dos pontos dinamicamente
+      atualizarTamanhoPontosPorZoom();
+      map.on("zoom", atualizarTamanhoPontosPorZoom);
+      map.on("zoomend", atualizarTamanhoPontosPorZoom);
+
       // Camadas Base
       const googleHybrid = L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
         maxZoom: 20,
@@ -1205,6 +1382,25 @@
           fecharCardDetalhes();
         }
       });
+    }
+
+    function atualizarTamanhoPontosPorZoom() {
+      if (!map) return;
+      const z = map.getZoom();
+      const mapEl = document.getElementById("map");
+      if (!mapEl) return;
+
+      mapEl.classList.remove("zoom-afastado", "zoom-medio", "zoom-proximo");
+      if (z <= 12) {
+        // Zoom afastado: METADE DO TAMANHO (18px)
+        mapEl.classList.add("zoom-afastado");
+      } else if (z <= 14) {
+        // Zoom intermediario (26px)
+        mapEl.classList.add("zoom-medio");
+      } else {
+        // Zoom proximo (36px com tags e badges completas)
+        mapEl.classList.add("zoom-proximo");
+      }
     }
 
     function carregarCamadas() {
@@ -1397,6 +1593,11 @@
         });
 
         const marker = L.marker([lat, lon], { icon: customIcon });
+        marker.bindTooltip(`<b>Sede ${p.num_sede}</b> - ${p.nome_sede || ''}`, {
+          direction: "top",
+          offset: [0, -10],
+          className: "sede-tooltip-custom"
+        });
         marker.on("click", (e) => {
           L.DomEvent.stopPropagation(e);
           mostrarDetalhesSede(p, [lat, lon], vistoria);
