@@ -118,17 +118,27 @@
     }
 
     .badge-stats .dot-green {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: #4ade80;
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.7);
     }
 
-    .badge-stats .dot-orange {
-      width: 8px;
-      height: 8px;
+    .badge-stats .dot-yellow {
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: #fb923c;
+      background: #eab308;
+      box-shadow: 0 0 6px rgba(234, 179, 8, 0.7);
+    }
+
+    .badge-stats .dot-red {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.7);
     }
 
     .btn-top {
@@ -253,29 +263,142 @@
       cursor: pointer;
     }
 
-    .sede-pin.pendente {
-      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    .sede-pin.status-verde {
+      background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+      box-shadow: 0 3px 12px rgba(34, 197, 94, 0.55);
     }
 
-    .sede-pin.visitado {
-      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    .sede-pin.status-amarelo {
+      background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+      box-shadow: 0 3px 12px rgba(234, 179, 8, 0.55);
     }
 
-    .sede-pin .badge-check {
+    .sede-pin.status-vermelho {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      box-shadow: 0 3px 12px rgba(239, 68, 68, 0.55);
+    }
+
+    .sede-pin .badge-mini {
       position: absolute;
       top: -4px;
       right: -4px;
-      background: #22c55e;
       color: white;
       border: 1.5px solid white;
       border-radius: 50%;
-      width: 16px;
-      height: 16px;
+      width: 17px;
+      height: 17px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 9px;
+      font-size: 8px;
       font-weight: bold;
+    }
+
+    .sede-pin .badge-mini.status-verde {
+      background: #15803d;
+    }
+
+    .sede-pin .badge-mini.status-amarelo {
+      background: #a16207;
+    }
+
+    .sede-pin .badge-mini.status-vermelho {
+      background: #991b1b;
+    }
+
+    /* Legenda Flutuante no Mapa */
+    .map-legend {
+      position: absolute;
+      bottom: 24px;
+      left: 14px;
+      z-index: 800;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+      color: #f8fafc;
+      font-size: 11px;
+      overflow: hidden;
+      max-width: 270px;
+      transition: all 0.25s ease;
+    }
+
+    .map-legend .legend-header {
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .map-legend .legend-body {
+      padding: 6px 12px 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .map-legend .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-color {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+      flex-shrink: 0;
+    }
+
+    .legend-color.verde {
+      background: #22c55e;
+      box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+    }
+
+    .legend-color.amarelo {
+      background: #eab308;
+      box-shadow: 0 0 6px rgba(234, 179, 8, 0.6);
+    }
+
+    .legend-color.vermelho {
+      background: #ef4444;
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+    }
+
+    /* Badges de Status no Card de Detalhes */
+    .status-indicator-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .status-indicator-badge.status-verde {
+      background: rgba(34, 197, 94, 0.2);
+      color: #4ade80;
+      border: 1px solid #22c55e;
+    }
+
+    .status-indicator-badge.status-amarelo {
+      background: rgba(234, 179, 8, 0.2);
+      color: #facc15;
+      border: 1px solid #eab308;
+    }
+
+    .status-indicator-badge.status-vermelho {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid #ef4444;
     }
 
     .sede-pin .sede-tag {
@@ -375,19 +498,31 @@
     }
 
     .detail-status-box {
-      background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      padding: 10px;
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 10px 12px;
       border-radius: 8px;
       margin-bottom: 12px;
       font-size: 12px;
-      color: #86efac;
+      color: #f1f5f9;
     }
 
-    .detail-status-box.pendente {
-      background: rgba(234, 88, 12, 0.1);
-      border-color: rgba(234, 88, 12, 0.3);
-      color: #fdba74;
+    .detail-status-box.status-verde {
+      background: rgba(34, 197, 94, 0.12);
+      border-color: rgba(34, 197, 94, 0.4);
+      color: #bbf7d0;
+    }
+
+    .detail-status-box.status-amarelo {
+      background: rgba(234, 179, 8, 0.12);
+      border-color: rgba(234, 179, 8, 0.4);
+      color: #fef08a;
+    }
+
+    .detail-status-box.status-vermelho {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #fecaca;
     }
 
     .detail-actions {
@@ -760,9 +895,10 @@
         </div>
       </div>
       <div class="top-actions">
-        <div class="badge-stats">
-          <div class="stat-item"><span class="dot-green"></span> <span id="count-visitadas">0</span></div>
-          <div class="stat-item"><span class="dot-orange"></span> <span id="count-pendentes">0</span></div>
+        <div class="badge-stats" title="Status das Vistorias">
+          <div class="stat-item" title="Até 7 dias (Em dia)"><span class="dot-green"></span> <span id="count-verde">0</span></div>
+          <div class="stat-item" title="8 a 15 dias (Atenção)"><span class="dot-yellow"></span> <span id="count-amarelo">0</span></div>
+          <div class="stat-item" title="A partir de 16 dias / Sem visita"><span class="dot-red"></span> <span id="count-vermelho">0</span></div>
         </div>
         <button class="btn-top" onclick="exportarExcelNavegador()" title="Baixar relatório em Excel">
           <i class="fa-solid fa-file-excel"></i> Excel
@@ -786,6 +922,28 @@
 
     <!-- Mapa Leaflet -->
     <div id="map"></div>
+
+    <!-- Legenda Temática das Vistorias -->
+    <div class="map-legend" id="map-legend">
+      <div class="legend-header" onclick="toggleLegenda()">
+        <span><i class="fa-solid fa-layer-group"></i> Rotina de Visitas</span>
+        <i class="fa-solid fa-chevron-down" id="legend-chevron"></i>
+      </div>
+      <div class="legend-body" id="legend-body">
+        <div class="legend-row">
+          <span class="legend-color verde"></span>
+          <span><strong>Até 7 dias</strong> (Verde - Em dia)</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-color amarelo"></span>
+          <span><strong>8 a 15 dias</strong> (Amarelo - Atenção)</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-color vermelho"></span>
+          <span><strong>≥ 16 dias</strong> (Vermelho - Atrasado)</span>
+        </div>
+      </div>
+    </div>
 
     <!-- Card de Detalhes da Sede (Fica no rodapé ao clicar na sede) -->
     <div id="detail-card">
@@ -1079,9 +1237,131 @@
       }
     }
 
+    function toggleLegenda() {
+      const body = document.getElementById("legend-body");
+      const icon = document.getElementById("legend-chevron");
+      if (body.style.display === "none") {
+        body.style.display = "flex";
+        icon.className = "fa-solid fa-chevron-down";
+      } else {
+        body.style.display = "none";
+        icon.className = "fa-solid fa-chevron-up";
+      }
+    }
+
+    function parseDataBR(dataStr) {
+      if (!dataStr || typeof dataStr !== "string") return null;
+      if (dataStr.includes("/")) {
+        const parts = dataStr.trim().split("/");
+        if (parts.length === 3) {
+          const dia = parseInt(parts[0], 10);
+          const mes = parseInt(parts[1], 10) - 1;
+          const ano = parseInt(parts[2], 10);
+          if (!isNaN(dia) && !isNaN(mes) && !isNaN(ano)) {
+            return new Date(ano, mes, dia);
+          }
+        }
+      } else if (dataStr.includes("-")) {
+        const parts = dataStr.trim().split("-");
+        if (parts.length === 3) {
+          if (parts[0].length === 4) {
+            return new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+          } else {
+            return new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+          }
+        }
+      }
+      return null;
+    }
+
+    // Calcula status temático conforme regra de vistoria:
+    // <= 7 dias: Verde
+    // 8 a 15 dias: Amarelo
+    // >= 16 dias (ou sem visita): Vermelho
+    function calcularStatusTematico(vistoria) {
+      if (!vistoria) {
+        return {
+          status: "vermelho",
+          classe: "status-vermelho",
+          cor: "#ef4444",
+          label: "Sem Vistoria",
+          sublabel: "Nunca vistoriada",
+          dias: null,
+          icone: "fa-triangle-exclamation"
+        };
+      }
+
+      let dt = parseDataBR(vistoria.data_vistoria || vistoria.data);
+      if (!dt && vistoria.salvoEm) {
+        const d = new Date(vistoria.salvoEm);
+        if (!isNaN(d.getTime())) {
+          dt = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        }
+      }
+
+      if (!dt) {
+        return {
+          status: "vermelho",
+          classe: "status-vermelho",
+          cor: "#ef4444",
+          label: "Sem data válida",
+          sublabel: "Data pendente",
+          dias: null,
+          icone: "fa-triangle-exclamation"
+        };
+      }
+
+      const hoje = new Date();
+      const hojeZero = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+      const dtZero = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate());
+      const diffMs = hojeZero.getTime() - dtZero.getTime();
+      const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const dias = Math.max(0, diffDias);
+
+      if (dias <= 7) {
+        return {
+          status: "verde",
+          classe: "status-verde",
+          cor: "#22c55e",
+          label: dias === 0 ? "Vistoriada Hoje" : (dias === 1 ? "Há 1 dia" : `Há ${dias} dias`),
+          sublabel: "≤ 7 dias (Em dia)",
+          dias: dias,
+          icone: "fa-check"
+        };
+      } else if (dias <= 15) {
+        return {
+          status: "amarelo",
+          classe: "status-amarelo",
+          cor: "#eab308",
+          label: `Há ${dias} dias`,
+          sublabel: "8 a 15 dias (Atenção)",
+          dias: dias,
+          icone: "fa-clock"
+        };
+      } else {
+        return {
+          status: "vermelho",
+          classe: "status-vermelho",
+          cor: "#ef4444",
+          label: `Há ${dias} dias`,
+          sublabel: "≥ 16 dias (Atrasada)",
+          dias: dias,
+          icone: "fa-triangle-exclamation"
+        };
+      }
+    }
+
     function getStatusSede(numSede) {
-      const v = historicoVisitas.slice().reverse().find(x => String(x.num_sede) === String(numSede));
-      return v || null;
+      const visitas = historicoVisitas.filter(x => String(x.num_sede) === String(numSede));
+      if (!visitas.length) return null;
+      if (visitas.length === 1) return visitas[0];
+      // Ordenar por data decrescente
+      visitas.sort((a, b) => {
+        const da = parseDataBR(a.data_vistoria || a.data) || (a.salvoEm ? new Date(a.salvoEm) : new Date(0));
+        const db = parseDataBR(b.data_vistoria || b.data) || (b.salvoEm ? new Date(b.salvoEm) : new Date(0));
+        return db.getTime() - da.getTime();
+      });
+      return visitas[0];
     }
 
     function renderizarSedes(filtro = "") {
@@ -1099,12 +1379,12 @@
         }
 
         const vistoria = getStatusSede(p.num_sede);
-        const isVisitado = Boolean(vistoria || p.visitado);
+        const st = calcularStatusTematico(vistoria);
 
         const iconHtml = `
-          <div class="sede-pin ${isVisitado ? 'visitado' : 'pendente'}">
+          <div class="sede-pin ${st.classe}" title="Sede ${p.num_sede} - ${st.label} (${st.sublabel})">
             <i class="fa-solid fa-house-chimney"></i>
-            ${isVisitado ? '<div class="badge-check"><i class="fa-solid fa-check"></i></div>' : ''}
+            <div class="badge-mini ${st.classe}"><i class="fa-solid ${st.icone}"></i></div>
             <div class="sede-tag">${p.num_sede}</div>
           </div>
         `;
@@ -1141,13 +1421,26 @@
       const btnTexto = document.getElementById("btn-visitar-texto");
 
       const v = vistoria || getStatusSede(p.num_sede);
+      const st = calcularStatusTematico(v);
+
       if (v) {
-        statusBox.className = "detail-status-box";
-        statusTexto.innerHTML = `<strong>Vistoria Realizada</strong> em ${v.data_vistoria || v.data || ''} | Pressão: <strong>${v.pressao || '-'}</strong> | Bandeiras: <strong>${v.bandeiras || '-'}</strong> | Larva/Pupa: <strong>${v.larva_pupa || '-'}</strong> | Inseticida: <strong>${v.inseticida || '-'}</strong> (Avaliador: ${v.matricula || '-'})`;
+        statusBox.className = `detail-status-box ${st.classe}`;
+        statusTexto.innerHTML = `
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px;">
+            <span class="status-indicator-badge ${st.classe}"><i class="fa-solid ${st.icone}"></i> ${st.label} (${st.sublabel})</span>
+          </div>
+          <div>Última Vistoria em <strong>${v.data_vistoria || v.data || ''}</strong> ${v.hora_vistoria ? 'às ' + v.hora_vistoria : ''} (Avaliador: <strong>${v.matricula || '-'}</strong>)</div>
+          <div style="margin-top:3px; font-size:11px; opacity:0.9;">Pressão: <strong>${v.pressao || '-'}</strong> | Bandeiras: <strong>${v.bandeiras !== undefined ? v.bandeiras : '-'}</strong> | Larva/Pupa: <strong>${v.larva_pupa || '-'}</strong> | Inseticida: <strong>${v.inseticida || '-'}</strong></div>
+        `;
         btnTexto.innerText = "Atualizar / Nova Vistoria";
       } else {
-        statusBox.className = "detail-status-box pendente";
-        statusTexto.innerHTML = `<i class="fa-solid fa-clock"></i> Pendente de Vistoria`;
+        statusBox.className = "detail-status-box status-vermelho";
+        statusTexto.innerHTML = `
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+            <span class="status-indicator-badge status-vermelho"><i class="fa-solid fa-triangle-exclamation"></i> Sem Vistoria (≥ 16 dias)</span>
+          </div>
+          <div style="font-size:11px; opacity:0.9;">Nenhuma vistoria registrada para esta sede até o momento.</div>
+        `;
         btnTexto.innerText = "Preencher Vistoria";
       }
 
@@ -1341,12 +1634,12 @@
       modal.innerHTML = filtrados.slice(0, 15).map(feat => {
         const p = feat.properties;
         const v = getStatusSede(p.num_sede);
-        const iconColor = v ? '#22c55e' : '#f97316';
+        const st = calcularStatusTematico(v);
         return `
           <div class="search-result-item" onclick="selecionarDaBusca('${p.num_sede}')">
             <div>
-              <strong><i class="fa-solid fa-house-chimney" style="color:${iconColor}"></i> Sede ${p.num_sede} - ${p.nome_sede}</strong>
-              <p>${p.fa_completo || 'Sem FA'} | ${p.proprietario || 'Proprietário não informado'}</p>
+              <strong><i class="fa-solid fa-house-chimney" style="color:${st.cor}"></i> Sede ${p.num_sede} - ${p.nome_sede}</strong>
+              <p>${p.fa_completo || 'Sem FA'} | <span style="color:${st.cor}; font-weight:600;">${st.label} (${st.sublabel})</span></p>
             </div>
             <i class="fa-solid fa-chevron-right" style="color:#64748b; font-size:12px;"></i>
           </div>
@@ -1368,13 +1661,26 @@
     }
 
     function atualizarContadores() {
-      const visitadasSet = new Set(historicoVisitas.map(x => String(x.num_sede)));
-      const visitadas = visitadasSet.size;
-      const total = sedesData.length || 77;
-      const pendentes = Math.max(0, total - visitadas);
+      let countVerde = 0;
+      let countAmarelo = 0;
+      let countVermelho = 0;
 
-      document.getElementById("count-visitadas").innerText = `${visitadas} visitadas`;
-      document.getElementById("count-pendentes").innerText = `${pendentes} pendentes`;
+      const sedesLista = sedesData.length ? sedesData : (typeof DADOS_SEDES !== "undefined" ? DADOS_SEDES.features : []);
+      sedesLista.forEach(feature => {
+        const p = feature.properties;
+        const v = getStatusSede(p.num_sede);
+        const st = calcularStatusTematico(v);
+        if (st.status === "verde") countVerde++;
+        else if (st.status === "amarelo") countAmarelo++;
+        else countVermelho++;
+      });
+
+      const elV = document.getElementById("count-verde");
+      const elA = document.getElementById("count-amarelo");
+      const elR = document.getElementById("count-vermelho");
+      if (elV) elV.innerText = `${countVerde}`;
+      if (elA) elA.innerText = `${countAmarelo}`;
+      if (elR) elR.innerText = `${countVermelho}`;
     }
 
     function exportarExcelNavegador() {
@@ -1383,9 +1689,11 @@
         return;
       }
 
-      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;OBSERVACOES;LATITUDE;LONGITUDE\n";
+      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;STATUS_TEMATICO;DIAS_DESDE_VISITA;OBSERVACOES;LATITUDE;LONGITUDE\n";
       historicoVisitas.forEach(v => {
-        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || ''}";"${v.lon || ''}"\n`;
+        const st = calcularStatusTematico(v);
+        const diasStr = st.dias !== null ? st.dias : "";
+        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${st.label} (${st.sublabel})";"${diasStr}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || ''}";"${v.lon || ''}"\n`;
       });
 
       const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });

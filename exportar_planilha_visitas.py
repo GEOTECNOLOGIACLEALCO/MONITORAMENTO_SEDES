@@ -40,6 +40,8 @@ if os.path.exists(sede_shp):
                 "LATITUDE": round(row.geometry.y, 6) if row.geometry else "",
                 "LONGITUDE": round(row.geometry.x, 6) if row.geometry else "",
                 "STATUS_MONITORAMENTO": "Pendente",
+                "STATUS_TEMATICO": "Vermelho (Sem Vistoria)",
+                "DIAS_DESDE_ULTIMA_VISTORIA": "",
                 "TOTAL_VISTORIAS": 0,
                 "ULTIMA_DATA": "",
                 "ULTIMA_PRESSAO": "",
@@ -115,6 +117,24 @@ for v in visitas:
         sedes_dict[num_s]["ULTIMO_LARVA_PUPA"] = larva_pupa
         sedes_dict[num_s]["ULTIMO_INSETICIDA"] = inseticida
         sedes_dict[num_s]["ULTIMO_AVALIADOR"] = matricula
+
+        # Calcular dias e status tematico
+        try:
+            d_str = data_v.split()[0]
+            if "/" in d_str:
+                dt_v = datetime.strptime(d_str, "%d/%m/%Y")
+            else:
+                dt_v = datetime.strptime(d_str, "%Y-%m-%d")
+            diff_d = max(0, (datetime.now().date() - dt_v.date()).days)
+            sedes_dict[num_s]["DIAS_DESDE_ULTIMA_VISTORIA"] = diff_d
+            if diff_d <= 7:
+                sedes_dict[num_s]["STATUS_TEMATICO"] = "Verde (<= 7 dias)"
+            elif diff_d <= 15:
+                sedes_dict[num_s]["STATUS_TEMATICO"] = "Amarelo (8 a 15 dias)"
+            else:
+                sedes_dict[num_s]["STATUS_TEMATICO"] = "Vermelho (>= 16 dias)"
+        except Exception:
+            pass
 
 df_visitas = pd.DataFrame(rows_visitas)
 if not df_visitas.empty:
