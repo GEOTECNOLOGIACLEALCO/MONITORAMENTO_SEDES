@@ -48,6 +48,7 @@ if os.path.exists(sede_shp):
                 "ULTIMAS_BANDEIRAS": "",
                 "ULTIMO_LARVA_PUPA": "",
                 "ULTIMO_INSETICIDA": "",
+                "ULTIMOS_CAUSADORES": "",
                 "ULTIMO_AVALIADOR": ""
             }
     except Exception as e:
@@ -74,18 +75,10 @@ for v in visitas:
     larva_pupa = str(v.get("larva_pupa", "")).strip()
     inseticida = str(v.get("inseticida", "")).strip()
     
+    causador = str(v.get("possiveis_causadores", "")).strip()
     obs = str(v.get("observacoes", "")).strip()
     lat = v.get("lat", "")
     lon = v.get("lon", "")
-    foto_nome = str(v.get("foto_nome", "")).strip()
-
-    link_foto = ""
-    if foto_nome:
-        f_path = os.path.join(fotos_dir, foto_nome)
-        if os.path.exists(f_path):
-            link_foto = f'=HYPERLINK("Fotos_Visitas\\{foto_nome}", "Ver Foto ({foto_nome})")'
-        else:
-            link_foto = foto_nome
 
     rows_visitas.append({
         "DATA_VISTORIA": data_v,
@@ -99,10 +92,10 @@ for v in visitas:
         "MATRICULA_AVALIADOR": matricula,
         "PRESSAO": pressao,
         "NUM_BANDEIRAS": bandeiras,
-        "LARVA_PUPA": larvaPupa if 'larvaPupa' in locals() else larva_pupa,
+        "LARVA_PUPA": larva_pupa,
         "INSETICIDA": inseticida,
+        "POSSIVEIS_CAUSADORES": causador,
         "OBSERVACOES": obs,
-        "FOTO": link_foto,
         "LATITUDE": lat,
         "LONGITUDE": lon,
         "REGISTRADO_EM": v.get("salvoEm", "")
@@ -116,6 +109,7 @@ for v in visitas:
         sedes_dict[num_s]["ULTIMAS_BANDEIRAS"] = bandeiras
         sedes_dict[num_s]["ULTIMO_LARVA_PUPA"] = larva_pupa
         sedes_dict[num_s]["ULTIMO_INSETICIDA"] = inseticida
+        sedes_dict[num_s]["ULTIMOS_CAUSADORES"] = causador
         sedes_dict[num_s]["ULTIMO_AVALIADOR"] = matricula
 
         # Calcular dias e status tematico
@@ -151,8 +145,8 @@ while True:
                 df_empty = pd.DataFrame(columns=[
                     "DATA_VISTORIA", "HORA", "NUM_SEDE", "NOME_SEDE", "FA", "FAZENDA",
                     "PROPRIETARIO", "REGIAO", "MATRICULA_AVALIADOR", "PRESSAO",
-                    "NUM_BANDEIRAS", "LARVA_PUPA", "INSETICIDA", "OBSERVACOES", "FOTO",
-                    "LATITUDE", "LONGITUDE", "REGISTRADO_EM"
+                    "NUM_BANDEIRAS", "LARVA_PUPA", "INSETICIDA", "POSSIVEIS_CAUSADORES",
+                    "OBSERVACOES", "LATITUDE", "LONGITUDE", "REGISTRADO_EM"
                 ])
                 df_empty.to_excel(writer, index=False, sheet_name="Historico_Vistorias")
 

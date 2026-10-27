@@ -1186,10 +1186,10 @@
           </div>
         </div>
 
-        <!-- 2. Matrícula do Avaliador (6 Dígitos - Obrigatório) -->
+        <!-- 2. Matrícula do Avaliador (até 6 Dígitos - Obrigatório) -->
         <div class="form-group">
-          <label>Matrícula do Avaliador (6 dígitos) <span class="req">*</span></label>
-          <input type="text" id="form-matricula" class="form-control" placeholder="Ex: 123456" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" required>
+          <label>Matrícula do Avaliador (até 6 dígitos) <span class="req">*</span></label>
+          <input type="text" id="form-matricula" class="form-control" placeholder="Digite a matrícula (ex: 123456)" maxlength="6" inputmode="numeric" required>
         </div>
 
         <!-- 3. Pressão: Baixa, Média e Alta (Obrigatório) -->
@@ -1247,16 +1247,35 @@
           </div>
         </div>
 
+        <!-- 7. Possíveis Causadores: Torta, Vinhaça, Outro -->
+        <div class="form-group">
+          <label>Possíveis Causadores</label>
+          <div class="button-group-select">
+            <label style="flex:1">
+              <input type="radio" name="campo-causador" value="Torta" onchange="alternarCampoCausadorOutro()">
+              <div class="btn-select-opt"><i class="fa-solid fa-leaf"></i> Torta</div>
+            </label>
+            <label style="flex:1">
+              <input type="radio" name="campo-causador" value="Vinhaça" onchange="alternarCampoCausadorOutro()">
+              <div class="btn-select-opt"><i class="fa-solid fa-droplet"></i> Vinhaça</div>
+            </label>
+            <label style="flex:1">
+              <input type="radio" name="campo-causador" value="Outro" onchange="alternarCampoCausadorOutro()">
+              <div class="btn-select-opt"><i class="fa-solid fa-pen-to-square"></i> Outro</div>
+            </label>
+          </div>
+          <!-- Campo dinâmico exibido apenas quando 'Outro' for selecionado -->
+          <div id="box-causador-outro" style="display: none; margin-top: 8px;">
+            <label style="font-size: 11.5px; color: #cbd5e1; margin-bottom: 4px; display: block;">Qual o causador? <span class="req">*</span></label>
+            <input type="text" id="form-causador-outro" class="form-control" placeholder="Especifique o causador (ex: Esterco, Palha úmida, etc.)">
+          </div>
+        </div>
+
         <div class="form-section-title">Informações Complementares</div>
 
         <div class="form-group">
           <label>Observações da Vistoria (Opcional)</label>
           <textarea id="form-obs" class="form-control" rows="2" placeholder="Informações adicionais, alinhamentos ou demandas..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Anexar Foto da Sede / Vistoria (Opcional)</label>
-          <input type="file" id="form-foto" class="form-control" accept="image/*" capture="environment">
         </div>
 
         <button type="submit" class="btn-submit">
@@ -1631,7 +1650,10 @@
             <span class="status-indicator-badge ${st.classe}"><i class="fa-solid ${st.icone}"></i> ${st.label} (${st.sublabel})</span>
           </div>
           <div>Última Vistoria em <strong>${v.data_vistoria || v.data || ''}</strong> ${v.hora_vistoria ? 'às ' + v.hora_vistoria : ''} (Avaliador: <strong>${v.matricula || '-'}</strong>)</div>
-          <div style="margin-top:3px; font-size:11px; opacity:0.9;">Pressão: <strong>${v.pressao || '-'}</strong> | Bandeiras: <strong>${v.bandeiras !== undefined ? v.bandeiras : '-'}</strong> | Larva/Pupa: <strong>${v.larva_pupa || '-'}</strong> | Inseticida: <strong>${v.inseticida || '-'}</strong></div>
+          <div style="margin-top:3px; font-size:11px; opacity:0.9;">
+            Pressão: <strong>${v.pressao || '-'}</strong> | Bandeiras: <strong>${v.bandeiras !== undefined ? v.bandeiras : '-'}</strong> | Larva/Pupa: <strong>${v.larva_pupa || '-'}</strong> | Inseticida: <strong>${v.inseticida || '-'}</strong>
+            ${v.possiveis_causadores ? ` | Causadores: <strong>${v.possiveis_causadores}</strong>` : ''}
+          </div>
         `;
         btnTexto.innerText = "Atualizar / Nova Vistoria";
       } else {
@@ -1688,6 +1710,23 @@
           const radioInset = document.querySelector(`input[name="campo-inseticida"][value="${v.inseticida}"]`);
           if (radioInset) radioInset.checked = true;
         }
+        if (v.possiveis_causadores) {
+          if (v.possiveis_causadores.startsWith("Outro")) {
+            const rOutro = document.querySelector('input[name="campo-causador"][value="Outro"]');
+            if (rOutro) rOutro.checked = true;
+            document.getElementById("box-causador-outro").style.display = "block";
+            document.getElementById("form-causador-outro").value = v.possiveis_causadores.replace(/^Outro:\s*/, "");
+          } else {
+            const rCausador = document.querySelector(`input[name="campo-causador"][value="${v.possiveis_causadores}"]`);
+            if (rCausador) rCausador.checked = true;
+            document.getElementById("box-causador-outro").style.display = "none";
+            document.getElementById("form-causador-outro").value = "";
+          }
+        } else {
+          document.querySelectorAll('input[name="campo-causador"]').forEach(r => r.checked = false);
+          document.getElementById("box-causador-outro").style.display = "none";
+          document.getElementById("form-causador-outro").value = "";
+        }
         if (v.observacoes) {
           document.getElementById("form-obs").value = v.observacoes;
         }
@@ -1696,6 +1735,9 @@
         document.querySelectorAll('input[name="campo-pressao"]').forEach(r => r.checked = false);
         document.querySelectorAll('input[name="campo-larva-pupa"]').forEach(r => r.checked = false);
         document.querySelectorAll('input[name="campo-inseticida"]').forEach(r => r.checked = false);
+        document.querySelectorAll('input[name="campo-causador"]').forEach(r => r.checked = false);
+        document.getElementById("box-causador-outro").style.display = "none";
+        document.getElementById("form-causador-outro").value = "";
         document.getElementById("form-bandeiras").value = "";
         document.getElementById("form-obs").value = "";
       }
@@ -1709,6 +1751,19 @@
         const mat = document.getElementById("form-matricula");
         if (!mat.value) mat.focus();
       }, 300);
+    }
+
+    function alternarCampoCausadorOutro() {
+      const outroRadio = document.querySelector('input[name="campo-causador"][value="Outro"]:checked');
+      const boxOutro = document.getElementById("box-causador-outro");
+      const inputOutro = document.getElementById("form-causador-outro");
+      if (outroRadio) {
+        boxOutro.style.display = "block";
+        setTimeout(() => inputOutro.focus(), 150);
+      } else {
+        boxOutro.style.display = "none";
+        inputOutro.value = "";
+      }
     }
 
     function fecharFormulario() {
@@ -1751,14 +1806,14 @@
       const lat = document.getElementById("form-lat").value;
       const lon = document.getElementById("form-lon").value;
 
-      // Validações
-      if (!dataV) {
-        showToast("Data da Vistoria é obrigatória!", "error");
+      // Validação da matrícula: aceita até 6 dígitos numéricos
+      if (!matricula || isNaN(matricula) || matricula.length < 1 || matricula.length > 6) {
+        showToast("A Matrícula do Avaliador deve conter até 6 dígitos numéricos!", "error");
+        document.getElementById("form-matricula").focus();
         return;
       }
-      if (!matricula || matricula.length !== 6 || isNaN(matricula)) {
-        showToast("A Matrícula do Avaliador deve conter exatamente 6 dígitos numéricos!", "error");
-        document.getElementById("form-matricula").focus();
+      if (!dataV) {
+        showToast("Data da Vistoria é obrigatória!", "error");
         return;
       }
       if (!pressao) {
@@ -1779,6 +1834,19 @@
         return;
       }
 
+      // Possíveis Causadores
+      const causadorRadio = document.querySelector('input[name="campo-causador"]:checked');
+      let causador = causadorRadio ? causadorRadio.value : "";
+      if (causador === "Outro") {
+        const especificado = document.getElementById("form-causador-outro").value.trim();
+        if (!especificado) {
+          showToast("Por favor, especifique o causador no campo 'Outro'!", "error");
+          document.getElementById("form-causador-outro").focus();
+          return;
+        }
+        causador = `Outro: ${especificado}`;
+      }
+
       // Lembrar matrícula do avaliador
       localStorage.setItem("clealco_matricula", matricula);
 
@@ -1796,6 +1864,7 @@
         bandeiras: parseInt(bandeiras),
         larva_pupa: larvaPupa,
         inseticida: inseticida,
+        possiveis_causadores: causador,
         observacoes: obs,
         lat: lat,
         lon: lon,
@@ -1890,11 +1959,11 @@
         return;
       }
 
-      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;STATUS_TEMATICO;DIAS_DESDE_VISITA;OBSERVACOES;LATITUDE;LONGITUDE\n";
+      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;POSSIVEIS_CAUSADORES;STATUS_TEMATICO;DIAS_DESDE_VISITA;OBSERVACOES;LATITUDE;LONGITUDE\n";
       historicoVisitas.forEach(v => {
         const st = calcularStatusTematico(v);
         const diasStr = st.dias !== null ? st.dias : "";
-        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${st.label} (${st.sublabel})";"${diasStr}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || ''}";"${v.lon || ''}"\n`;
+        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${v.possiveis_causadores || ''}";"${st.label} (${st.sublabel})";"${diasStr}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || ''}";"${v.lon || ''}"\n`;
       });
 
       const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
