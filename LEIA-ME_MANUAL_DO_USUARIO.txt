@@ -64,3 +64,29 @@ exibe os dados cadastrais da sede e os campos oficiais obrigatórios:
 ================================================================================
 Clealco - Geotecnologia e Monitoramento Agrícola
 ================================================================================
+
+================================================================================
+3. COMO PUBLICAR NO GITHUB E USAR NO CELULAR
+================================================================================
+
+1. Criar o repositório no GitHub:
+   -> Acesse: https://github.com/new
+   -> Owner: GEOTECNOLOGIACLEALCO
+   -> Repository name: MONITORAMENTO_SEDES
+   -> Marque como Público (Public) e NÃO crie README (deixe vazio).
+   -> Clique em 'Create repository'.
+
+2. Enviar os arquivos para o GitHub:
+   -> Abra o MENU_MONITORAMENTO.bat e escolha a opção:
+      [4] Publicar Alterações no GitHub (Atualizar App do Celular)
+
+3. Ativar o GitHub Pages (Link do Celular):
+   -> No repositório no GitHub, clique em: Settings > Pages
+   -> Em 'Build and deployment' > Source: 'Deploy from a branch'
+   -> Branch: selecione 'main' e pasta '/ (root)' > Clique em 'Save'.
+   -> Pronto! O link oficial para o celular será:
+      https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/
+
+4. Como o técnico usa no celular:
+   -> Abra o link no Chrome ou Safari.
+   -> Toque nos 3 pontinhos do Chrome > 'Instalar aplicativo' ou 'Adicionar à tela inicial'.
