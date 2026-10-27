@@ -1,0 +1,12 @@
+# Backups locais
+backup_antes_sistema/
+Fotos_Visitas/
+~$*.xlsx
+
+# Python
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/

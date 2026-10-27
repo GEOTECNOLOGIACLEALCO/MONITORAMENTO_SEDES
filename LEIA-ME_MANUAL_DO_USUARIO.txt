@@ -1,0 +1,66 @@
+================================================================================
+           CLEALCO - SISTEMA DE MONITORAMENTO E ROTINA DE VISTORIAS DAS SEDES
+================================================================================
+
+Este projeto é uma aplicação georreferenciada completa (PWA) e sistema de 
+gestão de vistorias técnicas às sedes e propriedades rurais da Clealco.
+
+Operação rápida pelo painel de controle no computador:
+👉 MENU_MONITORAMENTO.bat
+
+
+================================================================================
+1. CAMPOS OFICIAIS DO FORMULÁRIO DE VISTORIA
+================================================================================
+
+Ao clicar em qualquer Sede no mapa e tocar em "Registrar Vistoria", o sistema
+exibe os dados cadastrais da sede e os campos oficiais obrigatórios:
+
+1. Data da Vistoria:
+   -> Automático (preenchido na hora, ex: "27/10/2026").
+2. Matrícula do Avaliador:
+   -> 6 dígitos numéricos (Obrigatório). Memorizado no celular para as próximas.
+3. Pressão:
+   -> Baixa, Média e Alta (Seleção obrigatória por botões estilizados).
+4. N° de Bandeiras:
+   -> Quantidade de bandeiras (Campo numérico digitável e obrigatório).
+5. Larva e Pupa:
+   -> Ausência e Presença (Seleção obrigatória).
+6. Inseticida:
+   -> Aplicado ou Não Aplicado (Seleção obrigatória).
+7. Observações e Foto:
+   -> Campo de texto livre e anexo fotográfico da vistoria (opcional).
+
+
+================================================================================
+2. OPÇÕES DO PAINEL PRINCIPAL (MENU_MONITORAMENTO.bat)
+================================================================================
+
+[1] Abrir Mapa de Vistorias no Navegador
+    -> Abre a aplicação web interativa (index.html).
+    -> Permite visualizar o satélite de alta definição, o contorno das fazendas
+       e as 77 sedes cadastradas.
+    -> Permite buscar por número da sede, FA, fazenda ou proprietário e registrar vistorias.
+
+[2] Gerar Relatório de Vistorias em Excel
+    -> Gera a planilha consolidada "Visitas_Monitoramento_Sede.xlsx".
+    -> Contém duas abas:
+       * Aba "Historico_Vistorias": todas as vistorias realizadas com data, matrícula,
+         pressão, número de bandeiras, larva e pupa, inseticida e observações.
+       * Aba "Status_Sedes": visão geral de todas as 77 sedes indicando quais estão 
+         "Visitado" ou "Pendente", com os dados da última avaliação.
+
+[3] Atualizar Base do Mapa
+    -> Processa os shapefiles atualizados ("Sede.shp" e "AREAS.shp").
+    -> Recalcula atributos e atualiza o arquivo "dados_mapa.js" com alta performance.
+
+[4] Abrir Projeto no QGIS
+    -> Abre diretamente o projeto "MONITORAMENTO QUEIROZ.qgz" no QGIS Desktop.
+
+[5] Abrir Pasta de Fotos das Vistorias
+    -> Abre a pasta "Fotos_Visitas\" no Windows Explorer para visualização rápida.
+
+
+================================================================================
+Clealco - Geotecnologia e Monitoramento Agrícola
+================================================================================

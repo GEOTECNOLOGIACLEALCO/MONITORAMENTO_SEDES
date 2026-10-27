@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Clealco | Monitoramento de Sedes</title>
+  
+  <!-- Anti-Cache para Celular e Navegadores -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <meta name="theme-color" content="#1b4332">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sedes Clealco">
+  
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  
+  <!-- Leaflet CSS & FontAwesome -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent !important;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0f172a;
+    }
+
+    #app-container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Topbar */
+    header {
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+      color: white;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      z-index: 1000;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      background: #52b788;
+      color: #081c15;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .brand-title h1 {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .brand-title p {
+      font-size: 11px;
+      color: #d8f3dc;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-stats {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+
+    .badge-stats .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-stats .dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+    }
+
+    .badge-stats .dot-orange {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fb923c;
+    }
+
+    .btn-top {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      color: #ffffff;
+      padding: 7px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-top:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-refresh-app {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1.5px solid rgba(255, 255, 255, 0.45);
+      color: #ffffff;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-refresh-app:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: #ffffff;
+    }
+
+    .btn-refresh-app:active {
+      transform: scale(0.95);
+    }
+
+    .btn-text-short {
+      display: none;
+    }
+
+    @media (max-width: 680px) {
+      .btn-text-full { display: none; }
+      .btn-text-short { display: inline; }
+      .brand-title p { display: none; }
+      .brand-title h1 { font-size: 13px; }
+      header { padding: 8px 10px; }
+    }
+
+    /* Subbar de Busca */
+    .search-bar-container {
+      background: #1e293b;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-input-wrapper i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: #0f172a;
+      border: 1px solid #334155;
+      color: #f8fafc;
+      padding: 9px 12px 9px 36px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #52b788;
+    }
+
+    /* Mapa */
+    #map {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #0b1320;
+    }
+
+    /* Marcador Personalizado Sede */
+    .sede-pin {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+      border: 2px solid #ffffff;
+      color: white;
+      font-size: 16px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .sede-pin.pendente {
+      background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    }
+
+    .sede-pin.visitado {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+    }
+
+    .sede-pin .badge-check {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #22c55e;
+      color: white;
+      border: 1.5px solid white;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: bold;
+    }
+
+    .sede-pin .sede-tag {
+      position: absolute;
+      bottom: -18px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #f8fafc;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Card de Detalhes da Sede (Inferior) */
+    #detail-card {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(160%);
+      width: calc(100% - 32px);
+      max-width: 480px;
+      background: #1e293b;
+      color: white;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    #detail-card.open {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .detail-title h2 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #52b788;
+    }
+
+    .detail-title p {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .detail-close {
+      background: none;
+      border: none;
+      color: #94a3b8;
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    .detail-close:hover {
+      color: #ffffff;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .detail-item {
+      background: #0f172a;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+
+    .detail-item span {
+      display: block;
+      color: #64748b;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .detail-item strong {
+      color: #f1f5f9;
+      font-size: 12px;
+    }
+
+    .detail-status-box {
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #86efac;
+    }
+
+    .detail-status-box.pendente {
+      background: rgba(234, 88, 12, 0.1);
+      border-color: rgba(234, 88, 12, 0.3);
+      color: #fdba74;
+    }
+
+    .detail-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-action {
+      flex: 1;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-action-visitar {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-action-visitar:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+
+    .btn-action-rota {
+      background: #334155;
+      color: #f8fafc;
+      flex: 0 0 46px;
+    }
+
+    /* ========================================================================
+       MODAL CENTRALIZADO DO FORMULÁRIO DE VISTORIA (FRONT & CENTER)
+       ======================================================================== */
+    #modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 1500;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    #modal-backdrop.open {
+      display: block;
+      opacity: 1;
+    }
+
+    #form-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: calc(100% - 24px);
+      max-width: 520px;
+      max-height: 92vh;
+      background: #1e293b;
+      color: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      z-index: 1600;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      opacity: 0;
+    }
+
+    #form-modal.open {
+      display: flex;
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px;
+    }
+
+    .form-summary-box {
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 10px 14px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-summary-box .sede-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #52b788;
+    }
+
+    .form-summary-box .sede-sub {
+      font-size: 11px;
+      color: #94a3b8;
+    }
+
+    .form-summary-box .sede-badge {
+      background: #2d6a4f;
+      color: #ffffff;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .form-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #52b788;
+      font-weight: 700;
+      margin: 12px 0 8px 0;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 5px;
+    }
+
+    .form-group label .req {
+      color: #ef4444;
+      font-weight: bold;
+    }
+
+    .form-control {
+      width: 100%;
+      background: #0f172a;
+      border: 1.5px solid #334155;
+      color: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: #52b788;
+    }
+
+    .form-control[readonly] {
+      background: #182234;
+      color: #4ade80;
+      border-color: #273549;
+      font-weight: 700;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Grupos de Botões Selecionáveis */
+    .button-group-select {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .button-group-select input[type="radio"] {
+      display: none;
+    }
+
+    .btn-select-opt {
+      flex: 1;
+      padding: 11px 8px;
+      background: #0f172a;
+      border: 1.5px solid #334155;
+      color: #94a3b8;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .btn-select-opt:hover {
+      background: #1e293b;
+    }
+
+    .button-group-select input[type="radio"]:checked + .btn-select-opt {
+      border-color: #52b788;
+      background: rgba(82, 183, 136, 0.15);
+      color: #4ade80;
+      font-weight: 700;
+      box-shadow: 0 0 0 1px #52b788;
+    }
+
+    /* Destaque para Pressão */
+    .button-group-select input[value="Baixa"]:checked + .btn-select-opt {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.18);
+      color: #4ade80;
+      box-shadow: 0 0 0 1px #22c55e;
+    }
+
+    .button-group-select input[value="Média"]:checked + .btn-select-opt {
+      border-color: #eab308;
+      background: rgba(234, 179, 8, 0.18);
+      color: #facc15;
+      box-shadow: 0 0 0 1px #eab308;
+    }
+
+    .button-group-select input[value="Alta"]:checked + .btn-select-opt {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.18);
+      color: #f87171;
+      box-shadow: 0 0 0 1px #ef4444;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      margin-top: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    /* Toast Notification */
+    #toast {
+      position: fixed;
+      top: 60px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #0f172a;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      z-index: 2500;
+      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid #10b981;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    #toast.error {
+      border-left-color: #ef4444;
+    }
+
+    /* Modal Lista de Busca */
+    #search-results-modal {
+      position: absolute;
+      top: 92px;
+      left: 16px;
+      right: 16px;
+      max-height: 320px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow-y: auto;
+      z-index: 1002;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .search-result-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid #334155;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-result-item:hover, .search-result-item:active {
+      background: #334155;
+    }
+
+    .search-result-item strong {
+      color: #f1f5f9;
+      font-size: 13px;
+    }
+
+    .search-result-item p {
+      color: #94a3b8;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app-container">
+    <!-- Topbar -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-house-chimney"></i>
+        </div>
+        <div class="brand-title">
+          <h1>Clealco | Monitoramento de Sedes</h1>
+          <p>Gestão e Rotina de Vistorias no Campo</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="badge-stats">
+          <div class="stat-item"><span class="dot-green"></span> <span id="count-visitadas">0</span></div>
+          <div class="stat-item"><span class="dot-orange"></span> <span id="count-pendentes">0</span></div>
+        </div>
+        <button class="btn-top" onclick="exportarExcelNavegador()" title="Baixar relatório em Excel">
+          <i class="fa-solid fa-file-excel"></i> Excel
+        </button>
+        <button class="btn-top btn-refresh-app" id="btn-refresh-app" onclick="forcarAtualizacaoApp()" title="Atualizar aplicativo e limpar todo o cache">
+          <i class="fa-solid fa-arrows-rotate" id="icon-refresh-app"></i> <span class="btn-text-full">Limpar Cache e Atualizar</span><span class="btn-text-short">Limpar Cache</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Barra de Busca Rápida -->
+    <div class="search-bar-container">
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="input-busca" class="search-input" placeholder="Buscar por Sede, Fazenda, FA ou Proprietário..." oninput="filtrarSedes(this.value)">
+      </div>
+    </div>
+
+    <!-- Lista Flutuante de Busca -->
+    <div id="search-results-modal"></div>
+
+    <!-- Mapa Leaflet -->
+    <div id="map"></div>
+
+    <!-- Card de Detalhes da Sede (Fica no rodapé ao clicar na sede) -->
+    <div id="detail-card">
+      <div class="detail-header">
+        <div class="detail-title">
+          <h2 id="card-nome-sede">Sede</h2>
+          <p id="card-fa-fazenda">Fazenda</p>
+        </div>
+        <button class="detail-close" onclick="fecharCardDetalhes()">&times;</button>
+      </div>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <span>Número da Sede</span>
+          <strong id="card-num-sede">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Código FA</span>
+          <strong id="card-fa">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Proprietário</span>
+          <strong id="card-proprietario">-</strong>
+        </div>
+        <div class="detail-item">
+          <span>Região</span>
+          <strong id="card-regiao">-</strong>
+        </div>
+      </div>
+      <div id="card-status-box" class="detail-status-box pendente">
+        <i class="fa-solid fa-clock"></i> <span id="card-status-texto">Pendente de Vistoria</span>
+      </div>
+      <div class="detail-actions">
+        <button class="btn-action btn-action-visitar" onclick="abrirFormularioVisita()">
+          <i class="fa-solid fa-clipboard-check"></i> <span id="btn-visitar-texto">Preencher Vistoria</span>
+        </button>
+        <button class="btn-action btn-action-rota" onclick="abrirRotaGoogleMaps()" title="Traçar rota no GPS">
+          <i class="fa-solid fa-diamond-turn-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Fundo Escurecido do Modal (Backdrop) -->
+    <div id="modal-backdrop" onclick="fecharFormulario()"></div>
+
+    <!-- MODAL CENTRALIZADO DO FORMULÁRIO DE VISTORIA -->
+    <div id="form-modal">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-clipboard-list"></i> Formulário de Vistoria da Sede</h3>
+        <button class="detail-close" onclick="fecharFormulario()">&times;</button>
+      </div>
+      <form class="modal-body" onsubmit="salvarVisita(event)">
+        <input type="hidden" id="form-num-sede">
+        <input type="hidden" id="form-lat">
+        <input type="hidden" id="form-lon">
+
+        <!-- Identificação da Sede -->
+        <div class="form-summary-box">
+          <div>
+            <div class="sede-title" id="form-resumo-sede">Sede 00 - Nome</div>
+            <div class="sede-sub" id="form-resumo-fazenda">FA 000000 - Fazenda</div>
+          </div>
+          <div class="sede-badge" id="form-resumo-prop">Proprietário</div>
+        </div>
+
+        <div class="form-section-title">Dados da Avaliação</div>
+
+        <!-- 1. Data da Vistoria (Automático) -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data da Vistoria <span class="req">*</span> (Automático)</label>
+            <input type="text" id="form-data-vistoria" class="form-control" readonly required>
+          </div>
+          <div class="form-group">
+            <label>Hora da Vistoria</label>
+            <input type="text" id="form-hora-vistoria" class="form-control" readonly>
+          </div>
+        </div>
+
+        <!-- 2. Matrícula do Avaliador (6 Dígitos - Obrigatório) -->
+        <div class="form-group">
+          <label>Matrícula do Avaliador (6 dígitos) <span class="req">*</span></label>
+          <input type="text" id="form-matricula" class="form-control" placeholder="Ex: 123456" maxlength="6" pattern="[0-9]{6}" inputmode="numeric" required>
+        </div>
+
+        <!-- 3. Pressão: Baixa, Média e Alta (Obrigatório) -->
+        <div class="form-group">
+          <label>Pressão <span class="req">*</span></label>
+          <div class="button-group-select">
+            <label style="flex:1">
+              <input type="radio" name="campo-pressao" value="Baixa" required>
+              <div class="btn-select-opt"><i class="fa-solid fa-circle-check"></i> Baixa</div>
+            </label>
+            <label style="flex:1">
+              <input type="radio" name="campo-pressao" value="Média">
+              <div class="btn-select-opt"><i class="fa-solid fa-triangle-exclamation"></i> Média</div>
+            </label>
+            <label style="flex:1">
+              <input type="radio" name="campo-pressao" value="Alta">
+              <div class="btn-select-opt"><i class="fa-solid fa-circle-exclamation"></i> Alta</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. N° de bandeiras: quantidade (Digitável e obrigatório) -->
+        <div class="form-group">
+          <label>N° de Bandeiras (Quantidade) <span class="req">*</span></label>
+          <input type="number" id="form-bandeiras" class="form-control" placeholder="Informe a quantidade de bandeiras" min="0" step="1" required>
+        </div>
+
+        <!-- 5. Larva e Pupa: Ausência e Presença (Obrigatório) -->
+        <div class="form-group">
+          <label>Larva e Pupa <span class="req">*</span></label>
+          <div class="button-group-select">
+            <label style="flex:1">
+              <input type="radio" name="campo-larva-pupa" value="Ausência" required>
+              <div class="btn-select-opt"><i class="fa-solid fa-shield"></i> Ausência</div>
+            </label>
+            <label style="flex:1">
+              <input type="radio" name="campo-larva-pupa" value="Presença">
+              <div class="btn-select-opt"><i class="fa-solid fa-bug"></i> Presença</div>
+            </label>
+          </div>
+        </div>
+
+        <!-- 6. Inseticida: Aplicado ou Não Aplicado (Obrigatório) -->
+        <div class="form-group">
+          <label>Inseticida <span class="req">*</span></label>
+          <div class="button-group-select">
+            <label style="flex:1">
+              <input type="radio" name="campo-inseticida" value="Aplicado" required>
+              <div class="btn-select-opt"><i class="fa-solid fa-spray-can"></i> Aplicado</div>
+            </label>
+            <label style="flex:1">
+              <input type="radio" name="campo-inseticida" value="Não Aplicado">
+              <div class="btn-select-opt"><i class="fa-solid fa-ban"></i> Não Aplicado</div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-section-title">Informações Complementares</div>
+
+        <div class="form-group">
+          <label>Observações da Vistoria (Opcional)</label>
+          <textarea id="form-obs" class="form-control" rows="2" placeholder="Informações adicionais, alinhamentos ou demandas..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Anexar Foto da Sede / Vistoria (Opcional)</label>
+          <input type="file" id="form-foto" class="form-control" accept="image/*" capture="environment">
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <i class="fa-solid fa-check"></i> Salvar e Confirmar Vistoria
+        </button>
+      </form>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"><i class="fa-solid fa-circle-check"></i> <span>Aviso</span></div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Dados Geográficos -->
+  <script src="dados_mapa.js"></script>
+
+  <script>
+    let map;
+    let markersLayer = L.layerGroup();
+    let areasLayer = L.layerGroup();
+    let sedesData = [];
+    let sedeSelecionada = null;
+    let historicoVisitas = [];
+
+    // Formata data brasileira dd/mm/yyyy
+    function getDataFormatadaBR(d = new Date()) {
+      const dia = String(d.getDate()).padStart(2, '0');
+      const mes = String(d.getMonth() + 1).padStart(2, '0');
+      const ano = d.getFullYear();
+      return `${dia}/${mes}/${ano}`;
+    }
+
+    // Formata hora brasileira hh:mm
+    function getHoraFormatadaBR(d = new Date()) {
+      return d.toTimeString().slice(0, 5);
+    }
+
+    // Inicialização
+    document.addEventListener("DOMContentLoaded", () => {
+      carregarHistorico();
+      initMap();
+      carregarCamadas();
+      atualizarContadores();
+
+      // Preencher Data da Vistoria automática (ex: 27/10/2026)
+      atualizarCamposAutomaticos();
+
+      // Lembrar matrícula do avaliador
+      const mat = localStorage.getItem("clealco_matricula");
+      if (mat) document.getElementById("form-matricula").value = mat;
+
+      // Registrar Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    });
+
+    function atualizarCamposAutomaticos() {
+      const agora = new Date();
+      document.getElementById("form-data-vistoria").value = getDataFormatadaBR(agora);
+      document.getElementById("form-hora-vistoria").value = getHoraFormatadaBR(agora);
+    }
+
+    function carregarHistorico() {
+      try {
+        historicoVisitas = JSON.parse(localStorage.getItem("visitas_historico") || "[]");
+      } catch (e) {
+        historicoVisitas = [];
+      }
+    }
+
+    function initMap() {
+      // Centro aproximado de Queiroz / SP
+      map = L.map("map", {
+        center: [-21.86, -50.21],
+        zoom: 12,
+        zoomControl: false
+      });
+
+      L.control.zoom({ position: "bottomright" }).addTo(map);
+
+      // Camadas Base
+      const googleHybrid = L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"]
+      });
+
+      const osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19
+      });
+
+      googleHybrid.addTo(map);
+
+      const baseMaps = {
+        "Google Satélite (Híbrido)": googleHybrid,
+        "OpenStreetMap": osm
+      };
+
+      L.control.layers(baseMaps, null, { position: "topright" }).addTo(map);
+
+      areasLayer.addTo(map);
+      markersLayer.addTo(map);
+
+      // Fechar card ao clicar no mapa
+      map.on("click", (e) => {
+        if (!e.originalEvent.target.closest("#detail-card") && 
+            !e.originalEvent.target.closest("#form-modal") && 
+            !e.originalEvent.target.closest(".sede-pin")) {
+          fecharCardDetalhes();
+        }
+      });
+    }
+
+    function carregarCamadas() {
+      // 1. Áreas / Perímetros das Fazendas
+      if (typeof DADOS_AREAS !== "undefined" && DADOS_AREAS.features) {
+        L.geoJSON(DADOS_AREAS, {
+          style: {
+            color: "#38bdf8",
+            weight: 1.5,
+            fillColor: "#38bdf8",
+            fillOpacity: 0.08
+          },
+          onEachFeature: (feature, layer) => {
+            const p = feature.properties || {};
+            if (p.fazenda || p.fa) {
+              layer.bindTooltip(`<b>${p.fa ? 'FA ' + p.fa + ' - ' : ''}${p.fazenda || ''}</b>`, {
+                sticky: true,
+                className: "area-tooltip"
+              });
+            }
+          }
+        }).addTo(areasLayer);
+      }
+
+      // 2. Pontos das Sedes
+      if (typeof DADOS_SEDES !== "undefined" && DADOS_SEDES.features) {
+        sedesData = DADOS_SEDES.features;
+        renderizarSedes();
+      }
+    }
+
+    function getStatusSede(numSede) {
+      const v = historicoVisitas.slice().reverse().find(x => String(x.num_sede) === String(numSede));
+      return v || null;
+    }
+
+    function renderizarSedes(filtro = "") {
+      markersLayer.clearLayers();
+      filtro = filtro.toLowerCase().trim();
+
+      sedesData.forEach(feature => {
+        const p = feature.properties;
+        const [lon, lat] = feature.geometry.coordinates;
+
+        // Filtro
+        if (filtro) {
+          const texto = `${p.num_sede} ${p.nome_sede} ${p.fa} ${p.fazenda} ${p.proprietario}`.toLowerCase();
+          if (!texto.includes(filtro)) return;
+        }
+
+        const vistoria = getStatusSede(p.num_sede);
+        const isVisitado = Boolean(vistoria || p.visitado);
+
+        const iconHtml = `
+          <div class="sede-pin ${isVisitado ? 'visitado' : 'pendente'}">
+            <i class="fa-solid fa-house-chimney"></i>
+            ${isVisitado ? '<div class="badge-check"><i class="fa-solid fa-check"></i></div>' : ''}
+            <div class="sede-tag">${p.num_sede}</div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: "custom-sede-icon",
+          iconSize: [36, 36],
+          iconAnchor: [18, 18]
+        });
+
+        const marker = L.marker([lat, lon], { icon: customIcon });
+        marker.on("click", (e) => {
+          L.DomEvent.stopPropagation(e);
+          mostrarDetalhesSede(p, [lat, lon], vistoria);
+        });
+
+        marker.addTo(markersLayer);
+      });
+    }
+
+    function mostrarDetalhesSede(p, coords, vistoria) {
+      sedeSelecionada = { properties: p, coords: coords };
+
+      document.getElementById("card-nome-sede").innerText = p.nome_sede || `Sede ${p.num_sede}`;
+      document.getElementById("card-fa-fazenda").innerText = p.fa_completo || "Sem Fazenda Vinculada";
+      document.getElementById("card-num-sede").innerText = p.num_sede || "-";
+      document.getElementById("card-fa").innerText = p.fa || "-";
+      document.getElementById("card-proprietario").innerText = p.proprietario || "Não informado";
+      document.getElementById("card-regiao").innerText = p.regiao || "-";
+
+      const statusBox = document.getElementById("card-status-box");
+      const statusTexto = document.getElementById("card-status-texto");
+      const btnTexto = document.getElementById("btn-visitar-texto");
+
+      const v = vistoria || getStatusSede(p.num_sede);
+      if (v) {
+        statusBox.className = "detail-status-box";
+        statusTexto.innerHTML = `<strong>Vistoria Realizada</strong> em ${v.data_vistoria || v.data || ''} | Pressão: <strong>${v.pressao || '-'}</strong> | Bandeiras: <strong>${v.bandeiras || '-'}</strong> | Larva/Pupa: <strong>${v.larva_pupa || '-'}</strong> | Inseticida: <strong>${v.inseticida || '-'}</strong> (Avaliador: ${v.matricula || '-'})`;
+        btnTexto.innerText = "Atualizar / Nova Vistoria";
+      } else {
+        statusBox.className = "detail-status-box pendente";
+        statusTexto.innerHTML = `<i class="fa-solid fa-clock"></i> Pendente de Vistoria`;
+        btnTexto.innerText = "Preencher Vistoria";
+      }
+
+      document.getElementById("detail-card").classList.add("open");
+      map.panTo(coords);
+    }
+
+    function fecharCardDetalhes() {
+      document.getElementById("detail-card").classList.remove("open");
+    }
+
+    function abrirFormularioVisita() {
+      if (!sedeSelecionada) return;
+      const p = sedeSelecionada.properties;
+
+      atualizarCamposAutomaticos();
+
+      // Esconder o card inferior para focar 100% no modal centralizado
+      fecharCardDetalhes();
+
+      document.getElementById("form-num-sede").value = p.num_sede;
+      document.getElementById("form-lat").value = sedeSelecionada.coords[0];
+      document.getElementById("form-lon").value = sedeSelecionada.coords[1];
+
+      document.getElementById("form-resumo-sede").innerText = `Sede ${p.num_sede} - ${p.nome_sede || ''}`;
+      document.getElementById("form-resumo-fazenda").innerText = `${p.fa_completo || p.fazenda || 'Sem Fazenda'}`;
+      document.getElementById("form-resumo-prop").innerText = p.proprietario || "Proprietário";
+
+      // Se já houver vistoria, pré-seleciona os valores
+      const v = getStatusSede(p.num_sede);
+      if (v) {
+        if (v.pressao) {
+          const radioPressao = document.querySelector(`input[name="campo-pressao"][value="${v.pressao}"]`);
+          if (radioPressao) radioPressao.checked = true;
+        }
+        if (v.bandeiras !== undefined) {
+          document.getElementById("form-bandeiras").value = v.bandeiras;
+        }
+        if (v.larva_pupa) {
+          const radioLarva = document.querySelector(`input[name="campo-larva-pupa"][value="${v.larva_pupa}"]`);
+          if (radioLarva) radioLarva.checked = true;
+        }
+        if (v.inseticida) {
+          const radioInset = document.querySelector(`input[name="campo-inseticida"][value="${v.inseticida}"]`);
+          if (radioInset) radioInset.checked = true;
+        }
+        if (v.observacoes) {
+          document.getElementById("form-obs").value = v.observacoes;
+        }
+      } else {
+        // Limpar seleções para nova vistoria
+        document.querySelectorAll('input[name="campo-pressao"]').forEach(r => r.checked = false);
+        document.querySelectorAll('input[name="campo-larva-pupa"]').forEach(r => r.checked = false);
+        document.querySelectorAll('input[name="campo-inseticida"]').forEach(r => r.checked = false);
+        document.getElementById("form-bandeiras").value = "";
+        document.getElementById("form-obs").value = "";
+      }
+
+      // Abrir Modal Centralizado com Fundo Escurecido
+      document.getElementById("modal-backdrop").classList.add("open");
+      document.getElementById("form-modal").classList.add("open");
+      
+      // Focar no campo de matrícula se estiver vazio
+      setTimeout(() => {
+        const mat = document.getElementById("form-matricula");
+        if (!mat.value) mat.focus();
+      }, 300);
+    }
+
+    function fecharFormulario() {
+      document.getElementById("modal-backdrop").classList.remove("open");
+      document.getElementById("form-modal").classList.remove("open");
+    }
+
+    function abrirRotaGoogleMaps() {
+      if (!sedeSelecionada) return;
+      const [lat, lon] = sedeSelecionada.coords;
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lon}`;
+      window.open(url, "_blank");
+    }
+
+    function salvarVisita(e) {
+      e.preventDefault();
+
+      const numSede = document.getElementById("form-num-sede").value;
+      const nomeSede = sedeSelecionada ? (sedeSelecionada.properties.nome_sede || `Sede ${numSede}`) : `Sede ${numSede}`;
+      const fazenda = sedeSelecionada ? (sedeSelecionada.properties.fa_completo || sedeSelecionada.properties.fazenda || "") : "";
+      const proprietario = sedeSelecionada ? (sedeSelecionada.properties.proprietario || "") : "";
+      
+      const dataV = document.getElementById("form-data-vistoria").value;
+      const horaV = document.getElementById("form-hora-vistoria").value;
+      const matricula = document.getElementById("form-matricula").value.trim();
+
+      // Campos específicos solicitados pelo usuário
+      const pressaoRadio = document.querySelector('input[name="campo-pressao"]:checked');
+      const pressao = pressaoRadio ? pressaoRadio.value : "";
+
+      const bandeiras = document.getElementById("form-bandeiras").value.trim();
+
+      const larvaPupaRadio = document.querySelector('input[name="campo-larva-pupa"]:checked');
+      const larvaPupa = larvaPupaRadio ? larvaPupaRadio.value : "";
+
+      const inseticidaRadio = document.querySelector('input[name="campo-inseticida"]:checked');
+      const inseticida = inseticidaRadio ? inseticidaRadio.value : "";
+
+      const obs = document.getElementById("form-obs").value.trim();
+      const lat = document.getElementById("form-lat").value;
+      const lon = document.getElementById("form-lon").value;
+
+      // Validações
+      if (!dataV) {
+        showToast("Data da Vistoria é obrigatória!", "error");
+        return;
+      }
+      if (!matricula || matricula.length !== 6 || isNaN(matricula)) {
+        showToast("A Matrícula do Avaliador deve conter exatamente 6 dígitos numéricos!", "error");
+        document.getElementById("form-matricula").focus();
+        return;
+      }
+      if (!pressao) {
+        showToast("Selecione o nível de Pressão (Baixa, Média ou Alta)!", "error");
+        return;
+      }
+      if (bandeiras === "" || isNaN(bandeiras) || parseInt(bandeiras) < 0) {
+        showToast("Informe a quantidade de N° de bandeiras!", "error");
+        document.getElementById("form-bandeiras").focus();
+        return;
+      }
+      if (!larvaPupa) {
+        showToast("Selecione Larva e Pupa (Ausência ou Presença)!", "error");
+        return;
+      }
+      if (!inseticida) {
+        showToast("Selecione Inseticida (Aplicado ou Não Aplicado)!", "error");
+        return;
+      }
+
+      // Lembrar matrícula do avaliador
+      localStorage.setItem("clealco_matricula", matricula);
+
+      const novaVistoria = {
+        num_sede: numSede,
+        nome_sede: nomeSede,
+        fa: sedeSelecionada ? (sedeSelecionada.properties.fa || "") : "",
+        fazenda: fazenda,
+        proprietario: proprietario,
+        regiao: sedeSelecionada ? (sedeSelecionada.properties.regiao || "") : "",
+        data_vistoria: dataV,
+        hora_vistoria: horaV,
+        matricula: matricula,
+        pressao: pressao,
+        bandeiras: parseInt(bandeiras),
+        larva_pupa: larvaPupa,
+        inseticida: inseticida,
+        observacoes: obs,
+        lat: lat,
+        lon: lon,
+        salvoEm: new Date().toISOString()
+      };
+
+      historicoVisitas.push(novaVistoria);
+      localStorage.setItem("visitas_historico", JSON.stringify(historicoVisitas));
+
+      showToast(`Vistoria da Sede ${numSede} salva com sucesso!`, "success");
+      fecharFormulario();
+      renderizarSedes();
+      atualizarContadores();
+    }
+
+    function filtrarSedes(texto) {
+      const modal = document.getElementById("search-results-modal");
+      if (!texto.trim()) {
+        modal.style.display = "none";
+        renderizarSedes();
+        return;
+      }
+
+      const q = texto.toLowerCase().trim();
+      const filtrados = sedesData.filter(feat => {
+        const p = feat.properties;
+        const full = `${p.num_sede} ${p.nome_sede} ${p.fa} ${p.fazenda} ${p.proprietario}`.toLowerCase();
+        return full.includes(q);
+      });
+
+      if (filtrados.length === 0) {
+        modal.innerHTML = '<div style="padding:14px; color:#94a3b8; text-align:center; font-size:12px;">Nenhuma sede encontrada</div>';
+        modal.style.display = "block";
+        return;
+      }
+
+      modal.innerHTML = filtrados.slice(0, 15).map(feat => {
+        const p = feat.properties;
+        const v = getStatusSede(p.num_sede);
+        const iconColor = v ? '#22c55e' : '#f97316';
+        return `
+          <div class="search-result-item" onclick="selecionarDaBusca('${p.num_sede}')">
+            <div>
+              <strong><i class="fa-solid fa-house-chimney" style="color:${iconColor}"></i> Sede ${p.num_sede} - ${p.nome_sede}</strong>
+              <p>${p.fa_completo || 'Sem FA'} | ${p.proprietario || 'Proprietário não informado'}</p>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color:#64748b; font-size:12px;"></i>
+          </div>
+        `;
+      }).join("");
+
+      modal.style.display = "block";
+    }
+
+    function selecionarDaBusca(numSede) {
+      document.getElementById("search-results-modal").style.display = "none";
+      document.getElementById("input-busca").value = "";
+
+      const feat = sedesData.find(x => String(x.properties.num_sede) === String(numSede));
+      if (feat) {
+        const [lon, lat] = feat.geometry.coordinates;
+        mostrarDetalhesSede(feat.properties, [lat, lon]);
+      }
+    }
+
+    function atualizarContadores() {
+      const visitadasSet = new Set(historicoVisitas.map(x => String(x.num_sede)));
+      const visitadas = visitadasSet.size;
+      const total = sedesData.length || 77;
+      const pendentes = Math.max(0, total - visitadas);
+
+      document.getElementById("count-visitadas").innerText = `${visitadas} visitadas`;
+      document.getElementById("count-pendentes").innerText = `${pendentes} pendentes`;
+    }
+
+    function exportarExcelNavegador() {
+      if (historicoVisitas.length === 0) {
+        showToast("Nenhuma vistoria registrada para exportar!", "error");
+        return;
+      }
+
+      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;OBSERVACOES;LATITUDE;LONGITUDE\n";
+      historicoVisitas.forEach(v => {
+        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || ''}";"${v.lon || ''}"\n`;
+      });
+
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Vistorias_Sedes_Clealco_${new Date().toISOString().split("T")[0]}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Relatório de vistorias exportado com sucesso!", "success");
+    }
+
+    async function forcarAtualizacaoApp() {
+      const icon = document.getElementById("icon-refresh-app");
+      const btn = document.getElementById("btn-refresh-app");
+      if (icon) icon.classList.add("fa-spin");
+      if (btn) btn.disabled = true;
+
+      showToast("🔄 Limpando cache e atualizando o aplicativo...", "info");
+
+      // 1. Limpar todo o CacheStorage do navegador
+      if ('caches' in window) {
+        try {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+        } catch (e) {}
+      }
+
+      // 2. Desregistrar qualquer Service Worker para carregar nova versão
+      if ('serviceWorker' in navigator) {
+        try {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (const r of regs) {
+            await r.unregister();
+          }
+        } catch (e) {}
+      }
+
+      // 3. Recarregar sem cache com timestamp único
+      setTimeout(() => {
+        const url = new URL(window.location.origin + window.location.pathname);
+        url.searchParams.set('_v', Date.now());
+        window.location.replace(url.toString());
+      }, 500);
+    }
+
+    function showToast(mensagem, tipo = "success") {
+      const toast = document.getElementById("toast");
+      toast.className = tipo === "error" ? "show error" : "show";
+      toast.querySelector("span").innerText = mensagem;
+      toast.querySelector("i").className = tipo === "error" ? "fa-solid fa-circle-exclamation" : "fa-solid fa-circle-check";
+      setTimeout(() => {
+        toast.className = "";
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
