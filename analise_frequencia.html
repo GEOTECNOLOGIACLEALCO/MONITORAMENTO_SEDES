@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Clealco - Painel de Frequência de Retorno e Mapa de Calor</title>
+
+  <!-- PWA & Favicon -->
+  <link rel="icon" type="image/jpeg" href="logos/Logo_sede.jpg">
+  <link rel="apple-touch-icon" href="logos/apple-touch-icon.png">
+  <meta name="theme-color" content="#15803d">
+
+  <!-- Fontes & Ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <!-- Chart.js para gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #15803d;
+      --primary-dark: #166534;
+      --primary-light: #22c55e;
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --status-verde: #22c55e;
+      --status-amarelo: #eab308;
+      --status-vermelho: #ef4444;
+      --status-alta: #ef4444;
+      --status-media: #f97316;
+      --status-baixa: #3b82f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* BARRA SUPERIOR */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .brand-text h1 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* CONTROLES DO CABEÇALHO */
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-toggle-group {
+      display: flex;
+      background: var(--bg-card);
+      padding: 3px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-toggle {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-toggle.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .btn-action-top {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-action-top:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary-light);
+      color: #fff;
+    }
+
+    .btn-primary-top {
+      background: var(--primary);
+      border-color: var(--primary-dark);
+      color: #fff;
+    }
+    .btn-primary-top:hover {
+      background: var(--primary-dark);
+    }
+
+    /* BARRA DE KPIS RÁPIDOS */
+    .kpi-bar {
+      background: #0b1120;
+      border-bottom: 1px solid var(--border-color);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      overflow-x: auto;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+
+    .kpi-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+
+    .kpi-item strong {
+      color: #fff;
+      font-size: 12px;
+    }
+
+    .kpi-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .kpi-badge.verde { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .kpi-badge.amarelo { background: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
+    .kpi-badge.vermelho { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* CONTAINER PRINCIPAL DOS MAPAS */
+    .main-viewport {
+      flex: 1;
+      display: flex;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* PAINEL DE MAPA ÚNICO OU DIVIDIDO */
+    .map-panel {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border-color);
+      transition: width 0.3s ease;
+    }
+
+    .map-panel:last-child {
+      border-right: none;
+    }
+
+    /* CABEÇALHO DO PAINEL DO MAPA */
+    .panel-header {
+      background: rgba(15, 23, 42, 0.92);
+      border-bottom: 1px solid var(--border-color);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 500;
+    }
+
+    .panel-title-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .panel-select-semana {
+      background: var(--bg-card);
+      color: #fff;
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .panel-stats-inline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .panel-stats-inline span strong {
+      color: #fff;
+    }
+
+    /* O MAPA LEAFLET */
+    .map-view {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #111;
+    }
+
+    /* LEGENDA FLUTUANTE DO MAPA */
+    .map-floating-legend {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(6px);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      z-index: 800;
+      font-size: 11px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      max-width: 260px;
+    }
+
+    .legend-gradient-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, blue, cyan, lime, yellow, red);
+      margin: 6px 0;
+    }
+
+    .legend-gradient-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: var(--text-muted);
+    }
+
+    /* ÍCONE CUSTOMIZADO DE PONTO NO MAPA */
+    .sede-heat-pin {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 800;
+      border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .sede-heat-pin:hover {
+      transform: scale(1.25);
+      z-index: 9999 !important;
+    }
+    .sede-heat-pin.alta { background: var(--status-alta); }
+    .sede-heat-pin.media { background: var(--status-media); }
+    .sede-heat-pin.baixa { background: var(--status-baixa); }
+    .sede-heat-pin.ghost {
+      background: rgba(148, 163, 184, 0.3);
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #cbd5e1;
+      width: 20px;
+      height: 20px;
+      font-size: 9px;
+    }
+
+    /* GAVETA / MODAL DE TABELA & GRÁFICOS */
+    #drawer-tabela {
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 480px;
+      max-width: 90vw;
+      height: 100%;
+      background: var(--bg-card);
+      border-left: 1px solid var(--border-color);
+      z-index: 2000;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -8px 0 24px rgba(0,0,0,0.5);
+    }
+    #drawer-tabela.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    th, td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background: #0f172a;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    tr:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--primary);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .header-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .main-viewport {
+        flex-direction: column;
+      }
+      .map-panel {
+        height: 50%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO SUPERIOR -->
+  <header>
+    <div class="brand-section">
+      <img src="logos/Logo_sede.jpg" alt="Logo" class="brand-logo" onerror="this.src='logos/logo clealco.png'">
+      <div class="brand-text">
+        <h1><i class="fa-solid fa-chart-line" style="color:var(--primary-light);"></i> Clealco - Retorno & Calor</h1>
+        <span>Análise de Frequência de Vistorias e Comparativo Semanal</span>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <!-- Seletor de Modo: Tela Única vs Dividida -->
+      <div class="btn-toggle-group">
+        <button class="btn-toggle active" id="btn-mode-single" onclick="alternarModoVisualizacao('single')">
+          <i class="fa-solid fa-square"></i> Tela Cheia
+        </button>
+        <button class="btn-toggle" id="btn-mode-split" onclick="alternarModoVisualizacao('split')">
+          <i class="fa-solid fa-table-columns"></i> Tela Dividida
+        </button>
+      </div>
+
+      <!-- Seletor de Tipo de Calor -->
+      <div class="btn-toggle-group">
+        <button class="btn-toggle active" id="btn-heat-pressure" onclick="alternarTipoCalor('pressao')" title="Calor ponderado pela pressão de mosca e bandeiras">
+          <i class="fa-solid fa-fire"></i> Pressão de Moscas
+        </button>
+        <button class="btn-toggle" id="btn-heat-frequency" onclick="alternarTipoCalor('frequencia')" title="Calor ponderado pela quantidade de visitas nas sedes">
+          <i class="fa-solid fa-repeat"></i> Frequência de Visitas
+        </button>
+      </div>
+
+      <!-- Sincronização de Navegação -->
+      <label style="display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); cursor:pointer;">
+        <input type="checkbox" id="chk-sync-maps" checked onchange="toggleSyncMaps()">
+        <span>Sincronizar Zoom/Pan</span>
+      </label>
+
+      <!-- Abrir Tabela e Gráficos -->
+      <button class="btn-action-top" onclick="abrirDrawerTabela()">
+        <i class="fa-solid fa-table-list"></i> Tabela & Gráficos
+      </button>
+
+      <!-- Voltar ao Mapa de Vistorias -->
+      <a href="index.html" class="btn-action-top btn-primary-top">
+        <i class="fa-solid fa-map-location-dot"></i> Ir ao Mapa de Campo
+      </a>
+    </div>
+  </header>
+
+  <!-- BARRA DE KPIS RÁPIDOS GERAIS -->
+  <div class="kpi-bar" id="kpi-bar-geral">
+    <div class="kpi-item">
+      <span>Total de Vistorias:</span>
+      <strong id="kpi-total-vistorias">Carregando...</strong>
+    </div>
+    <div class="kpi-item">
+      <span>Sedes Vistoriadas:</span>
+      <strong id="kpi-sedes-vistoriadas">-</strong>
+    </div>
+    <div class="kpi-item">
+      <span>Média de Intervalo de Retorno:</span>
+      <strong id="kpi-media-retorno">-</strong>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-badge verde"><i class="fa-solid fa-check"></i> <span id="kpi-em-dia">0</span> Em dia (≤ 7d)</span>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-badge amarelo"><i class="fa-solid fa-clock"></i> <span id="kpi-atencao">0</span> Atenção (8-15d)</span>
+    </div>
+    <div class="kpi-item">
+      <span class="kpi-badge vermelho"><i class="fa-solid fa-triangle-exclamation"></i> <span id="kpi-atrasadas">0</span> Atrasadas (≥ 16d)</span>
+    </div>
+  </div>
+
+  <!-- ÁREA PRINCIPAL DOS MAPAS -->
+  <div class="main-viewport" id="viewport-container">
+
+    <!-- PAINEL 1: MAPA ESQUERDO (SEMANA ATUAL) -->
+    <div class="map-panel" id="panel-left">
+      <div class="panel-header">
+        <div class="panel-title-tag">
+          <span style="color:var(--primary-light);"><i class="fa-solid fa-calendar-week"></i></span>
+          <span id="title-left-panel">Semana Atual</span>
+          <select id="select-semana-left" class="panel-select-semana" onchange="atualizarMapaEsquerdo()"></select>
+        </div>
+        <div class="panel-stats-inline" id="stats-inline-left">
+          <span>Vistorias: <strong id="stats-left-vistorias">0</strong></span>
+          <span>Sedes: <strong id="stats-left-sedes">0</strong></span>
+          <span>Pressão Alta: <strong id="stats-left-alta" style="color:var(--status-alta);">0</strong></span>
+        </div>
+      </div>
+      <div class="map-view" id="map-left"></div>
+
+      <!-- Legenda do Mapa Esquerdo -->
+      <div class="map-floating-legend">
+        <div style="font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+          <span id="legend-title-left">Mapa de Calor (Pressão)</span>
+          <span style="font-size:9px; color:var(--text-muted);" id="legend-unit-left">Mosca / Bandeiras</span>
+        </div>
+        <div class="legend-gradient-bar"></div>
+        <div class="legend-gradient-labels">
+          <span>Baixa</span>
+          <span>Média</span>
+          <span>Alta</span>
+        </div>
+        <div style="margin-top:6px; display:flex; gap:8px; font-size:10px;">
+          <span><i class="fa-solid fa-circle" style="color:var(--status-alta)"></i> Alta</span>
+          <span><i class="fa-solid fa-circle" style="color:var(--status-media)"></i> Média</span>
+          <span><i class="fa-solid fa-circle" style="color:var(--status-baixa)"></i> Baixa</span>
+          <span><i class="fa-solid fa-circle" style="color:#64748b"></i> Sem visita</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAINEL 2: MAPA DIREITO (SEMANA ESCOLHIDA PARA COMPARAR) -->
+    <div class="map-panel" id="panel-right" style="display:none;">
+      <div class="panel-header">
+        <div class="panel-title-tag">
+          <span style="color:#38bdf8;"><i class="fa-solid fa-clock-rotate-left"></i></span>
+          <span>Semana Comparada:</span>
+          <select id="select-semana-right" class="panel-select-semana" onchange="atualizarMapaDireito()"></select>
+        </div>
+        <div class="panel-stats-inline" id="stats-inline-right">
+          <span>Vistorias: <strong id="stats-right-vistorias">0</strong></span>
+          <span>Sedes: <strong id="stats-right-sedes">0</strong></span>
+          <span>Pressão Alta: <strong id="stats-right-alta" style="color:var(--status-alta);">0</strong></span>
+        </div>
+      </div>
+      <div class="map-view" id="map-right"></div>
+
+      <!-- Legenda do Mapa Direito -->
+      <div class="map-floating-legend">
+        <div style="font-weight:700; display:flex; justify-content:space-between; align-items:center;">
+          <span id="legend-title-right">Mapa de Calor (Pressão)</span>
+          <span style="font-size:9px; color:var(--text-muted);" id="legend-unit-right">Mosca / Bandeiras</span>
+        </div>
+        <div class="legend-gradient-bar"></div>
+        <div class="legend-gradient-labels">
+          <span>Baixa</span>
+          <span>Média</span>
+          <span>Alta</span>
+        </div>
+        <div style="margin-top:6px; display:flex; gap:8px; font-size:10px;">
+          <span><i class="fa-solid fa-circle" style="color:var(--status-alta)"></i> Alta</span>
+          <span><i class="fa-solid fa-circle" style="color:var(--status-media)"></i> Média</span>
+          <span><i class="fa-solid fa-circle" style="color:var(--status-baixa)"></i> Baixa</span>
+          <span><i class="fa-solid fa-circle" style="color:#64748b"></i> Sem visita</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GAVETA LATERAL: TABELA DE RETORNO E GRÁFICOS -->
+  <div id="drawer-tabela">
+    <div class="drawer-header">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <i class="fa-solid fa-table-list" style="color:var(--primary-light);"></i>
+        <h3 style="font-size:14px; font-weight:700;">Frequência de Retorno por Sede</h3>
+      </div>
+      <button onclick="fecharDrawerTabela()" style="background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer;">&times;</button>
+    </div>
+    <div class="drawer-body">
+      <!-- Gráfico Semanal -->
+      <div style="margin-bottom:16px; background:#0f172a; padding:12px; border-radius:8px; border:1px solid var(--border-color);">
+        <div style="font-size:11px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">
+          <i class="fa-solid fa-chart-bar"></i> Evolução Semanal de Vistorias e Pressão
+        </div>
+        <div style="height:170px;">
+          <canvas id="chart-semanal"></canvas>
+        </div>
+      </div>
+
+      <!-- Filtro da Tabela -->
+      <div style="margin-bottom:10px;">
+        <input type="text" id="filtro-tabela-sedes" placeholder="Buscar sede, fazenda, proprietário..." oninput="filtrarTabelaDrawer()" style="width:100%; background:#0f172a; border:1px solid var(--border-color); color:#fff; padding:8px 12px; border-radius:6px; font-size:11px; outline:none;">
+      </div>
+
+      <!-- Tabela -->
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Sede</th>
+              <th>Fazenda</th>
+              <th>Total Visitas</th>
+              <th>Última Visita</th>
+              <th>Retorno</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-frequencia-sedes">
+            <!-- Linhas preenchidas via JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÃO TOAST -->
+  <div id="toast">
+    <i class="fa-solid fa-circle-info"></i>
+    <span>Notificação</span>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Leaflet.heat JS (Algoritmo de Densidade de Kernel) -->
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+
+  <!-- Dados Geográficos e Vistorias Consolidadas -->
+  <script src="dados_mapa.js"></script>
+
+  <script>
+    // =========================================================================
+    // ESTADO GLOBAL DA APLICAÇÃO
+    // =========================================================================
+    let modoVisualizacao = "single"; // "single" ou "split"
+    let tipoCalor = "pressao";       // "pressao" ou "frequencia"
+    let sincronizarNavegacao = true;
+
+    let mapLeft = null;
+    let mapRight = null;
+    let heatLayerLeft = null;
+    let heatLayerRight = null;
+    let markersLayerLeft = null;
+    let markersLayerRight = null;
+    let areasLayerLeft = null;
+    let areasLayerRight = null;
+
+    let todasVistorias = [];
+    let mapaSedes = new Map(); // num_sede -> { props, coords, vistorias: [] }
+    let semanasDisponiveis = []; // [{ id: "2026-W44", label: "Semana 44/2026 (26/10 a 01/11)", vistorias: [] }]
+
+    let semanaAtualId = "";
+    let semanaComparadaId = "";
+    let chartSemanalInstance = null;
+
+    // =========================================================================
+    // INICIALIZAÇÃO
+    // =========================================================================
+    document.addEventListener("DOMContentLoaded", async () => {
+      carregarDadosBase();
+      initMapLeft();
+      popularSemanas();
+      atualizarKpisGerais();
+      atualizarMapaEsquerdo();
+      renderizarTabelaDrawer();
+      renderizarGraficoSemanal();
+    });
+
+    // =========================================================================
+    // CARREGAMENTO E ESTRUTURAÇÃO DOS DADOS
+    // =========================================================================
+    function carregarDadosBase() {
+      // 1. Carregar vistorias embutidas ou remotas
+      if (typeof DADOS_VISTORIAS_KOBO !== "undefined" && Array.isArray(DADOS_VISTORIAS_KOBO)) {
+        todasVistorias = DADOS_VISTORIAS_KOBO;
+      }
+
+      // Mesclar vistorias locais do navegador caso existam
+      try {
+        const local = JSON.parse(localStorage.getItem("visitas_historico") || "[]");
+        local.forEach(lv => {
+          const jaExiste = todasVistorias.some(tv => 
+            String(tv.num_sede) === String(lv.num_sede) &&
+            (tv.data_vistoria || tv.data) === (lv.data_vistoria || lv.data) &&
+            (tv.hora_vistoria || tv.hora) === (lv.hora_vistoria || lv.hora)
+          );
+          if (!jaExiste) todasVistorias.push(lv);
+        });
+      } catch (e) {}
+
+      // 2. Mapear as 77 Sedes Oficiais
+      if (typeof DADOS_SEDES !== "undefined" && DADOS_SEDES.features) {
+        DADOS_SEDES.features.forEach(feat => {
+          const p = feat.properties;
+          const [lon, lat] = feat.geometry.coordinates;
+          mapaSedes.set(String(p.num_sede), {
+            num_sede: String(p.num_sede),
+            nome_sede: p.nome_sede || `Sede ${p.num_sede}`,
+            fa: p.fa || "",
+            fazenda: p.fazenda || "",
+            fa_completo: p.fa_completo || p.fazenda || "",
+            proprietario: p.proprietario || "",
+            regiao: p.regiao || "",
+            lat: lat,
+            lon: lon,
+            coords: [lat, lon],
+            vistorias: []
+          });
+        });
+      }
+
+      // 3. Vincular vistorias ordenadas a cada sede
+      todasVistorias.forEach(v => {
+        const s_id = String(v.num_sede || "").trim();
+        if (s_id && mapaSedes.has(s_id)) {
+          mapaSedes.get(s_id).vistorias.push(v);
+        }
+      });
+
+      // Ordenar vistorias de cada sede por data crescente para calcular intervalos
+      mapaSedes.forEach(s => {
+        s.vistorias.sort((a, b) => parseData(a.data_vistoria || a.data) - parseData(b.data_vistoria || b.data));
+      });
+    }
+
+    // Função utilitária para converter datas brasileiras ou ISO
+    function parseData(dataStr) {
+      if (!dataStr) return new Date(0);
+      if (typeof dataStr !== "string") return new Date(dataStr);
+      if (dataStr.includes("/")) {
+        const p = dataStr.trim().split("/");
+        if (p.length === 3) return new Date(parseInt(p[2]), parseInt(p[1]) - 1, parseInt(p[0]));
+      } else if (dataStr.includes("-")) {
+        const p = dataStr.trim().split("T")[0].split("-");
+        if (p.length === 3) {
+          if (p[0].length === 4) return new Date(parseInt(p[0]), parseInt(p[1]) - 1, parseInt(p[2]));
+          return new Date(parseInt(p[2]), parseInt(p[1]) - 1, parseInt(p[0]));
+        }
+      }
+      return new Date(dataStr);
+    }
+
+    // Calcula número da semana ISO e ano
+    function getSemanaInfo(d) {
+      const target = new Date(d.valueOf());
+      const dayNr = (d.getDay() + 6) % 7;
+      target.setDate(target.getDate() - dayNr + 3);
+      const firstThursday = target.valueOf();
+      target.setMonth(0, 1);
+      if (target.getDay() !== 4) {
+        target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+      }
+      const weekNumber = 1 + Math.ceil((firstThursday - target) / 604800000);
+      const year = target.getFullYear();
+      return { ano: year, semana: weekNumber, id: `${year}-W${String(weekNumber).padStart(2, '0')}` };
+    }
+
+    // Retorna string com intervalo da semana (ex: 19/10 a 25/10/2026)
+    function getIntervaloSemanaStr(ano, semana) {
+      const simple = new Date(ano, 0, 1 + (semana - 1) * 7);
+      const dow = simple.getDay();
+      const ISOweekStart = simple;
+      if (dow <= 4) ISOweekStart.setDate(simple.getDate() - simple.getDay() + 1);
+      else ISOweekStart.setDate(simple.getDate() + 8 - simple.getDay());
+      const ISOweekEnd = new Date(ISOweekStart);
+      ISOweekEnd.setDate(ISOweekStart.getDate() + 6);
+
+      const f = d => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`;
+      return `${f(ISOweekStart)} a ${f(ISOweekEnd)}/${ano}`;
+    }
+
+    // Agrupa e popula os selects de semanas
+    function popularSemanas() {
+      const semanasMap = new Map();
+
+      todasVistorias.forEach(v => {
+        const dt = parseData(v.data_vistoria || v.data);
+        if (dt.getFullYear() > 1900) {
+          const sInfo = getSemanaInfo(dt);
+          if (!semanasMap.has(sInfo.id)) {
+            semanasMap.set(sInfo.id, {
+              id: sInfo.id,
+              ano: sInfo.ano,
+              semana: sInfo.semana,
+              label: `Semana ${sInfo.semana}/${sInfo.ano} (${getIntervaloSemanaStr(sInfo.ano, sInfo.semana)})`,
+              vistorias: []
+            });
+          }
+          semanasMap.get(sInfo.id).vistorias.push(v);
+        }
+      });
+
+      // Ordenar semanas em ordem decrescente (mais recente primeiro)
+      semanasDisponiveis = Array.from(semanasMap.values()).sort((a, b) => b.id.localeCompare(a.id));
+
+      if (semanasDisponiveis.length === 0) {
+        // Fallback para semana atual caso sem dados
+        const sAtual = getSemanaInfo(new Date());
+        semanasDisponiveis.push({
+          id: sAtual.id,
+          ano: sAtual.ano,
+          semana: sAtual.semana,
+          label: `Semana ${sAtual.semana}/${sAtual.ano} (Sem vistorias)`,
+          vistorias: []
+        });
+      }
+
+      semanaAtualId = semanasDisponiveis[0].id;
+      semanaComparadaId = semanasDisponiveis.length > 1 ? semanasDisponiveis[1].id : semanasDisponiveis[0].id;
+
+      // Popular selects
+      const selLeft = document.getElementById("select-semana-left");
+      const selRight = document.getElementById("select-semana-right");
+      selLeft.innerHTML = "";
+      selRight.innerHTML = "";
+
+      semanasDisponiveis.forEach((s, idx) => {
+        const optL = document.createElement("option");
+        optL.value = s.id;
+        optL.innerText = s.label + ` (${s.vistorias.length} visitas)`;
+        if (s.id === semanaAtualId) optL.selected = true;
+        selLeft.appendChild(optL);
+
+        const optR = document.createElement("option");
+        optR.value = s.id;
+        optR.innerText = s.label + ` (${s.vistorias.length} visitas)`;
+        if (s.id === semanaComparadaId) optR.selected = true;
+        selRight.appendChild(optR);
+      });
+    }
+
+    // =========================================================================
+    // KPIS GERAIS DE FREQUÊNCIA DE RETORNO
+    // =========================================================================
+    function atualizarKpisGerais() {
+      const hoje = new Date();
+      let totalVisitas = todasVistorias.length;
+      let sedesVisitadas = 0;
+      let somaIntervalos = 0;
+      let countIntervalos = 0;
+      let emDia = 0, atencao = 0, atrasadas = 0;
+
+      mapaSedes.forEach(s => {
+        const vList = s.vistorias;
+        if (vList.length > 0) {
+          sedesVisitadas++;
+          // Intervalo entre visitas sucessivas
+          for (let i = 1; i < vList.length; i++) {
+            const d1 = parseData(vList[i-1].data_vistoria || vList[i-1].data);
+            const d2 = parseData(vList[i].data_vistoria || vList[i].data);
+            const diffDias = Math.max(0, Math.round((d2 - d1) / (1000 * 60 * 60 * 24)));
+            if (diffDias > 0) {
+              somaIntervalos += diffDias;
+              countIntervalos++;
+            }
+          }
+
+          // Dias desde a última visita até hoje
+          const ultData = parseData(vList[vList.length - 1].data_vistoria || vList[vList.length - 1].data);
+          const diffHoje = Math.max(0, Math.floor((hoje - ultData) / (1000 * 60 * 60 * 24)));
+          if (diffHoje <= 7) emDia++;
+          else if (diffHoje <= 15) atencao++;
+          else atrasadas++;
+        } else {
+          atrasadas++;
+        }
+      });
+
+      const mediaRetornoStr = countIntervalos > 0 ? (somaIntervalos / countIntervalos).toFixed(1) + " dias" : "Primeiro ciclo";
+
+      document.getElementById("kpi-total-vistorias").innerText = totalVisitas;
+      document.getElementById("kpi-sedes-vistoriadas").innerText = `${sedesVisitadas} de ${mapaSedes.size} (${Math.round(sedesVisitadas / mapaSedes.size * 100)}%)`;
+      document.getElementById("kpi-media-retorno").innerText = mediaRetornoStr;
+      document.getElementById("kpi-em-dia").innerText = emDia;
+      document.getElementById("kpi-atencao").innerText = atencao;
+      document.getElementById("kpi-atrasadas").innerText = atrasadas;
+    }
+
+    // =========================================================================
+    // INICIALIZAÇÃO DOS MAPAS LEAFLET
+    // =========================================================================
+    function getTileLayer() {
+      return L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", {
+        maxZoom: 20,
+        subdomains: ["mt0", "mt1", "mt2", "mt3"]
+      });
+    }
+
+    function initMapLeft() {
+      mapLeft = L.map("map-left", {
+        center: [-21.86, -50.21],
+        zoom: 12,
+        zoomControl: true
+      });
+      getTileLayer().addTo(mapLeft);
+
+      areasLayerLeft = L.layerGroup().addTo(mapLeft);
+      markersLayerLeft = L.layerGroup().addTo(mapLeft);
+
+      carregarAreasNoMapa(areasLayerLeft);
+      setupSyncEvent(mapLeft, () => mapRight);
+    }
+
+    function initMapRight() {
+      if (mapRight) return;
+      mapRight = L.map("map-right", {
+        center: mapLeft.getCenter(),
+        zoom: mapLeft.getZoom(),
+        zoomControl: true
+      });
+      getTileLayer().addTo(mapRight);
+
+      areasLayerRight = L.layerGroup().addTo(mapRight);
+      markersLayerRight = L.layerGroup().addTo(mapRight);
+
+      carregarAreasNoMapa(areasLayerRight);
+      setupSyncEvent(mapRight, () => mapLeft);
+    }
+
+    // Carrega perímetros de fazendas se existirem
+    function carregarAreasNoMapa(layerGroup) {
+      if (typeof DADOS_AREAS !== "undefined" && DADOS_AREAS.features) {
+        L.geoJSON(DADOS_AREAS, {
+          style: {
+            color: "#38bdf8",
+            weight: 1.2,
+            opacity: 0.6,
+            fillColor: "#0284c7",
+            fillOpacity: 0.08,
+            dashArray: "3, 4"
+          }
+        }).addTo(layerGroup);
+      }
+    }
+
+    // Sincronizador bidirecional suave entre mapas
+    let syncingMap = false;
+    function setupSyncEvent(sourceMap, getTargetMap) {
+      sourceMap.on("move", () => {
+        if (!sincronizarNavegacao || syncingMap) return;
+        const target = getTargetMap();
+        if (!target) return;
+        syncingMap = true;
+        target.setView(sourceMap.getCenter(), sourceMap.getZoom(), { animate: false });
+        syncingMap = false;
+      });
+    }
+
+    function toggleSyncMaps() {
+      sincronizarNavegacao = document.getElementById("chk-sync-maps").checked;
+      if (sincronizarNavegacao && mapLeft && mapRight) {
+        mapRight.setView(mapLeft.getCenter(), mapLeft.getZoom(), { animate: false });
+      }
+    }
+
+    // =========================================================================
+    // ALTERNAR MODOS DE VISUALIZAÇÃO E CALOR
+    // =========================================================================
+    function alternarModoVisualizacao(modo) {
+      modoVisualizacao = modo;
+      const btnS = document.getElementById("btn-mode-single");
+      const btnM = document.getElementById("btn-mode-split");
+      const panelRight = document.getElementById("panel-right");
+
+      if (modo === "single") {
+        btnS.classList.add("active");
+        btnM.classList.remove("active");
+        panelRight.style.display = "none";
+        setTimeout(() => mapLeft.invalidateSize(), 200);
+      } else {
+        btnM.classList.add("active");
+        btnS.classList.remove("active");
+        panelRight.style.display = "flex";
+        initMapRight();
+        setTimeout(() => {
+          mapLeft.invalidateSize();
+          mapRight.invalidateSize();
+          atualizarMapaDireito();
+          if (sincronizarNavegacao) {
+            mapRight.setView(mapLeft.getCenter(), mapLeft.getZoom(), { animate: false });
+          }
+        }, 200);
+      }
+    }
+
+    function alternarTipoCalor(tipo) {
+      tipoCalor = tipo;
+      const btnP = document.getElementById("btn-heat-pressure");
+      const btnF = document.getElementById("btn-heat-frequency");
+
+      if (tipo === "pressao") {
+        btnP.classList.add("active");
+        btnF.classList.remove("active");
+        document.getElementById("legend-title-left").innerText = "Mapa de Calor (Pressão)";
+        document.getElementById("legend-unit-left").innerText = "Mosca / Bandeiras";
+        document.getElementById("legend-title-right").innerText = "Mapa de Calor (Pressão)";
+        document.getElementById("legend-unit-right").innerText = "Mosca / Bandeiras";
+      } else {
+        btnF.classList.add("active");
+        btnP.classList.remove("active");
+        document.getElementById("legend-title-left").innerText = "Mapa de Calor (Visitas)";
+        document.getElementById("legend-unit-left").innerText = "Concentração de Vistorias";
+        document.getElementById("legend-title-right").innerText = "Mapa de Calor (Visitas)";
+        document.getElementById("legend-unit-right").innerText = "Concentração de Vistorias";
+      }
+
+      atualizarMapaEsquerdo();
+      if (modoVisualizacao === "split" && mapRight) {
+        atualizarMapaDireito();
+      }
+    }
+
+    // =========================================================================
+    // RENDERIZAÇÃO DOS MAPAS POR SEMANA (CALOR + PINS)
+    // =========================================================================
+    function getVistoriasDaSemana(semanaId) {
+      const sObj = semanasDisponiveis.find(x => x.id === semanaId);
+      return sObj ? sObj.vistorias : [];
+    }
+
+    function renderizarSemanaNoMapa(mapInstance, weekId, heatLayerRef, markersLayerRef, statsElements) {
+      markersLayerRef.clearLayers();
+      if (heatLayerRef) {
+        mapInstance.removeLayer(heatLayerRef);
+      }
+
+      const vistorias = getVistoriasDaSemana(weekId);
+      const heatPoints = [];
+      const sedesNaSemana = new Map();
+
+      let countAlta = 0;
+
+      vistorias.forEach(v => {
+        const s_id = String(v.num_sede || "").trim();
+        if (!s_id) return;
+        if (!sedesNaSemana.has(s_id)) {
+          sedesNaSemana.set(s_id, []);
+        }
+        sedesNaSemana.get(s_id).push(v);
+      });
+
+      // Atualizar mini KPIs
+      if (statsElements) {
+        statsElements.vistorias.innerText = vistorias.length;
+        statsElements.sedes.innerText = sedesNaSemana.size;
+      }
+
+      // 1. Renderizar todas as 77 Sedes (com destaque para as visitadas nesta semana)
+      mapaSedes.forEach(sede => {
+        const visitasDestaSede = sedesNaSemana.get(sede.num_sede);
+        const [lat, lon] = sede.coords;
+
+        if (visitasDestaSede && visitasDestaSede.length > 0) {
+          // Última visita desta semana específica
+          const ultV = visitasDestaSede[visitasDestaSede.length - 1];
+          const pressao = ultV.pressao || "Média";
+          const bandeiras = parseInt(ultV.bandeiras) || 0;
+          let classeP = "media";
+          let pesoCalor = 0.5;
+
+          if (pressao === "Alta") {
+            classeP = "alta";
+            countAlta++;
+            pesoCalor = 0.9;
+          } else if (pressao === "Baixa") {
+            classeP = "baixa";
+            pesoCalor = 0.3;
+          }
+
+          // Se ponderar por bandeiras
+          if (tipoCalor === "pressao" && bandeiras > 0) {
+            pesoCalor = Math.min(1.0, 0.3 + (bandeiras / 60));
+          } else if (tipoCalor === "frequencia") {
+            pesoCalor = Math.min(1.0, 0.4 + (visitasDestaSede.length * 0.3));
+          }
+
+          heatPoints.push([lat, lon, pesoCalor]);
+
+          const pinHtml = `
+            <div class="sede-heat-pin ${classeP}" title="Sede ${sede.num_sede} - Pressão: ${pressao} (${bandeiras} bandeiras)">
+              ${sede.num_sede}
+            </div>
+          `;
+
+          const pinIcon = L.divIcon({
+            html: pinHtml,
+            className: "custom-heat-pin-wrapper",
+            iconSize: [26, 26],
+            iconAnchor: [13, 13]
+          });
+
+          const m = L.marker([lat, lon], { icon: pinIcon });
+          m.bindPopup(`
+            <div style="font-size:12px; color:#1e293b; line-height:1.4;">
+              <strong style="color:var(--primary); font-size:13px;">Sede ${sede.num_sede} - ${sede.nome_sede}</strong><br>
+              <strong>Fazenda:</strong> ${sede.fa_completo}<br>
+              <strong>Proprietário:</strong> ${sede.proprietario || '-'}<br>
+              <hr style="margin:6px 0; border:none; border-top:1px solid #cbd5e1;">
+              <strong>Data da Visita:</strong> ${ultV.data_vistoria || ultV.data || '-'} ${ultV.hora_vistoria || ''}<br>
+              <strong>Pressão:</strong> <span style="font-weight:700; color:${classeP==='alta'?'#dc2626':classeP==='media'?'#ea580c':'#2563eb'}">${pressao}</span> | <strong>Bandeiras:</strong> ${bandeiras}<br>
+              <strong>Larva/Pupa:</strong> ${ultV.larva_pupa || '-'} | <strong>Inseticida:</strong> ${ultV.inseticida || '-'}<br>
+              <strong>Avaliador:</strong> ${ultV.matricula || '-'}
+            </div>
+          `);
+          m.addTo(markersLayerRef);
+        } else {
+          // Sede NÃO visitada nesta semana: renderizar como ghost discreto
+          const ghostHtml = `<div class="sede-heat-pin ghost" title="Sede ${sede.num_sede} (Não visitada nesta semana)">${sede.num_sede}</div>`;
+          const ghostIcon = L.divIcon({
+            html: ghostHtml,
+            className: "custom-ghost-pin-wrapper",
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
+          const gm = L.marker([lat, lon], { icon: ghostIcon });
+          gm.bindTooltip(`Sede ${sede.num_sede} (Sem vistoria nesta semana)`, { direction: "top", offset: [0, -8] });
+          gm.addTo(markersLayerRef);
+        }
+      });
+
+      if (statsElements && statsElements.alta) {
+        statsElements.alta.innerText = countAlta;
+      }
+
+      // 2. Criar a camada de Heatmap (Kernel Density)
+      let newHeatLayer = null;
+      if (heatPoints.length > 0 && typeof L.heatLayer !== "undefined") {
+        newHeatLayer = L.heatLayer(heatPoints, {
+          radius: 35,
+          blur: 25,
+          maxZoom: 16,
+          max: 1.0,
+          gradient: {
+            0.2: "blue",
+            0.4: "cyan",
+            0.6: "lime",
+            0.8: "yellow",
+            1.0: "red"
+          }
+        }).addTo(mapInstance);
+      }
+
+      return newHeatLayer;
+    }
+
+    function atualizarMapaEsquerdo() {
+      const sel = document.getElementById("select-semana-left");
+      semanaAtualId = sel.value;
+      const stats = {
+        vistorias: document.getElementById("stats-left-vistorias"),
+        sedes: document.getElementById("stats-left-sedes"),
+        alta: document.getElementById("stats-left-alta")
+      };
+      heatLayerLeft = renderizarSemanaNoMapa(mapLeft, semanaAtualId, heatLayerLeft, markersLayerLeft, stats);
+    }
+
+    function atualizarMapaDireito() {
+      if (!mapRight) return;
+      const sel = document.getElementById("select-semana-right");
+      semanaComparadaId = sel.value;
+      const stats = {
+        vistorias: document.getElementById("stats-right-vistorias"),
+        sedes: document.getElementById("stats-right-sedes"),
+        alta: document.getElementById("stats-right-alta")
+      };
+      heatLayerRight = renderizarSemanaNoMapa(mapRight, semanaComparadaId, heatLayerRight, markersLayerRight, stats);
+    }
+
+    // =========================================================================
+    // TABELA DE FREQUÊNCIA DE RETORNO (DRAWER)
+    // =========================================================================
+    function abrirDrawerTabela() {
+      document.getElementById("drawer-tabela").classList.add("open");
+    }
+
+    function fecharDrawerTabela() {
+      document.getElementById("drawer-tabela").classList.remove("open");
+    }
+
+    function renderizarTabelaDrawer(filtro = "") {
+      const tbody = document.getElementById("tbody-frequencia-sedes");
+      tbody.innerHTML = "";
+      const hoje = new Date();
+      filtro = filtro.toLowerCase().trim();
+
+      const sedesArray = Array.from(mapaSedes.values());
+
+      // Ordenar por sedes com maior atraso ou maior retorno
+      sedesArray.sort((a, b) => {
+        const da = a.vistorias.length > 0 ? parseData(a.vistorias[a.vistorias.length - 1].data_vistoria || a.vistorias[a.vistorias.length - 1].data) : new Date(0);
+        const db = b.vistorias.length > 0 ? parseData(b.vistorias[b.vistorias.length - 1].data_vistoria || b.vistorias[b.vistorias.length - 1].data) : new Date(0);
+        return da - db; // Mais antigas/atrasadas primeiro
+      });
+
+      sedesArray.forEach(s => {
+        const texto = `${s.num_sede} ${s.nome_sede} ${s.fa} ${s.fazenda} ${s.proprietario}`.toLowerCase();
+        if (filtro && !texto.includes(filtro)) return;
+
+        const vList = s.vistorias;
+        let badgeStatus = `<span class="kpi-badge vermelho">Nunca vistoriada</span>`;
+        let diasRetornoStr = "-";
+        let ultDataStr = "-";
+
+        if (vList.length > 0) {
+          const ultV = vList[vList.length - 1];
+          const dtUlt = parseData(ultV.data_vistoria || ultV.data);
+          const diffDias = Math.max(0, Math.floor((hoje - dtUlt) / (1000 * 60 * 60 * 24)));
+          ultDataStr = `${ultV.data_vistoria || ultV.data || '-'} (${ultV.pressao || '-'})`;
+          diasRetornoStr = `${diffDias} dias atrás`;
+
+          if (diffDias <= 7) {
+            badgeStatus = `<span class="kpi-badge verde">Em dia (${diffDias}d)</span>`;
+          } else if (diffDias <= 15) {
+            badgeStatus = `<span class="kpi-badge amarelo">Atenção (${diffDias}d)</span>`;
+          } else {
+            badgeStatus = `<span class="kpi-badge vermelho">Atrasada (${diffDias}d)</span>`;
+          }
+        }
+
+        const tr = document.createElement("tr");
+        tr.style.cursor = "pointer";
+        tr.onclick = () => {
+          mapLeft.setView(s.coords, 16);
+          if (mapRight) mapRight.setView(s.coords, 16);
+          fecharDrawerTabela();
+        };
+
+        tr.innerHTML = `
+          <td><strong>${s.num_sede}</strong> - ${s.nome_sede}</td>
+          <td>${s.fa_completo || s.fazenda || '-'}</td>
+          <td style="text-align:center;"><strong>${vList.length}</strong></td>
+          <td>${ultDataStr}</td>
+          <td>${badgeStatus}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filtrarTabelaDrawer() {
+      const q = document.getElementById("filtro-tabela-sedes").value;
+      renderizarTabelaDrawer(q);
+    }
+
+    // =========================================================================
+    // GRÁFICO CHART.JS DE EVOLUÇÃO SEMANAL
+    // =========================================================================
+    function renderizarGraficoSemanal() {
+      const ctx = document.getElementById("chart-semanal");
+      if (!ctx) return;
+
+      const labels = [];
+      const dataAlta = [];
+      const dataMedia = [];
+      const dataBaixa = [];
+
+      // Ordem cronológica para o gráfico (da mais antiga para mais recente)
+      const semanasCrescente = [...semanasDisponiveis].reverse();
+
+      semanasCrescente.forEach(s => {
+        labels.push(`Sem ${s.semana}`);
+        let a = 0, m = 0, b = 0;
+        s.vistorias.forEach(v => {
+          if (v.pressao === "Alta") a++;
+          else if (v.pressao === "Média") m++;
+          else b++;
+        });
+        dataAlta.push(a);
+        dataMedia.push(m);
+        dataBaixa.push(b);
+      });
+
+      if (chartSemanalInstance) {
+        chartSemanalInstance.destroy();
+      }
+
+      chartSemanalInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            { label: "Alta", data: dataAlta, backgroundColor: "#ef4444" },
+            { label: "Média", data: dataMedia, backgroundColor: "#f97316" },
+            { label: "Baixa", data: dataBaixa, backgroundColor: "#3b82f6" }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { stacked: true, grid: { color: "#334155" }, ticks: { color: "#94a3b8", font: { size: 10 } } },
+            y: { stacked: true, grid: { color: "#334155" }, ticks: { color: "#94a3b8", font: { size: 10 } } }
+          },
+          plugins: {
+            legend: { labels: { color: "#fff", font: { size: 10 }, boxWidth: 10 } }
+          }
+        }
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.querySelector("span").innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3000);
+    }
+  </script>
+</body>
+</html>

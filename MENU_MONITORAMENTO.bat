@@ -16,19 +16,29 @@ echo   [3] Atualizar Base do Mapa Web (Processar shapefiles Sede.shp e AREAS.shp
 echo   [4] Publicar Alteracoes no GitHub (Atualizar App do Celular)
 echo   [5] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
 echo   [6] Acessar Painel KoboToolbox na Nuvem (Ver Dados Online)
+echo   [7] Abrir Painel de Analise de Frequencia e Calor (analise_frequencia.html)
 echo   [0] Sair
 echo.
 echo ================================================================================
 echo.
-choice /C 1234560 /N /M "Pressione 1, 2, 3, 4, 5, 6 ou 0: "
+choice /C 12345670 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7 ou 0: "
 
-if errorlevel 7 goto OP_SAIR
+if errorlevel 8 goto OP_SAIR
+if errorlevel 7 goto OP_ANALISE
 if errorlevel 6 goto OP_KOBO
 if errorlevel 5 goto OP_QGIS
 if errorlevel 4 goto OP_GITHUB
 if errorlevel 3 goto OP_UPDATE
 if errorlevel 2 goto OP_EXCEL
 if errorlevel 1 goto OP_OPEN_WEB
+goto MENU
+
+:OP_ANALISE
+cls
+echo Abrindo Painel de Analise de Frequencia e Mapa de Calor...
+start "" "analise_frequencia.html"
+echo Pronto!
+timeout /t 2 > nul
 goto MENU
 
 :OP_OPEN_WEB
