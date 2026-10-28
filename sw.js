@@ -1,13 +1,14 @@
-const CACHE_NAME = 'clealco-sedes-v5';
+const CACHE_NAME = 'clealco-sedes-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './dados_mapa.js',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
-  './apple-touch-icon.png',
-  './logo clealco.png'
+  './logos/icon-192.png',
+  './logos/icon-512.png',
+  './logos/apple-touch-icon.png',
+  './logos/Logo_sede.jpg',
+  './logos/logo clealco.png'
 ];
 
 self.addEventListener('install', (event) => {
