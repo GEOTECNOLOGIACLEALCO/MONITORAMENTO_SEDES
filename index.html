@@ -1043,6 +1043,132 @@
       color: #94a3b8;
       font-size: 11px;
     }
+
+    /* GPS Status Bar */
+    #gps-bar {
+      background: #0f172a;
+      color: #94a3b8;
+      font-size: 11px;
+      padding: 6px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 998;
+      flex-shrink: 0;
+    }
+    .gps-active {
+      color: #4ade80 !important;
+      font-weight: 600;
+    }
+
+    /* Floating GPS Button */
+    .fab-gps {
+      position: absolute;
+      bottom: 84px;
+      right: 14px;
+      z-index: 1000;
+      background: #ffffff;
+      color: #1e293b;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .fab-gps:hover {
+      background: #f8fafc;
+      transform: scale(1.06);
+    }
+    .fab-gps:active {
+      transform: scale(0.95);
+    }
+
+    /* Marcador do Usuário no Mapa (Pulso Azul) */
+    .user-marker {
+      width: 16px;
+      height: 16px;
+      background: #2563eb;
+      border: 3px solid white;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.8);
+      position: relative;
+    }
+    .user-marker::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 36px;
+      height: 36px;
+      background: rgba(37, 99, 235, 0.35);
+      border-radius: 50%;
+      animation: userPulse 1.8s infinite;
+    }
+    @keyframes userPulse {
+      0% { transform: scale(0.6); opacity: 1; }
+      100% { transform: scale(1.6); opacity: 0; }
+    }
+
+    /* Box de Coordenadas GPS no Formulário */
+    .gps-box {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .gps-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #94a3b8;
+    }
+    .gps-box-coords {
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+    .btn-refresh-gps {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #e2e8f0;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background 0.2s;
+    }
+    .btn-refresh-gps:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    @media (max-width: 680px) {
+      .fab-gps {
+        bottom: 78px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1079,11 +1205,22 @@
       </div>
     </div>
 
+    <!-- Barra de Status do GPS em Tempo Real -->
+    <div id="gps-bar">
+      <span id="gps-text"><i class="fa-solid fa-location-crosshairs"></i> Aguardando sinal de GPS...</span>
+      <span id="nearest-point"></span>
+    </div>
+
     <!-- Lista Flutuante de Busca -->
     <div id="search-results-modal"></div>
 
     <!-- Mapa Leaflet -->
     <div id="map"></div>
+
+    <!-- Botão Flutuante: Centralizar no GPS -->
+    <button class="fab-gps" title="Centralizar na Minha Posição" onclick="centralizarGPS()">
+      <i class="fa-solid fa-crosshairs"></i>
+    </button>
 
     <!-- Legenda Temática das Vistorias -->
     <div class="map-legend" id="map-legend">
@@ -1168,6 +1305,19 @@
             <div class="sede-sub" id="form-resumo-fazenda">FA 000000 - Fazenda</div>
           </div>
           <div class="sede-badge" id="form-resumo-prop">Proprietário</div>
+        </div>
+
+        <!-- Box de Coordenadas de Onde o Ponto foi Lançado (GPS) -->
+        <div class="gps-box">
+          <div class="gps-box-header">
+            <span><i class="fa-solid fa-location-crosshairs"></i> Coordenadas do Lançamento (GPS)</span>
+            <button type="button" class="btn-refresh-gps" onclick="capturarGpsAoVivo(true)">
+              <i class="fa-solid fa-arrows-rotate"></i> Atualizar GPS
+            </button>
+          </div>
+          <div class="gps-box-coords" id="gps-box-texto">
+            <i class="fa-solid fa-spinner fa-spin"></i> Obtendo coordenadas GPS...
+          </div>
         </div>
 
         <div class="form-section-title">Dados da Avaliação</div>
@@ -1295,6 +1445,9 @@
         const ASSET_UID = "a6xVWc5GTZEWFzSceegC4G";
     const KOBO_SUBMISSION_URL = "https://kc.kobotoolbox.org/monitoramento_clealco/submission";
 
+    let userLat = null, userLon = null, userAcc = null;
+    let userMarker = null, userAccCircle = null;
+
     function escapeXml(str) {
       if (!str) return "";
       return String(str)
@@ -1331,6 +1484,7 @@
       initMap();
       carregarCamadas();
       atualizarContadores();
+      iniciarGpsTempoReal();
 
       // Preencher Data da Vistoria automática (ex: 27/10/2026)
       atualizarCamposAutomaticos();
@@ -1357,6 +1511,148 @@
       const agora = new Date();
       document.getElementById("form-data-vistoria").value = getDataFormatadaBR(agora);
       document.getElementById("form-hora-vistoria").value = getHoraFormatadaBR(agora);
+    }
+
+
+    // =========================================================================
+    // RASTREAMENTO E CAPTURA DE GPS EM TEMPO REAL (COORDENADAS DO LANÇAMENTO)
+    // =========================================================================
+    function iniciarGpsTempoReal() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.watchPosition(
+          (pos) => {
+            userLat = pos.coords.latitude;
+            userLon = pos.coords.longitude;
+            userAcc = Math.round(pos.coords.accuracy);
+
+            const gpsEl = document.getElementById("gps-text");
+            if (gpsEl) {
+              gpsEl.innerHTML = `<i class="fa-solid fa-circle-check gps-active"></i> GPS Ativo (Precisão: ${userAcc}m)`;
+              gpsEl.className = "gps-active";
+            }
+
+            const latlng = [userLat, userLon];
+            if (!userMarker && map) {
+              const icon = L.divIcon({
+                className: 'user-marker',
+                iconSize: [16, 16],
+                iconAnchor: [8, 8]
+              });
+              userMarker = L.marker(latlng, { icon: icon, zIndexOffset: 1000 }).addTo(map);
+              userAccCircle = L.circle(latlng, {
+                radius: userAcc,
+                color: '#3b82f6',
+                weight: 1,
+                fillColor: '#60a5fa',
+                fillOpacity: 0.15
+              }).addTo(map);
+            } else if (userMarker) {
+              userMarker.setLatLng(latlng);
+              userAccCircle.setLatLng(latlng);
+              userAccCircle.setRadius(userAcc);
+            }
+
+            calcularSedeMaisProxima(userLat, userLon);
+          },
+          (err) => {
+            const gpsEl = document.getElementById("gps-text");
+            if (gpsEl) {
+              gpsEl.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> GPS desligado ou sem permissão`;
+              gpsEl.className = "";
+            }
+          },
+          { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
+        );
+      }
+    }
+
+    function centralizarGPS() {
+      if (userLat && userLon && map) {
+        map.setView([userLat, userLon], 16);
+      } else {
+        showToast("Aguardando sinal de GPS...", "info");
+        capturarGpsAoVivo(true);
+      }
+    }
+
+    function atualizarCoordenadasGpsForm(lat, lon, acc, rotuloExtra) {
+      const elLat = document.getElementById("form-lat");
+      const elLon = document.getElementById("form-lon");
+      const elTexto = document.getElementById("gps-box-texto");
+
+      if (lat && lon) {
+        elLat.value = lat;
+        elLon.value = lon;
+        const accText = acc ? ` (±${acc}m)` : '';
+        const extra = rotuloExtra ? ` [${rotuloExtra}]` : '';
+        if (elTexto) {
+          elTexto.innerHTML = `<span style="color:#22c55e;"><i class="fa-solid fa-circle-check"></i> Lat: ${parseFloat(lat).toFixed(6)}, Lon: ${parseFloat(lon).toFixed(6)}${accText}${extra}</span>`;
+        }
+      } else {
+        elLat.value = "";
+        elLon.value = "";
+        if (elTexto) {
+          elTexto.innerHTML = `<span style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> Aguardando sinal de GPS...</span>`;
+        }
+      }
+    }
+
+    function capturarGpsAoVivo(mostrarAviso = false) {
+      const elTexto = document.getElementById("gps-box-texto");
+      if (elTexto) {
+        elTexto.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Obtendo coordenadas GPS de alta precisão...`;
+      }
+
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            userLat = pos.coords.latitude;
+            userLon = pos.coords.longitude;
+            userAcc = Math.round(pos.coords.accuracy);
+            atualizarCoordenadasGpsForm(userLat, userLon, userAcc, "GPS do Lançamento");
+            if (mostrarAviso) {
+              showToast(`🎯 GPS atualizado! Precisão: ${userAcc}m`, "success");
+            }
+          },
+          (err) => {
+            if (userLat && userLon) {
+              atualizarCoordenadasGpsForm(userLat, userLon, userAcc, "Último GPS Conhecido");
+            } else if (sedeSelecionada && sedeSelecionada.coords) {
+              atualizarCoordenadasGpsForm(sedeSelecionada.coords[0], sedeSelecionada.coords[1], null, "Coordenada da Sede");
+            } else if (elTexto) {
+              elTexto.innerHTML = `<span style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> GPS indisponível ou sem permissão</span>`;
+            }
+            if (mostrarAviso) {
+              showToast("⚠️ Verifique se o GPS e a localização estão ativados.", "error");
+            }
+          },
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+      } else {
+        if (elTexto) {
+          elTexto.innerHTML = `<span style="color:#ef4444;">Dispositivo sem suporte a GPS</span>`;
+        }
+      }
+    }
+
+    function calcularSedeMaisProxima(lat, lon) {
+      if (!geojsonSedes || !map) return;
+      let minDesc = Infinity;
+      let closest = null;
+      geojsonSedes.eachLayer(layer => {
+        if (layer.feature && layer.feature.geometry) {
+          const coords = layer.feature.geometry.coordinates;
+          const d = map.distance([lat, lon], [coords[1], coords[0]]);
+          if (d < minDesc) {
+            minDesc = d;
+            closest = layer.feature.properties;
+          }
+        }
+      });
+      const elNearest = document.getElementById("nearest-point");
+      if (elNearest && closest && minDesc < 10000) {
+        elNearest.innerText = `Próxima: Sede ${closest.num_sede || ''} (${Math.round(minDesc)}m)`;
+      }
     }
 
     function carregarHistorico() {
@@ -1696,8 +1992,15 @@
       fecharCardDetalhes();
 
       document.getElementById("form-num-sede").value = p.num_sede;
-      document.getElementById("form-lat").value = sedeSelecionada.coords[0];
-      document.getElementById("form-lon").value = sedeSelecionada.coords[1];
+      // Captura a coordenada REAL de onde o ponto está sendo lançado
+      if (userLat && userLon) {
+        atualizarCoordenadasGpsForm(userLat, userLon, userAcc, "GPS do Lançamento");
+      } else {
+        capturarGpsAoVivo(false);
+        if (sedeSelecionada && sedeSelecionada.coords) {
+          atualizarCoordenadasGpsForm(sedeSelecionada.coords[0], sedeSelecionada.coords[1], null, "Coordenada da Sede (Aguardando GPS)");
+        }
+      }
 
       document.getElementById("form-resumo-sede").innerText = `Sede ${p.num_sede} - ${p.nome_sede || ''}`;
       document.getElementById("form-resumo-fazenda").innerText = `${p.fa_completo || p.fazenda || 'Sem Fazenda'}`;
@@ -1814,8 +2117,18 @@
       const inseticida = inseticidaRadio ? inseticidaRadio.value : "";
 
       const obs = document.getElementById("form-obs").value.trim();
-      const lat = document.getElementById("form-lat").value;
-      const lon = document.getElementById("form-lon").value;
+
+      // Coordenadas de onde foi lançado o ponto: Prioridade máxima para o GPS ao vivo do aparelho
+      let lat = (userLat !== null && userLat !== undefined) ? userLat : document.getElementById("form-lat").value;
+      let lon = (userLon !== null && userLon !== undefined) ? userLon : document.getElementById("form-lon").value;
+
+      // Fallback de segurança se o GPS estiver desligado ou for desktop
+      if (!lat || !lon) {
+        if (sedeSelecionada && sedeSelecionada.coords) {
+          lat = sedeSelecionada.coords[0];
+          lon = sedeSelecionada.coords[1];
+        }
+      }
 
       // Validação da matrícula: aceita até 6 dígitos numéricos
       if (!matricula || isNaN(matricula) || matricula.length < 1 || matricula.length > 6) {
@@ -1879,6 +2192,8 @@
         observacoes: obs,
         lat: lat,
         lon: lon,
+        gps_precisao: userAcc || null,
+        origem_coordenada: (userLat !== null && userLat !== undefined) ? "gps_lancamento" : "sede_referencia",
         salvoEm: new Date().toISOString()
       };
 
@@ -1905,7 +2220,7 @@
   <inseticida>${inseticida}</inseticida>
   <possiveis_causadores>${escapeXml(causador)}</possiveis_causadores>
   <observacoes>${escapeXml(obs)}</observacoes>
-  <localizacao_gps>${lat} ${lon} 0 5</localizacao_gps>
+  <localizacao_gps>${lat} ${lon} 0 ${userAcc || 5}</localizacao_gps>
   <latitude>${lat}</latitude>
   <longitude>${lon}</longitude>
   <meta>
