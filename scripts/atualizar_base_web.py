@@ -90,6 +90,30 @@ print(f"-> {len(sedes_ref_map)} sedes de referência carregadas com localizaçã
 url_kobo = f"https://{KOBO_SERVER}/api/v2/assets/{ASSET_UID}/data.json"
 headers_kobo = {"Authorization": f"Token {KOBO_TOKEN}"}
 
+excel_datas_manuais = {}
+if os.path.exists(out_xlsx):
+    try:
+        df_ex = pd.read_excel(out_xlsx, sheet_name="Vistorias_Kobo")
+        for _, rx in df_ex.iterrows():
+            ns = str(rx.get("NUM_SEDE", "")).strip()
+            dv = rx.get("DATA_VISTORIA")
+            if pd.notna(dv):
+                if hasattr(dv, "strftime"):
+                    excel_datas_manuais[ns] = dv.strftime("%d/%m/%Y")
+                else:
+                    d_s = str(dv).split()[0]
+                    if "-" in d_s:
+                        p = d_s.split("-")
+                        if len(p) == 3 and len(p[0]) == 4:
+                            excel_datas_manuais[ns] = f"{p[2]}/{p[1]}/{p[0]}"
+                        else:
+                            excel_datas_manuais[ns] = d_s
+                    else:
+                        excel_datas_manuais[ns] = d_s
+        print(f"-> [EXCEL] {len(excel_datas_manuais)} datas preservadas do Excel local.")
+    except Exception as e:
+        pass
+
 todas_vistorias = []
 visitas_registradas = {} # num_sede -> ultima_vistoria
 
@@ -155,6 +179,10 @@ try:
             dist_m = ""
             if lat_gps is not None and lon_gps is not None and lat_s and lon_s:
                 dist_m = calcular_distancia_metros(lat_gps, lon_gps, lat_s, lon_s)
+
+            # Verificar se o usuário editou a data manualmente no Excel
+            if num_s in excel_datas_manuais:
+                data_v = excel_datas_manuais[num_s]
 
             v_item = {
                 "num_sede": num_s,
