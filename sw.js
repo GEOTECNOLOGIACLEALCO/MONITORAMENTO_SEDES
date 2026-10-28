@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clealco-sedes-v7';
+const CACHE_NAME = 'clealco-sedes-v8';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

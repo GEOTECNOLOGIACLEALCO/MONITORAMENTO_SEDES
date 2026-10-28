@@ -2299,12 +2299,14 @@
 
       const v = vistoria || getStatusSede(p.num_sede);
       const st = calcularStatusTematico(v);
+      const totalVisitasSede = historicoVisitas.filter(x => String(x.num_sede) === String(p.num_sede)).length;
 
       if (v) {
         statusBox.className = `detail-status-box ${st.classe}`;
         statusTexto.innerHTML = `
-          <div style="display:flex; align-items:center; gap:6px; margin-bottom:5px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:5px;">
             <span class="status-indicator-badge ${st.classe}"><i class="fa-solid ${st.icone}"></i> ${st.label} (${st.sublabel})</span>
+            <span style="font-size:11px; opacity:0.85; font-weight:600;"><i class="fa-solid fa-clock-rotate-left"></i> ${totalVisitasSede} no histórico</span>
           </div>
           <div>Última Vistoria em <strong>${v.data_vistoria || v.data || ''}</strong> ${v.hora_vistoria ? 'às ' + v.hora_vistoria : ''} (Avaliador: <strong>${v.matricula || '-'}</strong>)</div>
           <div style="margin-top:3px; font-size:11px; opacity:0.9;">
@@ -2312,7 +2314,7 @@
             ${v.possiveis_causadores ? ` | Causadores: <strong>${v.possiveis_causadores}</strong>` : ''}
           </div>
         `;
-        btnTexto.innerText = "Atualizar / Nova Vistoria";
+        btnTexto.innerText = "Lançar Nova Vistoria";
       } else {
         statusBox.className = "detail-status-box status-vermelho";
         statusTexto.innerHTML = `
@@ -2356,55 +2358,21 @@
       document.getElementById("form-resumo-fazenda").innerText = `${p.fa_completo || p.fazenda || 'Sem Fazenda'}`;
       document.getElementById("form-resumo-prop").innerText = p.proprietario || "Proprietário";
 
-      // Se já houver vistoria, pré-seleciona os valores
-      const v = getStatusSede(p.num_sede);
-      if (v) {
-        if (v.pressao) {
-          const radioPressao = document.querySelector(`input[name="campo-pressao"][value="${v.pressao}"]`);
-          if (radioPressao) radioPressao.checked = true;
-        }
-        if (v.bandeiras !== undefined) {
-          document.getElementById("form-bandeiras").value = v.bandeiras;
-        }
-        if (v.larva_pupa) {
-          const radioLarva = document.querySelector(`input[name="campo-larva-pupa"][value="${v.larva_pupa}"]`);
-          if (radioLarva) radioLarva.checked = true;
-        }
-        if (v.inseticida) {
-          const radioInset = document.querySelector(`input[name="campo-inseticida"][value="${v.inseticida}"]`);
-          if (radioInset) radioInset.checked = true;
-        }
-        if (v.possiveis_causadores) {
-          if (v.possiveis_causadores.startsWith("Outro")) {
-            const rOutro = document.querySelector('input[name="campo-causador"][value="Outro"]');
-            if (rOutro) rOutro.checked = true;
-            document.getElementById("box-causador-outro").style.display = "block";
-            document.getElementById("form-causador-outro").value = v.possiveis_causadores.replace(/^Outro:\s*/, "");
-          } else {
-            const rCausador = document.querySelector(`input[name="campo-causador"][value="${v.possiveis_causadores}"]`);
-            if (rCausador) rCausador.checked = true;
-            document.getElementById("box-causador-outro").style.display = "none";
-            document.getElementById("form-causador-outro").value = "";
-          }
-        } else {
-          document.querySelectorAll('input[name="campo-causador"]').forEach(r => r.checked = false);
-          document.getElementById("box-causador-outro").style.display = "none";
-          document.getElementById("form-causador-outro").value = "";
-        }
-        if (v.observacoes) {
-          document.getElementById("form-obs").value = v.observacoes;
-        }
-      } else {
-        // Limpar seleções para nova vistoria
-        document.querySelectorAll('input[name="campo-pressao"]').forEach(r => r.checked = false);
-        document.querySelectorAll('input[name="campo-larva-pupa"]').forEach(r => r.checked = false);
-        document.querySelectorAll('input[name="campo-inseticida"]').forEach(r => r.checked = false);
-        document.querySelectorAll('input[name="campo-causador"]').forEach(r => r.checked = false);
-        document.getElementById("box-causador-outro").style.display = "none";
-        document.getElementById("form-causador-outro").value = "";
-        document.getElementById("form-bandeiras").value = "";
-        document.getElementById("form-obs").value = "";
+      // Titulo do modal indicando nova vistoria
+      const modalTitulo = document.querySelector("#form-modal .modal-header h3");
+      if (modalTitulo) {
+        modalTitulo.innerHTML = `<i class="fa-solid fa-clipboard-check"></i> Nova Vistoria - Sede ${p.num_sede}`;
       }
+
+      // SEMPRE abrir o formulário em branco para cadastrar uma NOVA vistoria (mantendo histórico intacto)
+      document.querySelectorAll('input[name="campo-pressao"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[name="campo-larva-pupa"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[name="campo-inseticida"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[name="campo-causador"]').forEach(r => r.checked = false);
+      document.getElementById("box-causador-outro").style.display = "none";
+      document.getElementById("form-causador-outro").value = "";
+      document.getElementById("form-bandeiras").value = "";
+      document.getElementById("form-obs").value = "";
 
       // Abrir Modal Centralizado com Fundo Escurecido
       document.getElementById("modal-backdrop").classList.add("open");
