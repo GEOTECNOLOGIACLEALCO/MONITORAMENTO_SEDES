@@ -1383,6 +1383,33 @@
       }
     }
 
+
+    /* Botão Baixar / Instalar App */
+    .btn-install-app {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #ffffff;
+      border: 1.5px solid #fbbf24;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.45);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-install-app:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.6);
+    }
+    .btn-install-app:active {
+      transform: scale(0.95);
+    }
+
   </style>
 </head>
 <body>
@@ -1405,8 +1432,8 @@
           <div class="stat-item" title="A partir de 16 dias / Sem visita"><span class="dot-red"></span> <span id="count-vermelho">0</span></div>
         </div>
 
-                <button class="btn-top btn-filtro-header" onclick="abrirFiltroSedes()" title="Localizar e Filtrar Sede">
-          <i class="fa-solid fa-magnifying-glass"></i> <span class="btn-text-full">Filtrar Sede</span><span class="btn-text-short">Filtrar</span>
+                <button id="btn-install-app" class="btn-install-app" onclick="acionarInstalacaoApp()" title="Instalar e baixar aplicativo no celular ou computador">
+          <i class="fa-solid fa-download"></i> <span class="btn-text-full">Baixar App</span><span class="btn-text-short">Baixar</span>
         </button>
 
         <button class="btn-top btn-refresh-app" id="btn-refresh-app" onclick="forcarAtualizacaoApp()" title="Atualizar aplicativo e limpar todo o cache">
@@ -1744,6 +1771,13 @@
       if (mat) document.getElementById("form-matricula").value = mat;
 
       // Registrar Service Worker
+      // Exibir o botão se não estiver rodando no modo standalone (aplicativo já instalado)
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      const btnInstall = document.getElementById("btn-install-app");
+      if (btnInstall && !isStandalone) {
+        btnInstall.style.display = "inline-flex";
+      }
+
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
@@ -2599,6 +2633,49 @@
         const [lon, lat] = feat.geometry.coordinates;
         map.setView([lat, lon], 16);
         mostrarDetalhesSede(feat.properties, [lat, lon]);
+      }
+    }
+
+
+    // =========================================================================
+    // INSTALAÇÃO DO APLICATIVO COMO APP NATIVO (PWA)
+    // =========================================================================
+    let deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById("btn-install-app");
+      if (btn) btn.style.display = "inline-flex";
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      const btn = document.getElementById("btn-install-app");
+      if (btn) btn.style.display = "none";
+      showToast("Aplicativo Clealco Sedes instalado com sucesso!", "success");
+    });
+
+    async function acionarInstalacaoApp() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          const btn = document.getElementById("btn-install-app");
+          if (btn) btn.style.display = "none";
+        }
+        deferredPrompt = null;
+      } else {
+        mostrarDicaInstalacaoManual();
+      }
+    }
+
+    function mostrarDicaInstalacaoManual() {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      if (isIOS) {
+        alert("📲 Como baixar/instalar no iPhone (Safari):\n\n1. Toque no botão de Compartilhar (quadrado com seta para cima no rodapé do Safari)\n2. Role para baixo e selecione 'Adicionar à Tela de Início'\n3. Toque em 'Adicionar' no topo direito.");
+      } else {
+        alert("📲 Como baixar/instalar o Aplicativo:\n\n• No Celular (Android/Chrome):\nToque no menu de 3 pontinhos (⋮) no canto superior direito do navegador e selecione 'Instalar aplicativo' ou 'Adicionar à tela inicial'.\n\n• No Computador (Chrome/Edge):\nClique no ícone de instalar [💻+] na barra de endereços.");
       }
     }
 
