@@ -2492,6 +2492,12 @@
       // Lembrar matrícula do avaliador
       localStorage.setItem("clealco_matricula", matricula);
 
+      // Localização oficial da Sede
+      const sedeLat = (sedeSelecionada && sedeSelecionada.coords) ? sedeSelecionada.coords[0] : (sedeSelecionada && sedeSelecionada.properties ? sedeSelecionada.properties.lat : "");
+      const sedeLon = (sedeSelecionada && sedeSelecionada.coords) ? sedeSelecionada.coords[1] : (sedeSelecionada && sedeSelecionada.properties ? sedeSelecionada.properties.lon : "");
+      const locSede = (sedeLat && sedeLon) ? `${sedeLat}, ${sedeLon}` : "";
+      const linkMapsSede = (sedeLat && sedeLon) ? `https://www.google.com/maps?q=${sedeLat},${sedeLon}` : "";
+
       const novaVistoria = {
         num_sede: numSede,
         nome_sede: nomeSede,
@@ -2499,6 +2505,10 @@
         fazenda: fazenda,
         proprietario: proprietario,
         regiao: sedeSelecionada ? (sedeSelecionada.properties.regiao || "") : "",
+        lat_sede: sedeLat,
+        lon_sede: sedeLon,
+        localizacao_sede: locSede,
+        link_google_maps_sede: linkMapsSede,
         data_vistoria: dataV,
         hora_vistoria: horaV,
         matricula: matricula,
@@ -2510,6 +2520,8 @@
         observacoes: obs,
         lat: lat,
         lon: lon,
+        latitude_gps_lancamento: lat,
+        longitude_gps_lancamento: lon,
         gps_precisao: userAcc || null,
         origem_coordenada: (userLat !== null && userLat !== undefined) ? "gps_lancamento" : "sede_referencia",
         salvoEm: new Date().toISOString()
@@ -2541,6 +2553,10 @@
   <localizacao_gps>${lat} ${lon} 0 ${userAcc || 5}</localizacao_gps>
   <latitude>${lat}</latitude>
   <longitude>${lon}</longitude>
+  <lat_sede>${sedeLat}</lat_sede>
+  <lon_sede>${sedeLon}</lon_sede>
+  <localizacao_sede>${locSede}</localizacao_sede>
+  <link_google_maps_sede>${linkMapsSede}</link_google_maps_sede>
   <meta>
     <instanceID>${uuid}</instanceID>
   </meta>
@@ -2751,11 +2767,23 @@
         return;
       }
 
-      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;POSSIVEIS_CAUSADORES;STATUS_TEMATICO;DIAS_DESDE_VISITA;OBSERVACOES;LATITUDE;LONGITUDE\n";
+      let csv = "DATA_VISTORIA;HORA;NUM_SEDE;NOME_SEDE;FA;FAZENDA;PROPRIETARIO;REGIAO;LATITUDE_SEDE;LONGITUDE_SEDE;LOCALIZACAO_SEDE;LINK_GOOGLE_MAPS_SEDE;MATRICULA_AVALIADOR;PRESSAO;NUM_BANDEIRAS;LARVA_PUPA;INSETICIDA;POSSIVEIS_CAUSADORES;STATUS_TEMATICO;DIAS_DESDE_VISITA;OBSERVACOES;LATITUDE_GPS_LANCAMENTO;LONGITUDE_GPS_LANCAMENTO\n";
       historicoVisitas.forEach(v => {
         const st = calcularStatusTematico(v);
         const diasStr = st.dias !== null ? st.dias : "";
-        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${v.possiveis_causadores || ''}";"${st.label} (${st.sublabel})";"${diasStr}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || ''}";"${v.lon || ''}"\n`;
+        let latSede = v.lat_sede || "";
+        let lonSede = v.lon_sede || "";
+        if (!latSede && typeof sedesData !== "undefined" && Array.isArray(sedesData)) {
+          const f = sedesData.find(x => String(x.properties.num_sede) === String(v.num_sede));
+          if (f && f.geometry && f.geometry.coordinates) {
+            lonSede = f.geometry.coordinates[0];
+            latSede = f.geometry.coordinates[1];
+          }
+        }
+        const locSede = (latSede && lonSede) ? `${latSede}, ${lonSede}` : "";
+        const linkMaps = (latSede && lonSede) ? `https://www.google.com/maps?q=${latSede},${lonSede}` : "";
+
+        csv += `"${v.data_vistoria || v.data || ''}";"${v.hora_vistoria || v.hora || ''}";"${v.num_sede || ''}";"${v.nome_sede || ''}";"${v.fa || ''}";"${v.fazenda || ''}";"${v.proprietario || ''}";"${v.regiao || ''}";"${latSede}";"${lonSede}";"${locSede}";"${linkMaps}";"${v.matricula || ''}";"${v.pressao || ''}";"${v.bandeiras !== undefined ? v.bandeiras : ''}";"${v.larva_pupa || ''}";"${v.inseticida || ''}";"${v.possiveis_causadores || ''}";"${st.label} (${st.sublabel})";"${diasStr}";"${(v.observacoes || '').replace(/"/g, '""')}";"${v.lat || v.latitude_gps_lancamento || ''}";"${v.lon || v.longitude_gps_lancamento || ''}"\n`;
       });
 
       const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
