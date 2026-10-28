@@ -1753,6 +1753,7 @@
       initMap();
       carregarCamadas();
       atualizarContadores();
+      sincronizarVistoriasRemotas();
       iniciarGpsTempoReal();
 
       // Preencher Data da Vistoria automática (ex: 27/10/2026)
@@ -1932,11 +1933,77 @@
     }
 
     function carregarHistorico() {
-      try {
-        historicoVisitas = JSON.parse(localStorage.getItem("visitas_historico") || "[]");
-      } catch (e) {
-        historicoVisitas = [];
+      let koboList = [];
+      if (typeof DADOS_VISTORIAS_KOBO !== "undefined" && Array.isArray(DADOS_VISTORIAS_KOBO)) {
+        koboList = DADOS_VISTORIAS_KOBO;
       }
+
+      let localVisitas = [];
+      try {
+        localVisitas = JSON.parse(localStorage.getItem("visitas_historico") || "[]");
+      } catch (e) {
+        localVisitas = [];
+      }
+
+      const mapV = new Map();
+      koboList.forEach(v => {
+        const k = String(v.num_sede || v.pontoId || "");
+        if (k) {
+          if (!mapV.has(k)) mapV.set(k, []);
+          mapV.get(k).push(v);
+        }
+      });
+
+      localVisitas.forEach(v => {
+        const k = String(v.num_sede || v.pontoId || "");
+        if (k) {
+          if (!mapV.has(k)) mapV.set(k, []);
+          const exists = mapV.get(k).some(ex =>
+            (ex.data_vistoria === v.data_vistoria && ex.hora_vistoria === v.hora_vistoria) ||
+            (ex.kobo_id && v.kobo_id && ex.kobo_id === v.kobo_id)
+          );
+          if (!exists) {
+            mapV.get(k).push(v);
+          }
+        }
+      });
+
+      historicoVisitas = [];
+      mapV.forEach(arr => {
+        historicoVisitas.push(...arr);
+      });
+    }
+
+    function sincronizarVistoriasRemotas() {
+      fetch("./vistorias_kobo.json?_t=" + Date.now())
+        .then(res => {
+          if (res.ok) return res.json();
+          throw new Error("vistorias_kobo.json indisponivel");
+        })
+        .then(remotas => {
+          if (Array.isArray(remotas) && remotas.length > 0) {
+            let adicionados = 0;
+            remotas.forEach(rv => {
+              const jaExiste = historicoVisitas.some(hv =>
+                String(hv.num_sede) === String(rv.num_sede) &&
+                (hv.data_vistoria || hv.data) === (rv.data_vistoria || rv.data) &&
+                (hv.hora_vistoria || hv.hora) === (rv.hora_vistoria || rv.hora)
+              );
+              if (!jaExiste) {
+                historicoVisitas.push(rv);
+                adicionados++;
+              }
+            });
+            if (adicionados > 0) {
+              console.log(`[KOBO SYNC] ${adicionados} novas vistorias sincronizadas.`);
+              renderizarSedes();
+              atualizarContadores();
+            }
+          }
+        })
+        .catch(err => {
+          console.log("[KOBO SYNC] Operando com base embutida local:", err.message);
+        });
     }
 
     function initMap() {
@@ -2151,15 +2218,23 @@
 
     function getStatusSede(numSede) {
       const visitas = historicoVisitas.filter(x => String(x.num_sede) === String(numSede));
-      if (!visitas.length) return null;
-      if (visitas.length === 1) return visitas[0];
-      // Ordenar por data decrescente
-      visitas.sort((a, b) => {
-        const da = parseDataBR(a.data_vistoria || a.data) || (a.salvoEm ? new Date(a.salvoEm) : new Date(0));
-        const db = parseDataBR(b.data_vistoria || b.data) || (b.salvoEm ? new Date(b.salvoEm) : new Date(0));
-        return db.getTime() - da.getTime();
-      });
-      return visitas[0];
+      if (visitas.length > 0) {
+        if (visitas.length === 1) return visitas[0];
+        // Ordenar por data decrescente
+        visitas.sort((a, b) => {
+          const da = parseDataBR(a.data_vistoria || a.data) || (a.salvoEm ? new Date(a.salvoEm) : new Date(0));
+          const db = parseDataBR(b.data_vistoria || b.data) || (b.salvoEm ? new Date(b.salvoEm) : new Date(0));
+          return db.getTime() - da.getTime();
+        });
+        return visitas[0];
+      }
+
+      // Fallback para atributos embutidos no Shapefile (DADOS_SEDES)
+      const feat = sedesData.find(f => String(f.properties && f.properties.num_sede) === String(numSede));
+      if (feat && feat.properties && feat.properties.visitado && (feat.properties.data_vistoria || feat.properties.data)) {
+        return feat.properties;
+      }
+      return null;
     }
 
     function renderizarSedes(filtro = "") {

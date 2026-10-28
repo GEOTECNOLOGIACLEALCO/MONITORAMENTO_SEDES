@@ -1,8 +1,9 @@
-const CACHE_NAME = 'clealco-sedes-v6';
+const CACHE_NAME = 'clealco-sedes-v7';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './dados_mapa.js',
+  './vistorias_kobo.json',
   './manifest.json',
   './logos/icon-192.png',
   './logos/icon-512.png',

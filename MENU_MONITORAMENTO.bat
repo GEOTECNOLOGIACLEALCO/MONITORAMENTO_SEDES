@@ -72,6 +72,9 @@ echo ===========================================================================
 echo   [4] PUBLICANDO ATUALIZACOES NO GITHUB (APP DO CELULAR)...
 echo ================================================================================
 echo.
+echo [*] Sincronizando vistorias do KoboToolbox e atualizando base web...
+python "scripts\atualizar_base_web.py"
+echo.
 echo [*] Verificando arquivos alterados...
 git add -A
 git status -s
