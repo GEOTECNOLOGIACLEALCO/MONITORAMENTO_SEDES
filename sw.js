@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clealco-sedes-v12';
+const CACHE_NAME = 'clealco-sedes-v15';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -6,6 +6,11 @@ const ASSETS_TO_CACHE = [
   './dados_mapa.js',
   './vistorias_kobo.json',
   './manifest.json',
+  './favicon.ico',
+  './apple-touch-icon.png',
+  './icon-192.png',
+  './icon-512.png',
+  './logos/favicon.ico',
   './logos/icon-192.png',
   './logos/icon-512.png',
   './logos/apple-touch-icon.png',
