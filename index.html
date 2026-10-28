@@ -362,45 +362,7 @@
       border-top-color: rgba(15, 23, 42, 0.95) !important;
     }
 
-    /* Subbar de Busca */
-    .search-bar-container {
-      background: #1e293b;
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      z-index: 999;
-    }
-
-    .search-input-wrapper {
-      position: relative;
-      flex: 1;
-    }
-
-    .search-input-wrapper i {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #94a3b8;
-      font-size: 14px;
-    }
-
-    .search-input {
-      width: 100%;
-      background: #0f172a;
-      border: 1px solid #334155;
-      color: #f8fafc;
-      padding: 9px 12px 9px 36px;
-      border-radius: 8px;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .search-input:focus {
-      border-color: #52b788;
-    }
+    
 
     /* Mapa */
     #map {
@@ -1005,44 +967,7 @@
       border-left-color: #ef4444;
     }
 
-    /* Modal Lista de Busca */
-    #search-results-modal {
-      position: absolute;
-      top: 92px;
-      left: 16px;
-      right: 16px;
-      max-height: 320px;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 12px;
-      overflow-y: auto;
-      z-index: 1002;
-      display: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
-
-    .search-result-item {
-      padding: 10px 14px;
-      border-bottom: 1px solid #334155;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .search-result-item:hover, .search-result-item:active {
-      background: #334155;
-    }
-
-    .search-result-item strong {
-      color: #f1f5f9;
-      font-size: 13px;
-    }
-
-    .search-result-item p {
-      color: #94a3b8;
-      font-size: 11px;
-    }
+    
 
     /* GPS Status Bar */
     #gps-bar {
@@ -1169,6 +1094,295 @@
       }
     }
 
+
+    /* Backdrop do Filtro */
+    #filter-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(2px);
+      z-index: 1999;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    #filter-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Filter Drawer (Painel Deslizante Lateral) */
+    #filter-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      max-width: 460px;
+      height: 100%;
+      background: #ffffff;
+      z-index: 2000;
+      box-shadow: -6px 0 24px rgba(0, 0, 0, 0.35);
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+    #filter-drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      background: linear-gradient(135deg, #1b4332, #2d6a4f);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .drawer-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+    }
+    .drawer-close {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      line-height: 1;
+      transition: background 0.2s;
+    }
+    .drawer-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .filter-search-container {
+      padding: 14px 18px 10px;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-box i.search-icon {
+      position: absolute;
+      left: 14px;
+      color: #64748b;
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 11px 36px 11px 38px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 13.5px;
+      color: #0f172a;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-box input:focus {
+      border-color: #2d6a4f;
+      box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+    }
+    .btn-clear-search {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px;
+      line-height: 1;
+    }
+    .btn-clear-search:hover {
+      color: #334155;
+    }
+
+    .filter-count-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #64748b;
+    }
+
+    .filter-results-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #f1f5f9;
+    }
+
+    .ponto-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .ponto-card:hover {
+      border-color: #52b788;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
+    }
+    .ponto-card-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex: 1;
+    }
+    .ponto-card-num {
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 13px;
+      min-width: 36px;
+      height: 36px;
+      padding: 0 6px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+    .ponto-card-num.status-verde {
+      background: linear-gradient(135deg, #15803d, #22c55e);
+    }
+    .ponto-card-num.status-amarelo {
+      background: linear-gradient(135deg, #ca8a04, #eab308);
+    }
+    .ponto-card-num.status-vermelho {
+      background: linear-gradient(135deg, #b91c1c, #ef4444);
+    }
+
+    .ponto-card-details {
+      min-width: 0;
+      flex: 1;
+    }
+    .ponto-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ponto-card-sub {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ponto-status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+      margin-top: 4px;
+    }
+    .ponto-status-tag.status-verde {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .ponto-status-tag.status-amarelo {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+    .ponto-status-tag.status-vermelho {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Floating Action Buttons */
+    .fab-group {
+      position: absolute;
+      bottom: 22px;
+      right: 14px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .fab-btn {
+      background: linear-gradient(135deg, #2d6a4f, #1b4332);
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border: 2px solid #52b788;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .fab-btn:hover {
+      background: linear-gradient(135deg, #367d5e, #22533e);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
+    }
+    .fab-btn:active {
+      transform: scale(0.96);
+    }
+
+    @media (max-width: 680px) {
+      .fab-group {
+        bottom: 16px;
+        right: 10px;
+      }
+      .fab-btn {
+        padding: 10px 14px;
+        font-size: 12.5px;
+        gap: 6px;
+      }
+      .fab-gps {
+        bottom: 70px !important;
+        right: 10px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1191,19 +1405,17 @@
           <div class="stat-item" title="A partir de 16 dias / Sem visita"><span class="dot-red"></span> <span id="count-vermelho">0</span></div>
         </div>
 
+                <button class="btn-top btn-filtro-header" onclick="abrirFiltroSedes()" title="Localizar e Filtrar Sede">
+          <i class="fa-solid fa-magnifying-glass"></i> <span class="btn-text-full">Filtrar Sede</span><span class="btn-text-short">Filtrar</span>
+        </button>
+
         <button class="btn-top btn-refresh-app" id="btn-refresh-app" onclick="forcarAtualizacaoApp()" title="Atualizar aplicativo e limpar todo o cache">
           <i class="fa-solid fa-arrows-rotate" id="icon-refresh-app"></i> <span class="btn-text-full">Limpar Cache e Atualizar</span><span class="btn-text-short">Limpar Cache</span>
         </button>
       </div>
     </header>
 
-    <!-- Barra de Busca Rápida -->
-    <div class="search-bar-container">
-      <div class="search-input-wrapper">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="input-busca" class="search-input" placeholder="Buscar por Sede, Fazenda, FA ou Proprietário..." oninput="filtrarSedes(this.value)">
-      </div>
-    </div>
+    
 
     <!-- Barra de Status do GPS em Tempo Real -->
     <div id="gps-bar">
@@ -1211,11 +1423,41 @@
       <span id="nearest-point"></span>
     </div>
 
-    <!-- Lista Flutuante de Busca -->
-    <div id="search-results-modal"></div>
+
 
     <!-- Mapa Leaflet -->
     <div id="map"></div>
+
+    <!-- Botão Flutuante: Filtrar Sede -->
+    <div class="fab-group">
+      <button class="fab-btn" onclick="abrirFiltroSedes()" title="Localizar e Filtrar Sede">
+        <i class="fa-solid fa-magnifying-glass"></i> Filtrar Sede
+      </button>
+    </div>
+
+    <!-- Backdrop do Filtro -->
+    <div id="filter-backdrop" onclick="fecharFiltro()"></div>
+
+    <!-- Painel Lateral Deslizante de Filtro e Busca -->
+    <div id="filter-drawer">
+      <div class="drawer-header">
+        <h2><i class="fa-solid fa-magnifying-glass"></i> Localizar Sede</h2>
+        <button class="drawer-close" onclick="fecharFiltro()">&times;</button>
+      </div>
+      <div class="filter-search-container">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="filtro-busca-input" placeholder="Buscar por número, nome, fazenda ou FA..." oninput="filtrarListaSedes()" autocomplete="off" />
+          <button type="button" class="btn-clear-search" id="btn-limpar-busca" onclick="limparBuscaSedes()" style="display:none;">&times;</button>
+        </div>
+        <div class="filter-count-bar">
+          <span id="filtro-count-label">Carregando sedes...</span>
+        </div>
+      </div>
+      <div class="filter-results-list" id="filtro-lista-sedes">
+        <!-- Preenchido dinamicamente via JS -->
+      </div>
+    </div>
 
     <!-- Botão Flutuante: Centralizar no GPS -->
     <button class="fab-gps" title="Centralizar na Minha Posição" onclick="centralizarGPS()">
@@ -1671,7 +1913,7 @@
         zoomControl: false
       });
 
-      L.control.zoom({ position: "bottomright" }).addTo(map);
+      L.control.zoom({ position: "topright" }).addTo(map);
 
       // Listener de Zoom para ajustar o tamanho dos pontos dinamicamente
       atualizarTamanhoPontosPorZoom();
@@ -2245,52 +2487,118 @@
       atualizarContadores();
     }
 
-    function filtrarSedes(texto) {
-      const modal = document.getElementById("search-results-modal");
-      if (!texto.trim()) {
-        modal.style.display = "none";
-        renderizarSedes();
-        return;
+    
+    // =========================================================================
+    // PAINEL DESLIZANTE DE FILTRO E LOCALIZAÇÃO DE SEDES
+    // =========================================================================
+    function abrirFiltroSedes() {
+      document.getElementById("filter-backdrop").classList.add("open");
+      document.getElementById("filter-drawer").classList.add("open");
+      filtrarListaSedes();
+      setTimeout(() => {
+        const inp = document.getElementById("filtro-busca-input");
+        if (inp) inp.focus();
+      }, 300);
+    }
+
+    function fecharFiltro() {
+      document.getElementById("filter-backdrop").classList.remove("open");
+      document.getElementById("filter-drawer").classList.remove("open");
+    }
+
+    function limparBuscaSedes() {
+      const inp = document.getElementById("filtro-busca-input");
+      if (inp) inp.value = "";
+      const btnClear = document.getElementById("btn-limpar-busca");
+      if (btnClear) btnClear.style.display = "none";
+      filtrarListaSedes();
+      if (inp) inp.focus();
+    }
+
+    function filtrarListaSedes() {
+      const inp = document.getElementById("filtro-busca-input");
+      const btnClear = document.getElementById("btn-limpar-busca");
+      const texto = inp ? inp.value.trim().toLowerCase() : "";
+
+      if (btnClear) {
+        btnClear.style.display = texto.length > 0 ? "block" : "none";
       }
 
-      const q = texto.toLowerCase().trim();
-      const filtrados = sedesData.filter(feat => {
-        const p = feat.properties;
-        const full = `${p.num_sede} ${p.nome_sede} ${p.fa} ${p.fazenda} ${p.proprietario}`.toLowerCase();
-        return full.includes(q);
+      if (!sedesData || sedesData.length === 0) return;
+
+      let filtrados = sedesData;
+      if (texto) {
+        filtrados = sedesData.filter(feat => {
+          const p = feat.properties;
+          const full = `${p.num_sede} ${p.nome_sede || ''} ${p.fa || ''} ${p.fazenda || ''} ${p.fa_completo || ''} ${p.proprietario || ''}`.toLowerCase();
+          return full.includes(texto);
+        });
+      }
+
+      // Ordenar: primeiro pelo número da sede numérico
+      filtrados.sort((a, b) => {
+        const nA = parseInt(a.properties.num_sede) || 0;
+        const nB = parseInt(b.properties.num_sede) || 0;
+        return nA - nB;
       });
 
-      if (filtrados.length === 0) {
-        modal.innerHTML = '<div style="padding:14px; color:#94a3b8; text-align:center; font-size:12px;">Nenhuma sede encontrada</div>';
-        modal.style.display = "block";
+      renderizarListaFiltro(filtrados);
+    }
+
+    function renderizarListaFiltro(lista) {
+      const container = document.getElementById("filtro-lista-sedes");
+      const countLabel = document.getElementById("filtro-count-label");
+      if (!container) return;
+
+      if (countLabel) {
+        countLabel.innerText = `${lista.length} sede${lista.length === 1 ? '' : 's'} encontrada${lista.length === 1 ? '' : 's'}`;
+      }
+
+      if (lista.length === 0) {
+        container.innerHTML = `
+          <div style="padding: 30px 20px; text-align: center; color: #64748b;">
+            <i class="fa-solid fa-magnifying-glass" style="font-size: 28px; color: #94a3b8; margin-bottom: 10px;"></i>
+            <div style="font-size: 14px; font-weight: 700; color: #334155;">Nenhuma sede encontrada</div>
+            <div style="font-size: 12px; margin-top: 4px;">Tente pesquisar por outro número, fazenda ou FA.</div>
+          </div>
+        `;
         return;
       }
 
-      modal.innerHTML = filtrados.slice(0, 15).map(feat => {
+      container.innerHTML = lista.map(feat => {
         const p = feat.properties;
         const v = getStatusSede(p.num_sede);
         const st = calcularStatusTematico(v);
+        const nomeSede = p.nome_sede || `Sede ${p.num_sede}`;
+        const fazenda = p.fa_completo || p.fazenda || 'Sem Fazenda';
+        const prop = p.proprietario ? ` • ${p.proprietario}` : '';
+
         return `
-          <div class="search-result-item" onclick="selecionarDaBusca('${p.num_sede}')">
-            <div>
-              <strong><i class="fa-solid fa-house-chimney" style="color:${st.cor}"></i> Sede ${p.num_sede} - ${p.nome_sede}</strong>
-              <p>${p.fa_completo || 'Sem FA'} | <span style="color:${st.cor}; font-weight:600;">${st.label} (${st.sublabel})</span></p>
+          <div class="ponto-card" onclick="selecionarSedeDoFiltro('${p.num_sede}')">
+            <div class="ponto-card-left">
+              <div class="ponto-card-num ${st.classe}">
+                ${p.num_sede}
+              </div>
+              <div class="ponto-card-details">
+                <div class="ponto-card-name">Sede ${p.num_sede} - ${nomeSede}</div>
+                <div class="ponto-card-sub">${fazenda}${prop}</div>
+                <div class="ponto-status-tag ${st.classe}">
+                  <i class="fa-solid ${st.icone}"></i> ${st.label} (${st.sublabel})
+                </div>
+              </div>
             </div>
-            <i class="fa-solid fa-chevron-right" style="color:#64748b; font-size:12px;"></i>
+            <i class="fa-solid fa-chevron-right" style="color: #94a3b8; font-size: 13px; margin-right: 4px;"></i>
           </div>
         `;
       }).join("");
-
-      modal.style.display = "block";
     }
 
-    function selecionarDaBusca(numSede) {
-      document.getElementById("search-results-modal").style.display = "none";
-      document.getElementById("input-busca").value = "";
-
+    function selecionarSedeDoFiltro(numSede) {
+      fecharFiltro();
       const feat = sedesData.find(x => String(x.properties.num_sede) === String(numSede));
-      if (feat) {
+      if (feat && feat.geometry && feat.geometry.coordinates) {
         const [lon, lat] = feat.geometry.coordinates;
+        map.setView([lat, lon], 16);
         mostrarDetalhesSede(feat.properties, [lat, lon]);
       }
     }
