@@ -46,7 +46,7 @@ echo ===========================================================================
 echo   [2] BAIXANDO RELATORIO DE VISTORIAS DO KOBOTOOLBOX...
 echo ================================================================================
 echo.
-python baixar_planilha_visitas_kobo.py
+python "scripts\baixar_planilha_visitas_kobo.py"
 echo.
 echo ================================================================================
 pause
@@ -59,7 +59,7 @@ echo ===========================================================================
 echo   [3] ATUALIZANDO BASE DO MAPA WEB (SEDES E AREAS)...
 echo ================================================================================
 echo.
-python atualizar_base_web.py
+python "scripts\atualizar_base_web.py"
 echo.
 echo ================================================================================
 pause
@@ -90,7 +90,7 @@ goto MENU
 :OP_QGIS
 cls
 echo Abrindo o projeto MONITORAMENTO QUEIROZ.qgz no QGIS...
-start "" "MONITORAMENTO QUEIROZ.qgz"
+start "" "banco de dados geograficos\MONITORAMENTO QUEIROZ.qgz"
 echo Projeto aberto!
 timeout /t 2 > nul
 goto MENU

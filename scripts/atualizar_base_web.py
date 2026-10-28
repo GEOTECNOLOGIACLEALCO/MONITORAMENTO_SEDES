@@ -7,8 +7,14 @@ print("=" * 60)
 print("  CLEALCO - ATUALIZADOR DA BASE WEB DE SEDES")
 print("=" * 60)
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-out_js = os.path.join(base_dir, "dados_mapa.js")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+if os.path.basename(script_dir).lower() == "scripts":
+    root_dir = os.path.dirname(script_dir)
+else:
+    root_dir = script_dir
+
+base_dir = root_dir
+out_js = os.path.join(root_dir, "dados_mapa.js")
 
 visitas_registradas = {}
 hist_json = os.path.join(base_dir, "visitas_historico.json")
@@ -47,9 +53,12 @@ if os.path.exists(xlsx_visitas):
     except Exception:
         pass
 
-sede_shp = os.path.join(base_dir, "Sede.shp")
-if not os.path.exists(sede_shp):
-    sede_shp = os.path.join(base_dir, "SHP", "Sede.shp")
+cand_sede = [
+    os.path.join(root_dir, "banco de dados geograficos", "Sede.shp"),
+    os.path.join(root_dir, "SHP", "Sede.shp"),
+    os.path.join(root_dir, "Sede.shp")
+]
+sede_shp = next((p for p in cand_sede if os.path.exists(p)), None)
 
 if not os.path.exists(sede_shp):
     print(f"[ERRO] Arquivo de sedes nao encontrado: {sede_shp}")
@@ -121,9 +130,12 @@ for idx, row in pts.iterrows():
 
 print(f"   [OK] {len(pts_features)} sedes processadas.")
 
-areas_shp = os.path.join(base_dir, "AREAS.shp")
-if not os.path.exists(areas_shp):
-    areas_shp = os.path.join(base_dir, "SHP", "AREAS.shp")
+cand_areas = [
+    os.path.join(root_dir, "banco de dados geograficos", "AREAS.shp"),
+    os.path.join(root_dir, "SHP", "AREAS.shp"),
+    os.path.join(root_dir, "AREAS.shp")
+]
+areas_shp = next((p for p in cand_areas if os.path.exists(p)), None)
 
 areas_features = []
 if os.path.exists(areas_shp):

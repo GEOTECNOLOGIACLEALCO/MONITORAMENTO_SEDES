@@ -12,13 +12,25 @@ KOBO_TOKEN = "21419ca95379f5336eec89bd4decb2a420628d5b"
 ASSET_UID = "a6xVWc5GTZEWFzSceegC4G"
 KOBO_SERVER = "kf.kobotoolbox.org"
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-out_xlsx = os.path.join(base_dir, "Visitas_Monitoramento_Sedes_Kobo.xlsx")
+script_dir = os.path.dirname(os.path.abspath(__file__))
+if os.path.basename(script_dir).lower() == "scripts":
+    root_dir = os.path.dirname(script_dir)
+else:
+    root_dir = script_dir
+
+out_xlsx_dir = os.path.join(root_dir, "relatorios e formularios")
+os.makedirs(out_xlsx_dir, exist_ok=True)
+out_xlsx = os.path.join(out_xlsx_dir, "Visitas_Monitoramento_Sedes_Kobo.xlsx")
 
 # 1. Carregar Sedes para base de referencia
-sede_shp = os.path.join(base_dir, "Sede.shp")
+cand_sede = [
+    os.path.join(root_dir, "banco de dados geograficos", "Sede.shp"),
+    os.path.join(root_dir, "SHP", "Sede.shp"),
+    os.path.join(root_dir, "Sede.shp")
+]
+sede_shp = next((p for p in cand_sede if os.path.exists(p)), None)
 sedes_dict = {}
-if os.path.exists(sede_shp):
+if sede_shp and os.path.exists(sede_shp):
     try:
         import geopandas as gpd
         gdf_s = gpd.read_file(sede_shp, encoding="utf-8")
