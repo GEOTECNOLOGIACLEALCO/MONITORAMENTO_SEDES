@@ -14,26 +14,30 @@ Operacao rapida pelo painel de controle no computador:
 ================================================================================
 
 📁 10_Monitoramento_Sede/
-├── 🌐 APLICATIVO WEB & MOBILE (PWA):
-│   ├── index.html                           (Aplicacao web interativa com mapa, GPS e formulario)
-│   ├── dados_mapa.js                        (Base vetorial compacta de sedes e fazendas)
-│   ├── manifest.json                        (Configuracao do aplicativo PWA para download)
-│   ├── sw.js                                (Service Worker com cache e suporte offline)
-│   ├── icon-192.png, icon-512.png, etc.     (Icones do aplicativo)
-│   └── logo clealco.png                     (Identidade visual da Clealco)
+├── 🖼️ logos/
+│   ├── Logo_sede.jpg                        (Logo oficial de alta resolucao 2048x2048)
+│   ├── icon-192.png, icon-512.png           (Icones oficiais gerados para o PWA no celular)
+│   ├── apple-touch-icon.png                 (Icone para instalacao em iPhone/iPad)
+│   └── logo clealco.png                     (Identidade visual Clealco)
 │
-├── 🗺️ CAMADAS GEOGRAFICAS (GIS & QGIS):
+├── 🗺️ banco de dados geograficos/
 │   ├── Sede.shp, .dbf, .shx, .prj, .cpg     (Shapefile das 77 sedes)
 │   ├── AREAS.shp, .dbf, .shx, .prj, .cpg    (Shapefile dos limites das fazendas)
 │   └── MONITORAMENTO QUEIROZ.qgz            (Projeto oficial configurado no QGIS)
 │
-├── ☁️ INTEGRACAO KOBOTOOLBOX & EXCEL:
+├── 📊 relatorios e formularios/
 │   ├── Formulario_Monitoramento_Sedes_Kobo.xlsx (XLSForm configurado no Kobo)
-│   ├── baixar_planilha_visitas_kobo.py      (Script que baixa vistorias da nuvem Kobo)
-│   └── Visitas_Monitoramento_Sedes_Kobo.xlsx(Planilha Excel oficial com historico e status)
+│   └── Visitas_Monitoramento_Sedes_Kobo.xlsx    (Planilha Excel oficial com historico e status)
 │
-├── ⚙️ ATUALIZACAO E AUTOMACAO:
+├── ⚙️ scripts/
 │   ├── atualizar_base_web.py                (Gera dados_mapa.js a partir dos shapefiles)
+│   └── baixar_planilha_visitas_kobo.py      (Script que baixa vistorias da nuvem Kobo)
+│
+├── 🌐 APLICATIVO WEB & MOBILE (PWA - Raiz):
+│   ├── index.html                           (Aplicacao web interativa com mapa, GPS e formulario)
+│   ├── dados_mapa.js                        (Base vetorial compacta de sedes e fazendas)
+│   ├── manifest.json                        (Configuracao do aplicativo PWA para download)
+│   ├── sw.js                                (Service Worker com cache e suporte offline)
 │   ├── MENU_MONITORAMENTO.bat               (Painel principal com 1 clique)
 │   ├── LEIA-ME_MANUAL_DO_USUARIO.txt        (Este manual completo de instrucoes)
 │   └── .gitignore                           (Ignora arquivos temporarios e a pasta 'excluir')
