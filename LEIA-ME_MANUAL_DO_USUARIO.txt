@@ -2,91 +2,89 @@
            CLEALCO - SISTEMA DE MONITORAMENTO E ROTINA DE VISTORIAS DAS SEDES
 ================================================================================
 
-Este projeto é uma aplicação georreferenciada completa (PWA) e sistema de 
-gestão de vistorias técnicas às sedes e propriedades rurais da Clealco.
+Este projeto e uma aplicacao georreferenciada completa (PWA) e sistema de 
+gestao de rotina de vistorias tecnicas as sedes rurais da Clealco.
 
-Operação rápida pelo painel de controle no computador:
+Operacao rapida pelo painel de controle no computador:
 👉 MENU_MONITORAMENTO.bat
 
 
 ================================================================================
-1. CAMPOS OFICIAIS DO FORMULÁRIO DE VISTORIA
+1. ESTRUTURA ORGANIZADA DO PROJETO (ARQUIVOS ESSENCIAIS)
 ================================================================================
 
-Ao clicar em qualquer Sede no mapa e tocar em "Registrar Vistoria", o sistema
-exibe os dados cadastrais da sede e os campos oficiais obrigatórios:
-
-1. Data da Vistoria:
-   -> Automático (preenchido na hora, ex: "27/10/2026").
-2. Matrícula do Avaliador:
-   -> 6 dígitos numéricos (Obrigatório). Memorizado no celular para as próximas.
-3. Pressão:
-   -> Baixa, Média e Alta (Seleção obrigatória por botões estilizados).
-4. N° de Bandeiras:
-   -> Quantidade de bandeiras (Campo numérico digitável e obrigatório).
-5. Larva e Pupa:
-   -> Ausência e Presença (Seleção obrigatória).
-6. Inseticida:
-   -> Aplicado ou Não Aplicado (Seleção obrigatória).
-7. Observações e Foto:
-   -> Campo de texto livre e anexo fotográfico da vistoria (opcional).
-
-
-================================================================================
-2. OPÇÕES DO PAINEL PRINCIPAL (MENU_MONITORAMENTO.bat)
-================================================================================
-
-[1] Abrir Mapa de Vistorias no Navegador
-    -> Abre a aplicação web interativa (index.html).
-    -> Permite visualizar o satélite de alta definição, o contorno das fazendas
-       e as 77 sedes cadastradas.
-    -> Permite buscar por número da sede, FA, fazenda ou proprietário e registrar vistorias.
-
-[2] Gerar Relatório de Vistorias em Excel
-    -> Gera a planilha consolidada "Visitas_Monitoramento_Sede.xlsx".
-    -> Contém duas abas:
-       * Aba "Historico_Vistorias": todas as vistorias realizadas com data, matrícula,
-         pressão, número de bandeiras, larva e pupa, inseticida e observações.
-       * Aba "Status_Sedes": visão geral de todas as 77 sedes indicando quais estão 
-         "Visitado" ou "Pendente", com os dados da última avaliação.
-
-[3] Atualizar Base do Mapa
-    -> Processa os shapefiles atualizados ("Sede.shp" e "AREAS.shp").
-    -> Recalcula atributos e atualiza o arquivo "dados_mapa.js" com alta performance.
-
-[4] Abrir Projeto no QGIS
-    -> Abre diretamente o projeto "MONITORAMENTO QUEIROZ.qgz" no QGIS Desktop.
-
-[5] Abrir Pasta de Fotos das Vistorias
-    -> Abre a pasta "Fotos_Visitas\" no Windows Explorer para visualização rápida.
+📁 10_Monitoramento_Sede/
+├── 🌐 APLICATIVO WEB & MOBILE (PWA):
+│   ├── index.html                           (Aplicacao web interativa com mapa, GPS e formulario)
+│   ├── dados_mapa.js                        (Base vetorial compacta de sedes e fazendas)
+│   ├── manifest.json                        (Configuracao do aplicativo PWA para download)
+│   ├── sw.js                                (Service Worker com cache e suporte offline)
+│   ├── icon-192.png, icon-512.png, etc.     (Icones do aplicativo)
+│   └── logo clealco.png                     (Identidade visual da Clealco)
+│
+├── 🗺️ CAMADAS GEOGRAFICAS (GIS & QGIS):
+│   ├── Sede.shp, .dbf, .shx, .prj, .cpg     (Shapefile das 77 sedes)
+│   ├── AREAS.shp, .dbf, .shx, .prj, .cpg    (Shapefile dos limites das fazendas)
+│   └── MONITORAMENTO QUEIROZ.qgz            (Projeto oficial configurado no QGIS)
+│
+├── ☁️ INTEGRACAO KOBOTOOLBOX & EXCEL:
+│   ├── Formulario_Monitoramento_Sedes_Kobo.xlsx (XLSForm configurado no Kobo)
+│   ├── baixar_planilha_visitas_kobo.py      (Script que baixa vistorias da nuvem Kobo)
+│   └── Visitas_Monitoramento_Sedes_Kobo.xlsx(Planilha Excel oficial com historico e status)
+│
+├── ⚙️ ATUALIZACAO E AUTOMACAO:
+│   ├── atualizar_base_web.py                (Gera dados_mapa.js a partir dos shapefiles)
+│   ├── MENU_MONITORAMENTO.bat               (Painel principal com 1 clique)
+│   ├── LEIA-ME_MANUAL_DO_USUARIO.txt        (Este manual completo de instrucoes)
+│   └── .gitignore                           (Ignora arquivos temporarios e a pasta 'excluir')
+│
+└── 📦 PASTA 'excluir/':
+    └── Contem arquivos obsoletos ou descontinuados (backups antigos, fotos, etc.)
 
 
 ================================================================================
-Clealco - Geotecnologia e Monitoramento Agrícola
+2. COMO TRANSFERIR ESTE TRABALHO PARA OUTRO COMPUTADOR
 ================================================================================
 
+Caso precise migrar ou abrir em outra maquina:
+
+1. Basta COPIAR esta pasta inteira ('10_Monitoramento_Sede') para o novo computador
+   (ou clonar o repositorio do GitHub):
+   git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
+
+2. Se a nova maquina precisar rodar os scripts Python de atualizacao de base ou
+   download de planilhas, execute uma unica vez no terminal:
+   pip install geopandas requests pandas openpyxl
+
+3. Pronto! Basta dar dois cliques em:
+   👉 MENU_MONITORAMENTO.bat
+
+
 ================================================================================
-3. COMO PUBLICAR NO GITHUB E USAR NO CELULAR
+3. LINKS IMPORTANTES (SISTEMA & NUVEM)
 ================================================================================
 
-1. Criar o repositório no GitHub:
-   -> Acesse: https://github.com/new
-   -> Owner: GEOTECNOLOGIACLEALCO
-   -> Repository name: MONITORAMENTO_SEDES
-   -> Marque como Público (Public) e NÃO crie README (deixe vazio).
-   -> Clique em 'Create repository'.
+• Link do Aplicativo no Celular / Computador:
+  https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/
 
-2. Enviar os arquivos para o GitHub:
-   -> Abra o MENU_MONITORAMENTO.bat e escolha a opção:
-      [4] Publicar Alterações no GitHub (Atualizar App do Celular)
+• Link da Tabela de Dados no KoboToolbox:
+  https://kf.kobotoolbox.org/#/forms/a6xVWc5GTZEWFzSceegC4G/data/table
 
-3. Ativar o GitHub Pages (Link do Celular):
-   -> No repositório no GitHub, clique em: Settings > Pages
-   -> Em 'Build and deployment' > Source: 'Deploy from a branch'
-   -> Branch: selecione 'main' e pasta '/ (root)' > Clique em 'Save'.
-   -> Pronto! O link oficial para o celular será:
-      https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/
+• Resumo / Graficos no KoboToolbox:
+  https://kf.kobotoolbox.org/#/forms/a6xVWc5GTZEWFzSceegC4G/summary
 
-4. Como o técnico usa no celular:
-   -> Abra o link no Chrome ou Safari.
-   -> Toque nos 3 pontinhos do Chrome > 'Instalar aplicativo' ou 'Adicionar à tela inicial'.
+• Repositorio no GitHub:
+  https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES
+
+
+================================================================================
+4. REGRAS DE TEMATIZACAO POR DATA DA ULTIMA VISTORIA
+================================================================================
+
+🟢 Verde:    Ate 7 dias desde a ultima visita (Em dia).
+🟡 Amarelo:  De 8 a 15 dias apos a visita (Atencao).
+🔴 Vermelho: A partir de 16 dias da visita ou nunca vistoriada (Atrasada / Pendente).
+
+================================================================================
+Clealco - Geotecnologia e Monitoramento Agricola
+================================================================================

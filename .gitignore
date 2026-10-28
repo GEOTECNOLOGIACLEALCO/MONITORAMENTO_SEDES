@@ -1,6 +1,6 @@
-# Backups locais
-backup_antes_sistema/
-Fotos_Visitas/
+# Pasta com arquivos obsoletos / nao utilizados
+excluir/
+exluir/
 ~$*.xlsx
 
 # Python

@@ -11,11 +11,11 @@ echo             CLEALCO - MONITORAMENTO DE SEDES (ROTINA DE VISTORIAS)
 echo ================================================================================
 echo.
 echo   [1] Abrir Mapa de Vistorias no Navegador (index.html)
-echo   [2] Gerar Relatorio de Vistorias em Excel (Visitas_Monitoramento_Sede.xlsx)
-echo   [3] Atualizar Base do Mapa (Processar shapefiles de Sedes e Areas)
+echo   [2] Baixar Relatorio de Vistorias do KoboToolbox (Excel Consolidado)
+echo   [3] Atualizar Base do Mapa Web (Processar shapefiles Sede.shp e AREAS.shp)
 echo   [4] Publicar Alteracoes no GitHub (Atualizar App do Celular)
 echo   [5] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
-echo   [6] Abrir Pasta de Fotos das Vistorias (Fotos_Visitas)
+echo   [6] Acessar Painel KoboToolbox na Nuvem (Ver Dados Online)
 echo   [0] Sair
 echo.
 echo ================================================================================
@@ -23,7 +23,7 @@ echo.
 choice /C 1234560 /N /M "Pressione 1, 2, 3, 4, 5, 6 ou 0: "
 
 if errorlevel 7 goto OP_SAIR
-if errorlevel 6 goto OP_FOTOS
+if errorlevel 6 goto OP_KOBO
 if errorlevel 5 goto OP_QGIS
 if errorlevel 4 goto OP_GITHUB
 if errorlevel 3 goto OP_UPDATE
@@ -43,10 +43,10 @@ goto MENU
 cls
 color 0A
 echo ================================================================================
-echo   [2] GERANDO RELATORIO DE VISTORIAS EM EXCEL...
+echo   [2] BAIXANDO RELATORIO DE VISTORIAS DO KOBOTOOLBOX...
 echo ================================================================================
 echo.
-python exportar_planilha_visitas.py
+python baixar_planilha_visitas_kobo.py
 echo.
 echo ================================================================================
 pause
@@ -82,7 +82,7 @@ git push origin main
 echo.
 echo ================================================================================
 echo   [CONCLUIDO] Projeto sincronizado com o GitHub com sucesso!
-echo   Basta tocar em 'Limpar Cache e Atualizar' no celular para carregar as mudancas.
+echo   Basta tocar em 'Limpar Cache' no celular para carregar as mudancas.
 echo ================================================================================
 pause
 goto MENU
@@ -95,16 +95,11 @@ echo Projeto aberto!
 timeout /t 2 > nul
 goto MENU
 
-:OP_FOTOS
+:OP_KOBO
 cls
-color 0E
-echo ================================================================================
-echo   [6] ABRINDO PASTA DE FOTOS DAS VISTORIAS...
-echo ================================================================================
-echo.
-if not exist "Fotos_Visitas" mkdir "Fotos_Visitas"
-start "" "Fotos_Visitas"
-echo Pasta Fotos_Visitas aberta no Explorer!
+echo Abrindo tabela de dados no KoboToolbox na nuvem...
+start "" "https://kf.kobotoolbox.org/#/forms/a6xVWc5GTZEWFzSceegC4G/data/table"
+echo Abrindo navegador!
 timeout /t 2 > nul
 goto MENU
 
