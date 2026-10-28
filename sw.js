@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clealco-sedes-v17';
+const CACHE_NAME = 'nofly-sedes-v18';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -14,6 +14,7 @@ const ASSETS_TO_CACHE = [
   './logos/icon-192.png',
   './logos/icon-512.png',
   './logos/apple-touch-icon.png',
+  './logos/NoFly.jpg',
   './logos/Logo_sede.jpg',
   './logos/logo clealco.png'
 ];

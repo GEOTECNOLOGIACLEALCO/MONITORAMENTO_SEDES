@@ -1,13 +1,13 @@
 @echo off
 setlocal
-title Clealco - Monitoramento de Sedes
+title NoFly - Monitoramento de Sedes
 cd /d "%~dp0"
 
 :MENU
 cls
 color 0A
 echo ================================================================================
-echo             CLEALCO - MONITORAMENTO DE SEDES (ROTINA DE VISTORIAS)
+echo             NoFly - MONITORAMENTO DE SEDES (ROTINA DE VISTORIAS)
 echo ================================================================================
 echo.
 echo   [1] Abrir Mapa de Vistorias no Navegador (index.html)
