@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>NoFly | Guia da Equipe de Campo - Vistoria de Sedes - Clealco</title>
 
+  <!-- Prevenção de Cache Obsoleto -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
   <!-- PWA & Favicon -->
   <link rel="manifest" href="manifest.json?v=nofly">
   <link rel="apple-touch-icon" href="logos/apple-touch-icon.png?v=nofly">
@@ -895,6 +900,13 @@
           definirTamanhoFonte(salva);
         }
       } catch (e) {}
+
+      // Atualizar cache de Service Worker caso ativo
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(regs) {
+          for (var r of regs) { r.update(); }
+        });
+      }
     })();
   </script>
 
