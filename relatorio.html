@@ -297,15 +297,26 @@
     }
 
     /* SEÇÃO DE GRÁFICOS */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 14px;
+    .charts-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
       margin-bottom: 24px;
     }
 
-    @media (max-width: 1024px) {
-      .charts-grid {
+    .chart-box-semanal {
+      width: 100%;
+    }
+
+    .charts-donuts-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .charts-donuts-row {
         grid-template-columns: 1fr;
       }
     }
@@ -612,13 +623,12 @@
         color: #64748b !important;
       }
 
-      /* GRÁFICOS: ESTRUTURA EM FLEXBOX SEM NENHUMA SOBREPOSIÇÃO */
-      .charts-grid {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        justify-content: space-between !important;
-        gap: 12px !important;
-        margin-bottom: 0 !important;
+      /* SEÇÃO DE GRÁFICOS: BLOCOS SEPARADOS NO DOM - IMPOSSÍVEL SOBREPOR */
+      .charts-section {
+        display: block !important;
+        width: 100% !important;
+        margin: 0 0 12px 0 !important;
+        padding: 0 !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
       }
@@ -633,16 +643,36 @@
         break-inside: avoid !important;
         box-sizing: border-box !important;
       }
-      .charts-grid .chart-box:first-child {
-        flex: 0 0 100% !important;
+      .chart-box-semanal {
+        display: block !important;
         width: 100% !important;
-        margin-bottom: 0 !important;
+        margin-bottom: 12px !important; /* Espaço obrigatório físico entre as barras e as roscas */
       }
-      .charts-grid .chart-box:nth-child(2),
-      .charts-grid .chart-box:nth-child(3) {
+      .chart-box-semanal .chart-wrapper {
+        height: 155px !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        position: relative !important;
+      }
+      .charts-donuts-row {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .chart-box-donut {
         flex: 0 0 calc(50% - 6px) !important;
         width: calc(50% - 6px) !important;
         max-width: calc(50% - 6px) !important;
+      }
+      .chart-box-donut .chart-wrapper {
+        height: 165px !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        position: relative !important;
       }
       .chart-title {
         color: #000 !important;
@@ -650,14 +680,10 @@
         font-weight: 700 !important;
         margin-bottom: 4px !important;
       }
-      .charts-grid .chart-box:first-child .chart-wrapper {
-        height: 150px !important;
-        width: 100% !important;
-      }
-      .charts-grid .chart-box:nth-child(2) .chart-wrapper,
-      .charts-grid .chart-box:nth-child(3) .chart-wrapper {
-        height: 160px !important;
-        width: 100% !important;
+      .chart-wrapper canvas {
+        display: block !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
       }
 
       /* TABELA: FORÇADA A COMEÇAR NA SEGUNDA PÁGINA EM DIANTE */
@@ -899,8 +925,9 @@
     </div>
 
     <!-- SEÇÃO DE GRÁFICOS EXECUTIVOS -->
-    <div class="charts-grid">
-      <div class="chart-box">
+    <div class="charts-section">
+      <!-- 1. Evolução Semanal de Vistorias (Largura Total Superior) -->
+      <div class="chart-box chart-box-semanal">
         <div class="chart-title">
           <i class="fa-solid fa-chart-column" style="color:#38bdf8;"></i> Evolução Semanal de Vistorias
         </div>
@@ -909,21 +936,24 @@
         </div>
       </div>
 
-      <div class="chart-box">
-        <div class="chart-title">
-          <i class="fa-solid fa-chart-pie" style="color:#22c55e;"></i> Cobertura das Sedes
+      <!-- 2. Linha com os Dois Gráficos de Rosca Lado a Lado -->
+      <div class="charts-donuts-row">
+        <div class="chart-box chart-box-donut">
+          <div class="chart-title">
+            <i class="fa-solid fa-chart-pie" style="color:#22c55e;"></i> Cobertura das Sedes
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="chart-status"></canvas>
+          </div>
         </div>
-        <div class="chart-wrapper">
-          <canvas id="chart-status"></canvas>
-        </div>
-      </div>
 
-      <div class="chart-box">
-        <div class="chart-title">
-          <i class="fa-solid fa-virus" style="color:#f97316;"></i> Nível de Infestação
-        </div>
-        <div class="chart-wrapper">
-          <canvas id="chart-pressao"></canvas>
+        <div class="chart-box chart-box-donut">
+          <div class="chart-title">
+            <i class="fa-solid fa-virus" style="color:#f97316;"></i> Nível de Infestação
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="chart-pressao"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -1677,12 +1707,14 @@
         chartStatus.data.datasets[0].borderColor = "#ffffff";
         chartStatus.data.datasets[0].borderWidth = 1;
         chartStatus.update('none');
+        chartStatus.resize();
       }
       if (chartPressao) {
         chartPressao.options.plugins.legend.labels.color = "#000000";
         chartPressao.data.datasets[0].borderColor = "#ffffff";
         chartPressao.data.datasets[0].borderWidth = 1;
         chartPressao.update('none');
+        chartPressao.resize();
       }
       if (chartSemanal) {
         chartSemanal.options.scales.x.ticks.color = "#000000";
@@ -1690,6 +1722,7 @@
         chartSemanal.options.scales.x.grid.color = "#e2e8f0";
         chartSemanal.options.scales.y.grid.color = "#e2e8f0";
         chartSemanal.update('none');
+        chartSemanal.resize();
       }
     }
 
@@ -1699,12 +1732,14 @@
         chartStatus.data.datasets[0].borderColor = "#1e293b";
         chartStatus.data.datasets[0].borderWidth = 1;
         chartStatus.update('none');
+        chartStatus.resize();
       }
       if (chartPressao) {
         chartPressao.options.plugins.legend.labels.color = "#cbd5e1";
         chartPressao.data.datasets[0].borderColor = "#1e293b";
         chartPressao.data.datasets[0].borderWidth = 1;
         chartPressao.update('none');
+        chartPressao.resize();
       }
       if (chartSemanal) {
         chartSemanal.options.scales.x.ticks.color = "#94a3b8";
@@ -1712,6 +1747,7 @@
         chartSemanal.options.scales.x.grid.color = "#334155";
         chartSemanal.options.scales.y.grid.color = "#334155";
         chartSemanal.update('none');
+        chartSemanal.resize();
       }
     }
 
