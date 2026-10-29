@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>NoFly | Manual do Usuário & Guia de Campo - Clealco</title>
+  <title>NoFly | Manual de Gestão & Geotecnologia - Clealco</title>
 
   <!-- PWA & Favicon -->
   <link rel="manifest" href="manifest.json?v=nofly">
@@ -494,20 +494,23 @@
     <div class="brand-section">
       <img src="logos/NoFly.jpg" alt="NoFly Logo" class="brand-logo" onerror="this.src='logos/icon-192.png'">
       <div class="brand-text">
-        <h1><i class="fa-solid fa-book-open" style="color:var(--primary-light);"></i> NoFly | Manual Oficial & Guia de Campo</h1>
-        <span>Sistema de Monitoramento e Rotina de Vistorias das Sedes - Usina Clealco</span>
+        <h1><i class="fa-solid fa-chart-line" style="color:var(--primary-light);"></i> NoFly | Manual de Gestão & Geotecnologia</h1>
+        <span>Sistema de Monitoramento e Gestão de Vistorias das Sedes - Usina Clealco</span>
       </div>
     </div>
 
     <div class="header-actions">
-      <a href="index.html" class="btn-nav btn-nav-primary" title="Abrir o Aplicativo NoFly no Celular ou PC">
-        <i class="fa-solid fa-map-location-dot"></i> Abrir App de Campo
-      </a>
-      <a href="relatorio.html" class="btn-nav" title="Abrir Relatório Executivo Online">
+      <a href="relatorio.html" class="btn-nav btn-nav-primary" title="Abrir Relatório Executivo Online">
         <i class="fa-solid fa-file-invoice"></i> Relatório Online
       </a>
       <a href="analise_frequencia.html" class="btn-nav" title="Abrir Análise de Frequência e Calor">
-        <i class="fa-solid fa-chart-line"></i> Retorno & Calor
+        <i class="fa-solid fa-fire"></i> Retorno & Calor
+      </a>
+      <a href="index.html" class="btn-nav" title="Abrir o Aplicativo NoFly no Celular ou PC">
+        <i class="fa-solid fa-map-location-dot"></i> App de Campo
+      </a>
+      <a href="guia_campo.html" class="btn-nav" title="Abrir Guia Operacional da Equipe de Campo" style="border-color:#0284c7; color:#38bdf8;">
+        <i class="fa-solid fa-person-digging"></i> Guia do Campo
       </a>
       <button class="btn-nav" onclick="window.print()" title="Imprimir este manual ou salvar em PDF">
         <i class="fa-solid fa-print"></i> Imprimir / PDF
@@ -519,250 +522,21 @@
 
     <!-- ABAS PRINCIPAIS DE NAVEGAÇÃO -->
     <nav class="tabs-nav">
-      <button class="tab-btn active" id="btn-tab-campo" onclick="trocarAba('campo')">
-        <i class="fa-solid fa-person-digging"></i> Guia da Equipe de Campo
-        <span class="tab-badge-field">Destaque</span>
-      </button>
-      <button class="tab-btn" id="btn-tab-gestao" onclick="trocarAba('gestao')">
+      <button class="tab-btn active" id="btn-tab-gestao" onclick="trocarAba('gestao')">
         <i class="fa-solid fa-chart-pie"></i> Gestão & Relatórios Executivos
       </button>
       <button class="tab-btn" id="btn-tab-ti" onclick="trocarAba('ti')">
         <i class="fa-solid fa-gears"></i> Geotecnologia & TI (Sistema)
       </button>
+      <a href="guia_campo.html" class="tab-btn" style="text-decoration:none; margin-left:auto;" title="Abrir Guia Operacional da Equipe de Campo">
+        <i class="fa-solid fa-person-digging" style="color:#38bdf8;"></i> Guia da Equipe de Campo <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; opacity:0.7;"></i>
+      </a>
     </nav>
 
     <!-- ======================================================================= -->
-    <!-- ABA 1: GUIA PRÁTICO DA EQUIPE DE CAMPO (AVALIADORES & VISTORIADORES)     -->
+    <!-- ABA 1: GESTÃO & ANÁLISE EXECUTIVA (COORDENAÇÃO & DIRETORIA)             -->
     <!-- ======================================================================= -->
-    <div id="tab-campo" class="tab-pane active">
-
-      <!-- HERO DA ABA DE CAMPO -->
-      <div class="tab-hero" style="border-left: 4px solid var(--accent-blue);">
-        <div class="tab-hero-info">
-          <h2><i class="fa-solid fa-mobile-screen" style="color:var(--accent-blue);"></i> Guia Completo do Avaliador de Campo</h2>
-          <p>Instruções passo a passo para a equipe que realiza as vistorias in loco: como instalar o aplicativo no celular, se orientar pelo GPS, avaliar o nível de moscas e lançar o formulário KoboToolbox com precisão.</p>
-        </div>
-        <div>
-          <a href="index.html" class="btn-nav btn-nav-primary" style="padding:10px 16px; font-size:13px;">
-            <i class="fa-solid fa-play"></i> Iniciar Vistorias no App
-          </a>
-        </div>
-      </div>
-
-      <!-- CARDS DE INSTRUÇÃO DE CAMPO -->
-      <div class="cards-grid">
-
-        <!-- CARD 1: INSTALAR O APP NO CELULAR -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(56, 189, 248, 0.15); color:var(--accent-blue);">
-              <i class="fa-solid fa-download"></i>
-            </div>
-            <div class="card-title">1. Como Instalar o App no Celular</div>
-          </div>
-          <div class="steps-container">
-            <div class="step-item">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h4>Acesse o Link no Smartphone</h4>
-                <p>Abra o navegador do seu celular (Chrome ou Safari) e entre no endereço oficial:<br>
-                <code style="color:var(--accent-blue); font-size:11px;">https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/</code></p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h4>No Celular Android (Chrome)</h4>
-                <p>Toque no botão verde <strong>"Baixar App"</strong> no topo da tela ou toque nos 3 pontinhos do Chrome e selecione <strong>"Instalar Aplicativo"</strong> ou <strong>"Adicionar à Tela Inicial"</strong>.</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h4>No iPhone / iPad (Safari)</h4>
-                <p>Toque no botão de <strong>Compartilhar</strong> (ícone do quadrado com a seta para cima) e selecione <strong>"Adicionar à Tela de Início"</strong>.</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-number"><i class="fa-solid fa-check"></i></div>
-              <div class="step-content">
-                <h4>Pronto!</h4>
-                <p>O ícone do <strong>NoFly</strong> aparecerá na tela do seu celular como um aplicativo normal, funcionando com tela cheia e acesso rápido!</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CARD 2: ENTENDENDO AS CORES DO MAPA -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(34, 197, 94, 0.15); color:var(--primary-light);">
-              <i class="fa-solid fa-map-pin"></i>
-            </div>
-            <div class="card-title">2. Entendendo as Cores das Sedes</div>
-          </div>
-          <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
-            Ao abrir o mapa, cada uma das <strong>77 sedes oficiais</strong> da Clealco é exibida com uma cor que indica quando ela foi visitada pela última vez:
-          </p>
-
-          <div style="display:flex; flex-direction:column; gap:10px;">
-            <div style="background:rgba(34, 197, 94, 0.1); border:1px solid rgba(34, 197, 94, 0.3); border-radius:8px; padding:10px 12px;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span class="badge badge-verde">🟢 EM DIA (≤ 7 dias)</span>
-              </div>
-              <p style="font-size:11px; color:#dcfce7;">A sede foi vistoriada recentemente e está com rotina de visitas regular. Não necessita de retorno imediato.</p>
-            </div>
-
-            <div style="background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.3); border-radius:8px; padding:10px 12px;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span class="badge badge-amarelo">🟡 ATENÇÃO (8 a 15 dias)</span>
-              </div>
-              <p style="font-size:11px; color:#fef3c7;">A sede está próxima de vencer o prazo ideal de retorno. Planeje uma visita para os próximos dias.</p>
-            </div>
-
-            <div style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.3); border-radius:8px; padding:10px 12px;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                <span class="badge badge-vermelho">🔴 CRÍTICA / ATRASADA (≥ 16 dias ou Sem Visita)</span>
-              </div>
-              <p style="font-size:11px; color:#fee2e2;"><strong>PRIORIDADE MÁXIMA DE ROTA!</strong> A sede está há mais de 16 dias sem vistoria ou ainda nunca foi visitada. Deve ser atendida com urgência!</p>
-            </div>
-          </div>
-
-          <div class="alert-box" style="margin-top:14px;">
-            <i class="fa-solid fa-location-crosshairs"></i>
-            <p><strong>GPS Ativo:</strong> Toque no botão de mira no mapa para ver sua localização exata e a distância em metros até a sede mais próxima!</p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- CARD 3: PASSO A PASSO PARA PREENCHER O FORMULÁRIO -->
-      <div class="card" style="margin-bottom:24px;">
-        <div class="card-header">
-          <div class="card-icon" style="background:rgba(249, 115, 22, 0.15); color:var(--accent-orange);">
-            <i class="fa-solid fa-list-check"></i>
-          </div>
-          <div class="card-title">3. Passo a Passo do Preenchimento no Formulário KoboToolbox</div>
-        </div>
-
-        <p style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">
-          Ao chegar na sede para realizar a vistoria, siga esta sequência simples:
-        </p>
-
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; margin-bottom:16px;">
-          <div style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--border-color); border-radius:8px; padding:12px;">
-            <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:4px;"><i class="fa-solid fa-1"></i> Abrir o Formulário</div>
-            <p style="font-size:11px; color:var(--text-muted);">Toque no pino da sede no mapa e clique em <strong>"Nova Vistoria (Kobo)"</strong>. Ele já abre com o número e o nome da sede preenchidos!</p>
-          </div>
-
-          <div style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--border-color); border-radius:8px; padding:12px;">
-            <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:4px;"><i class="fa-solid fa-2"></i> Identificação</div>
-            <p style="font-size:11px; color:var(--text-muted);">Digite o seu <strong>número de matrícula</strong> da Clealco para registrar a autoria técnica da vistoria.</p>
-          </div>
-
-          <div style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--border-color); border-radius:8px; padding:12px;">
-            <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:4px;"><i class="fa-solid fa-3"></i> Pressão de Moscas</div>
-            <p style="font-size:11px; color:var(--text-muted);">Classifique a infestação em <strong>Baixa</strong>, <strong>Média</strong> ou <strong>Alta</strong> seguindo o padrão oficial da tabela abaixo.</p>
-          </div>
-
-          <div style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--border-color); border-radius:8px; padding:12px;">
-            <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:4px;"><i class="fa-solid fa-4"></i> Bandeiras & Armadilhas</div>
-            <p style="font-size:11px; color:var(--text-muted);">Informe a quantidade de armadilhas ou bandeiras de captura instaladas ou contadas na área.</p>
-          </div>
-
-          <div style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--border-color); border-radius:8px; padding:12px;">
-            <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:4px;"><i class="fa-solid fa-5"></i> Focos: Larva ou Pupa</div>
-            <p style="font-size:11px; color:var(--text-muted);">Vistorie acúmulos de matéria orgânica e esterco úmido. Marque se encontrou larvas ou pupas da mosca.</p>
-          </div>
-
-          <div style="background:rgba(15, 23, 42, 0.6); border:1px solid var(--border-color); border-radius:8px; padding:12px;">
-            <div style="font-size:12px; font-weight:700; color:#38bdf8; margin-bottom:4px;"><i class="fa-solid fa-6"></i> Causadores & Ponto GPS</div>
-            <p style="font-size:11px; color:var(--text-muted);">Selecione possíveis atrativos (Vinhaça, Torta, Esterco), clique no ícone do GPS para gravar suas coordenadas e envie!</p>
-          </div>
-        </div>
-
-        <!-- CRITÉRIOS DE INFESTAÇÃO DETALHADOS -->
-        <h4 style="font-size:13px; font-weight:700; color:#fff; margin-bottom:8px;">
-          <i class="fa-solid fa-scale-balanced" style="color:var(--accent-orange);"></i> Critérios Oficiais para Avaliação da Pressão de Mosca-dos-Estábulos
-        </h4>
-        <div class="infestation-grid">
-          <div class="infestation-card baixa">
-            <div class="infestation-title" style="color:#38bdf8;">
-              <i class="fa-solid fa-circle-check"></i> Baixa Pressão
-            </div>
-            <p style="font-size:11px; color:#e0f2fe; line-height:1.5;">
-              • De <strong>1 a 5 moscas</strong> por animal.<br>
-              • Gado em comportamento calmo e normal.<br>
-              • Sem necessidade de intervenção química emergencial.
-            </p>
-          </div>
-
-          <div class="infestation-card media">
-            <div class="infestation-title" style="color:#fb923c;">
-              <i class="fa-solid fa-triangle-exclamation"></i> Média Pressão
-            </div>
-            <p style="font-size:11px; color:#ffedd5; line-height:1.5;">
-              • De <strong>6 a 20 moscas</strong> por animal.<br>
-              • Animais demonstrando incômodo, abanando a cauda e batendo patas ocasionalmente.<br>
-              • Recomendado reforçar armadilhas e vistoriar focos orgânicos.
-            </p>
-          </div>
-
-          <div class="infestation-card alta">
-            <div class="infestation-title" style="color:#f87171;">
-              <i class="fa-solid fa-fire"></i> Alta Pressão (Alerta)
-            </div>
-            <p style="font-size:11px; color:#fee2e2; line-height:1.5;">
-              • Mais de <strong>20 moscas</strong> por animal.<br>
-              • Nuvens visíveis de insetos, animais aglomerados e em forte estresse.<br>
-              • <strong>Ação imediata:</strong> comunicar a gestão e aplicar medidas de controle.
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- REGRAS DE OURO & OFFLINE -->
-      <div class="cards-grid">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(2, 132, 199, 0.15); color:var(--accent-blue);">
-              <i class="fa-solid fa-wifi"></i>
-            </div>
-            <div class="card-title">Como Funciona Sem Sinal de Internet (Offline)</div>
-          </div>
-          <p style="font-size:12px; color:var(--text-muted); line-height:1.6;">
-            O <strong>NoFly</strong> e o formulário <strong>KoboToolbox</strong> contam com tecnologia PWA para trabalho no campo em áreas remotas sem sinal 4G:
-          </p>
-          <ul style="font-size:12px; color:#e2e8f0; margin-left:18px; margin-top:8px; line-height:1.6;">
-            <li><strong>Antes de ir ao campo:</strong> Abra o aplicativo no celular enquanto estiver conectado ao Wi-Fi para carregar os mapas e formulários na memória.</li>
-            <li><strong>No campo (sem sinal):</strong> O aplicativo continua funcionando normalmente! O GPS do celular funciona por satélite sem precisar de internet.</li>
-            <li><strong>Envio Automático:</strong> Os lançamentos ficam salvos com segurança na fila do celular. Assim que você se reconectar à internet (na usina ou em casa), todos os dados sobem automaticamente para a nuvem da Clealco!</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-icon" style="background:rgba(34, 197, 94, 0.15); color:var(--primary-light);">
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <div class="card-title">Regras de Ouro do Vistoriador</div>
-          </div>
-          <ul style="font-size:12px; color:#e2e8f0; margin-left:18px; line-height:1.8;">
-            <li>✔️ <strong>Localização GPS:</strong> Sempre clique no botão de GPS dentro da sede para comprovar sua presença no local. O sistema calcula a distância automática.</li>
-            <li>✔️ <strong>Conferência da Sede:</strong> Confira o número e o nome da fazenda com a placa física na entrada da sede.</li>
-            <li>✔️ <strong>Bateria:</strong> Mantenha o celular carregado e utilize carregador veicular durante o deslocamento entre fazendas.</li>
-            <li>✔️ <strong>Comunicação com o Produtor:</strong> Mantenha postura cordial e respeitosa com proprietários, funcionários e pecuaristas.</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ======================================================================= -->
-    <!-- ABA 2: GESTÃO & ANÁLISE EXECUTIVA (COORDENAÇÃO & DIRETORIA)             -->
-    <!-- ======================================================================= -->
-    <div id="tab-gestao" class="tab-pane">
+    <div id="tab-gestao" class="tab-pane active">
 
       <div class="tab-hero" style="border-left: 4px solid var(--primary-light);">
         <div class="tab-hero-info">
@@ -797,6 +571,29 @@
             <li><strong>Imprimir / Gerar PDF Executivo:</strong> Formatação padronizada para A4 retrato: Página 1 com o Dashboard Executivo e Página 2 em diante com a Tabela completa até a coluna <em>Total Visitas</em>.</li>
           </ul>
         </div>
+
+        <!-- CARD: GUIA DA EQUIPE DE CAMPO -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(56, 189, 248, 0.15); color:var(--accent-blue);">
+              <i class="fa-solid fa-person-digging"></i>
+            </div>
+            <div class="card-title">3. Guia Operacional da Equipe de Campo (guia_campo.html)</div>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); line-height:1.6; margin-bottom:12px;">
+            Material de treinamento e instruções práticas exclusivo para os avaliadores de campo:
+          </p>
+          <ul style="font-size:12px; color:#e2e8f0; margin-left:18px; line-height:1.6; margin-bottom:14px;">
+            <li><strong>Instalação do PWA no celular:</strong> Como instalar o ícone NoFly no Chrome (Android) e Safari (iPhone).</li>
+            <li><strong>Interpretação das Cores:</strong> Foco prioritário nas sedes vermelhas (>= 16 dias sem vistoria).</li>
+            <li><strong>Lançamento KoboToolbox:</strong> Coleta de ponto GPS, fotos comprobatórias e escala de pressão de mosca.</li>
+            <li><strong>Sem acesso a relatórios:</strong> O app de campo e o guia do avaliador são isolados, sem links de gestão.</li>
+          </ul>
+          <a href="guia_campo.html" class="btn-nav" style="border-color:#0284c7; color:#38bdf8; display:inline-flex; width:fit-content;">
+            <i class="fa-solid fa-external-link"></i> Abrir Guia da Equipe de Campo
+          </a>
+        </div>
+      </div>
 
         <!-- CARD: PAINEL DE RETORNO E CALOR -->
         <div class="card">
