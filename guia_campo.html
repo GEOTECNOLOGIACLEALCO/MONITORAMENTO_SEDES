@@ -34,7 +34,15 @@
       --status-verde: #22c55e;
       --status-amarelo: #f59e0b;
       --status-vermelho: #ef4444;
+
+      /* Tamanho base de fonte padrão */
+      --font-base: 14px;
     }
+
+    /* Modos de Tamanho de Fonte */
+    body.font-small { --font-base: 12.5px; }
+    body.font-normal { --font-base: 14px; }
+    body.font-large { --font-base: 16px; }
 
     * {
       box-sizing: border-box;
@@ -46,19 +54,21 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-dark);
       color: var(--text-main);
-      line-height: 1.6;
+      font-size: var(--font-base);
+      line-height: 1.55;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      transition: font-size 0.2s ease;
     }
 
-    /* CABEÇALHO PRINCIPAL */
+    /* CABEÇALHO SUPERIOR COMPACTO */
     header {
       background: rgba(15, 23, 42, 0.95);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
-      padding: 14px 20px;
+      padding: 10px 16px;
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -66,32 +76,32 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 10px;
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .brand-logo {
-      height: 48px;
-      width: 48px;
-      border-radius: 12px;
+      height: 40px;
+      width: 40px;
+      border-radius: 10px;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       border: 1px solid rgba(255,255,255,0.15);
     }
 
     .brand-text h1 {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 800;
       letter-spacing: -0.3px;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
 
     .brand-text span {
@@ -103,15 +113,48 @@
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
+    }
+
+    /* CONTROLE DE TAMANHO DE TEXTO */
+    .font-size-control {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .font-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .font-btn:hover {
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .font-btn.active {
+      background: var(--accent-blue);
+      color: #0f172a;
     }
 
     .btn-nav {
       background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 8px 14px;
+      padding: 7px 12px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
@@ -140,65 +183,65 @@
       box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
     }
 
-    /* CONTAINER PRINCIPAL */
+    /* CONTAINER PRINCIPAL REDIMENSIONADO E BEM PROPORCIONADO */
     .container {
-      max-width: 1100px;
+      max-width: 940px;
       width: 100%;
       margin: 0 auto;
-      padding: 24px 16px 60px;
+      padding: 18px 14px 50px;
       flex: 1;
     }
 
-    /* HERO BANNER DO GUIA DE CAMPO */
+    /* HERO BANNER COMPACTO */
     .field-hero {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
       border: 1px solid var(--border-color);
-      border-left: 5px solid var(--accent-blue);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 24px;
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 18px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      gap: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
     }
 
     .field-hero-info h2 {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 800;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 6px;
+      gap: 8px;
+      margin-bottom: 4px;
     }
 
     .field-hero-info p {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--text-muted);
-      max-width: 720px;
-      line-height: 1.5;
+      max-width: 680px;
+      line-height: 1.45;
     }
 
-    /* GRADE DE CARDS */
+    /* GRADE DE CARDS REAJUSTADA */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      margin-bottom: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+      margin-bottom: 18px;
     }
 
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 22px;
+      border-radius: 12px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      gap: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       transition: transform 0.2s, border-color 0.2s;
     }
 
@@ -214,24 +257,25 @@
     .card-header {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .card-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
       flex-shrink: 0;
     }
 
     .card-title h3 {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #fff;
+      line-height: 1.3;
     }
 
     .card-title span {
@@ -243,22 +287,22 @@
     .steps-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
     .step-item {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: flex-start;
-      background: rgba(15, 23, 42, 0.6);
-      padding: 12px 14px;
-      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.55);
+      padding: 10px 12px;
+      border-radius: 9px;
       border: 1px solid rgba(255,255,255,0.05);
     }
 
     .step-num {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       background: var(--accent-blue);
       color: #0f172a;
       border-radius: 50%;
@@ -266,20 +310,20 @@
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 12px;
+      font-size: 11.5px;
       flex-shrink: 0;
       margin-top: 1px;
     }
 
     .step-content strong {
       display: block;
-      font-size: 13px;
+      font-size: 12.5px;
       color: #f1f5f9;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .step-content p {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.45;
     }
@@ -288,169 +332,207 @@
     .status-badge-row {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 9px;
     }
 
     .status-badge-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 10px;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 9px;
       border: 1px solid;
     }
 
     .status-badge-item.vermelho {
       background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.4);
+      border-color: rgba(239, 68, 68, 0.35);
     }
 
     .status-badge-item.amarelo {
       background: rgba(245, 158, 11, 0.12);
-      border-color: rgba(245, 158, 11, 0.4);
+      border-color: rgba(245, 158, 11, 0.35);
     }
 
     .status-badge-item.verde {
       background: rgba(34, 197, 94, 0.12);
-      border-color: rgba(34, 197, 94, 0.4);
+      border-color: rgba(34, 197, 94, 0.35);
     }
 
     .status-dot {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       flex-shrink: 0;
     }
 
     .status-info strong {
-      font-size: 13px;
+      font-size: 12.5px;
       display: block;
     }
 
     .status-info span {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
+      line-height: 1.4;
     }
 
     /* CARDS DE NÍVEL DE INFESTAÇÃO */
     .infestation-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-      margin: 10px 0;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 12px;
+      margin: 8px 0;
     }
 
     .infestation-card {
-      padding: 16px;
-      border-radius: 12px;
+      padding: 14px;
+      border-radius: 10px;
       border: 1px solid;
     }
 
     .infestation-card.baixa {
       background: rgba(56, 189, 248, 0.08);
-      border-color: rgba(56, 189, 248, 0.35);
+      border-color: rgba(56, 189, 248, 0.3);
     }
     .infestation-card.media {
       background: rgba(249, 115, 22, 0.08);
-      border-color: rgba(249, 115, 22, 0.35);
+      border-color: rgba(249, 115, 22, 0.3);
     }
     .infestation-card.alta {
       background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.4);
+      border-color: rgba(239, 68, 68, 0.35);
     }
 
     .infestation-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 7px;
+      margin-bottom: 6px;
     }
 
     /* BOX DE ALERTA */
     .alert-box {
       background: rgba(245, 158, 11, 0.1);
       border: 1px solid rgba(245, 158, 11, 0.3);
-      border-radius: 10px;
-      padding: 14px 18px;
+      border-radius: 9px;
+      padding: 12px 16px;
       display: flex;
-      gap: 12px;
+      gap: 10px;
       align-items: flex-start;
-      margin: 14px 0;
+      margin: 10px 0;
     }
 
     .alert-box i {
       color: #fbbf24;
-      font-size: 18px;
+      font-size: 16px;
       margin-top: 2px;
     }
 
     .alert-box p {
-      font-size: 12px;
+      font-size: 11.5px;
       color: #fef3c7;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
     /* REGRAS DE OURO */
     .golden-rules {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
     }
 
     .rule-item {
       background: rgba(15, 23, 42, 0.5);
       border: 1px solid var(--border-color);
-      padding: 12px 14px;
-      border-radius: 10px;
+      padding: 10px 12px;
+      border-radius: 9px;
       display: flex;
-      gap: 10px;
+      gap: 9px;
       align-items: flex-start;
-      font-size: 12px;
+      font-size: 11.5px;
     }
 
     .rule-item i {
       color: var(--primary-light);
       margin-top: 2px;
+      font-size: 13px;
+      flex-shrink: 0;
     }
 
     /* RODAPÉ */
     footer {
       background: rgba(15, 23, 42, 0.95);
       border-top: 1px solid var(--border-color);
-      padding: 20px;
+      padding: 16px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       margin-top: auto;
     }
 
     footer p {
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
+    /* RESPONSIVIDADE MOBILE AJUSTADA */
+    @media (max-width: 640px) {
+      .container {
+        padding: 12px 8px 40px;
+      }
+      .field-hero {
+        padding: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .field-hero a {
+        width: 100%;
+        justify-content: center;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .card {
+        padding: 14px;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    /* IMPRESSÃO A4 */
     @media print {
       header {
         position: static;
         background: #fff !important;
         border-bottom: 2px solid #000;
         color: #000 !important;
+        padding: 8px 0;
       }
-      .header-actions, .field-hero a {
+      .header-actions, .field-hero a, .font-size-control {
         display: none !important;
       }
       body {
         background: #fff !important;
         color: #000 !important;
+        font-size: 11pt !important;
       }
-      .card, .field-hero, .step-item, .rule-item {
+      .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+      }
+      .card, .field-hero, .step-item, .rule-item, .infestation-card, .status-badge-item {
         background: #fff !important;
         color: #000 !important;
-        border: 1px solid #ccc !important;
+        border: 1px solid #ddd !important;
         box-shadow: none !important;
+        page-break-inside: avoid;
       }
-      .brand-text h1, .field-hero-info h2, .card-title h3, .step-content strong {
+      .brand-text h1, .field-hero-info h2, .card-title h3, .step-content strong, .status-info strong {
         color: #000 !important;
       }
       .step-num {
@@ -460,19 +542,26 @@
     }
   </style>
 </head>
-<body>
+<body class="font-normal">
 
-  <!-- CABEÇALHO SUPERIOR -->
+  <!-- CABEÇALHO SUPERIOR COMPACTO -->
   <header>
     <div class="brand-section">
       <img src="logos/NoFly.jpg" alt="NoFly Logo" class="brand-logo" onerror="this.src='logos/icon-192.png'">
       <div class="brand-text">
         <h1><i class="fa-solid fa-person-digging" style="color:var(--accent-blue);"></i> NoFly | Guia da Equipe de Campo</h1>
-        <span>Manual Prático de Vistoria de Sedes & Lançamento KoboToolbox - Usina Clealco</span>
+        <span>Manual Operacional de Vistoria de Sedes - Usina Clealco</span>
       </div>
     </div>
 
     <div class="header-actions">
+      <!-- Ajuste do Tamanho da Fonte -->
+      <div class="font-size-control" title="Ajustar tamanho do texto para leitura no celular ou computador">
+        <button class="font-btn" onclick="definirTamanhoFonte('small')" id="btn-font-small">A-</button>
+        <button class="font-btn active" onclick="definirTamanhoFonte('normal')" id="btn-font-normal">A</button>
+        <button class="font-btn" onclick="definirTamanhoFonte('large')" id="btn-font-large">A+</button>
+      </div>
+
       <a href="index.html" class="btn-nav btn-nav-primary" title="Voltar ao Mapa de Vistorias">
         <i class="fa-solid fa-map-location-dot"></i> Voltar ao Mapa de Campo
       </a>
@@ -488,11 +577,11 @@
     <div class="field-hero">
       <div class="field-hero-info">
         <h2><i class="fa-solid fa-mobile-screen" style="color:var(--accent-blue);"></i> Instruções Operacionais do Avaliador</h2>
-        <p>Este guia foi preparado especialmente para a equipe de vistoria de campo da Clealco. Siga as orientações abaixo para utilizar o aplicativo no celular, se orientar pelo GPS, priorizar as sedes com pendência de visita e enviar os dados de forma correta e padronizada.</p>
+        <p>Guia prático para a equipe de vistoria in loco da Clealco. Siga as orientações para utilizar o aplicativo no celular, se orientar pelo GPS, priorizar as sedes com pendência de visita e enviar os dados oficiais via formulário KoboToolbox.</p>
       </div>
       <div>
-        <a href="index.html" class="btn-nav btn-nav-primary" style="padding:10px 18px; font-size:13px;">
-          <i class="fa-solid fa-play"></i> Abrir Aplicativo no Celular
+        <a href="index.html" class="btn-nav btn-nav-primary" style="padding:9px 16px; font-size:12.5px;">
+          <i class="fa-solid fa-play"></i> Abrir App de Campo
         </a>
       </div>
     </div>
@@ -508,7 +597,7 @@
           </div>
           <div class="card-title">
             <h3>1. Como Instalar no Celular (App NoFly)</h3>
-            <span>Funciona direto no aparelho, sem gastar memória da Play Store</span>
+            <span>Fixe na tela inicial sem gastar memória da Play Store</span>
           </div>
         </div>
 
@@ -517,7 +606,7 @@
             <span class="step-num">A</span>
             <div class="step-content">
               <strong>Android (Google Chrome):</strong>
-              <p>Abra o link do aplicativo no Chrome. Toque nos <strong>3 pontinhos</strong> no canto superior direito e selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>. O ícone do NoFly aparecerá na sua tela junto aos seus outros apps.</p>
+              <p>Abra o link do aplicativo no Chrome. Toque nos <strong>3 pontinhos</strong> no canto superior direito e selecione <strong>"Instalar aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>. O ícone do NoFly aparecerá na tela do seu celular.</p>
             </div>
           </div>
 
@@ -525,7 +614,7 @@
             <span class="step-num">B</span>
             <div class="step-content">
               <strong>iPhone (Apple Safari):</strong>
-              <p>Abra o link no navegador Safari. Toque no botão de <strong>Compartilhar</strong> (o quadrado com uma setinha apontando para cima no rodapé) e role até <strong>"Adicionar à Tela de Início"</strong>. Confirme em "Adicionar".</p>
+              <p>Abra o link no navegador Safari. Toque no botão de <strong>Compartilhar</strong> (quadrado com uma setinha para cima no rodapé) e selecione <strong>"Adicionar à Tela de Início"</strong>. Confirme em "Adicionar".</p>
             </div>
           </div>
 
@@ -533,7 +622,7 @@
             <span class="step-num">C</span>
             <div class="step-content">
               <strong>Botão Direto "Baixar App":</strong>
-              <p>Se preferir, ao abrir o mapa clique diretamente no botão <strong>"Baixar App"</strong> no topo da tela para disparar a instalação automática.</p>
+              <p>Ao abrir o mapa no celular ou computador, você também pode clicar no botão <strong>"Baixar App"</strong> no topo para acionar a instalação direta.</p>
             </div>
           </div>
         </div>
@@ -556,7 +645,7 @@
             <span class="status-dot" style="background:var(--status-vermelho);"></span>
             <div class="status-info">
               <strong style="color:var(--status-vermelho);">🔴 Vermelho — Prioridade Máxima (Urgente)</strong>
-              <span>Sede sem visita há <strong>16 dias ou mais</strong> (ou nunca vistoriada). Deve ser vistoriada com urgência para evitar surto de mosca.</span>
+              <span>Sede sem visita há <strong>16 dias ou mais</strong> (ou nunca vistoriada). Deve ser vistoriada prioritariamente na sua rota.</span>
             </div>
           </div>
 
@@ -564,7 +653,7 @@
             <span class="status-dot" style="background:var(--status-amarelo);"></span>
             <div class="status-info">
               <strong style="color:var(--status-amarelo);">🟡 Amarelo — Atenção (Próxima da data)</strong>
-              <span>Vistoriada entre <strong>8 e 15 dias atrás</strong>. Inclua no seu roteiro da semana se estiver passando próximo ao local.</span>
+              <span>Vistoriada entre <strong>8 e 15 dias atrás</strong>. Inclua no roteiro semanal caso passe pela região.</span>
             </div>
           </div>
 
@@ -590,52 +679,52 @@
           </div>
         </div>
 
-        <div class="steps-list" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
+        <div class="steps-list" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px;">
           <div class="step-item">
             <span class="step-num">1</span>
             <div class="step-content">
               <strong>Localize a Sede no Mapa:</strong>
-              <p>Abra o app no celular. Você pode navegar pelo mapa ou digitar o nome/número da sede no campo de busca no topo. Use o botão de <strong>GPS (Minha Posição)</strong> para ver onde você está.</p>
+              <p>Abra o app no celular. Você pode navegar pelo mapa ou digitar o número/nome da sede no campo de busca. Use o botão de <strong>GPS (Minha Posição)</strong> para ver sua localização exata.</p>
             </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">2</span>
             <div class="step-content">
-              <strong>Toque no Marcador da Sede:</strong>
-              <p>Ao tocar no ponto da sede, abre o balão informativo mostrando o nome da fazenda, última data de visita e dias decorridos. Em seguida, clique no botão azul <strong>"Fazer Vistoria (Kobo)"</strong>.</p>
+              <strong>Abra o Formulário da Sede:</strong>
+              <p>Ao tocar no marcador da sede, abre o balão informativo com o nome da fazenda e dias decorridos. Em seguida, clique no botão azul <strong>"Fazer Vistoria (Kobo)"</strong>.</p>
             </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">3</span>
             <div class="step-content">
-              <strong>Preenchimento no KoboToolbox:</strong>
-              <p>O formulário oficial abrirá. Confirme a sede selecionada, informe a data/hora e o seu nome (avaliador). Em seguida, clique em <strong>Coletar Ponto GPS</strong> para registrar a coordenada exata.</p>
+              <strong>Identificação e Matrícula:</strong>
+              <p>Confirme os dados da sede, confira a data/hora e informe a sua <strong>matrícula</strong> de avaliador no formulário oficial.</p>
             </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">4</span>
             <div class="step-content">
-              <strong>Fotografe o Local:</strong>
-              <p>Tire pelo menos 1 foto nítida da sede ou dos pontos críticos (ex: curral, esterqueira, bebedouro, área de criação animal ou foco de matéria orgânica).</p>
+              <strong>Coleta do Ponto GPS:</strong>
+              <p>Clique no botão de <strong>GPS</strong> do formulário para gravar as coordenadas geográficas exatas do ponto vistoriado.</p>
             </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">5</span>
             <div class="step-content">
-              <strong>Avalie a Pressão de Mosca:</strong>
-              <p>Selecione a classificação correta: <strong>Baixa</strong>, <strong>Média</strong> ou <strong>Alta</strong> de acordo com a quantidade de moscas observada nos animais e arredores (veja a escala abaixo).</p>
+              <strong>Avalie a Pressão & Bandeiras:</strong>
+              <p>Classifique o nível de infestação em <strong>Baixa</strong>, <strong>Média</strong> ou <strong>Alta</strong> (veja a régua abaixo) e informe a quantidade de <strong>bandeiras</strong> observadas.</p>
             </div>
           </div>
 
           <div class="step-item">
             <span class="step-num">6</span>
             <div class="step-content">
-              <strong>Finalize e Envie o Formulário:</strong>
-              <p>Revise os campos e clique no botão verde <strong>"Enviar"</strong>. Uma mensagem de confirmação indicará que a vistoria foi salva com sucesso!</p>
+              <strong>Larvas, Inseticida & Causadores:</strong>
+              <p>Indique a presença/ausência de larvas/pupas, se foi aplicado inseticida e selecione os <strong>possíveis causadores</strong> (vinhaça, confinamento, esterco, etc.).</p>
             </div>
           </div>
         </div>
@@ -654,7 +743,7 @@
         </div>
 
         <p style="font-size:12px; color:var(--text-muted);">
-          Para evitar divergências entre avaliadores diferentes, utilize sempre a régua visual oficial da usina ao classificar a infestação:
+          Para garantir consistência técnica entre todos os avaliadores, utilize sempre os critérios oficiais ao classificar a infestação:
         </p>
 
         <div class="infestation-grid">
@@ -662,8 +751,8 @@
             <div class="infestation-title" style="color:var(--accent-blue);">
               <i class="fa-solid fa-circle-check"></i> Pressão BAIXA
             </div>
-            <p style="font-size:12px; color:#e2e8f0; line-height:1.5;">
-              <strong>1 a 10 moscas por animal:</strong> Presença pontual ou isolada. Os animais mantêm comportamento tranquilo, sem sacudir o corpo excessivamente. Sem acúmulo expressivo em esterqueiras.
+            <p style="font-size:11.5px; color:#e2e8f0; line-height:1.45;">
+              <strong>1 a 10 moscas por animal:</strong> Presença pontual ou isolada. Os animais mantêm comportamento calmo, sem sacudir o corpo excessivamente. Sem acúmulo expressivo em currais ou esterqueiras.
             </p>
           </div>
 
@@ -671,8 +760,8 @@
             <div class="infestation-title" style="color:var(--accent-orange);">
               <i class="fa-solid fa-triangle-exclamation"></i> Pressão MÉDIA
             </div>
-            <p style="font-size:12px; color:#e2e8f0; line-height:1.5;">
-              <strong>11 a 30 moscas por animal:</strong> Aglomeração perceptível nos flancos, patas e paleta do gado. Animais inquietos, batendo cauda e orelhas continuamente. Presença visível de moscas em currais e cocheiras.
+            <p style="font-size:11.5px; color:#e2e8f0; line-height:1.45;">
+              <strong>11 a 30 moscas por animal:</strong> Aglomeração perceptível nos flancos, patas e paleta do gado. Animais inquietos, batendo cauda e orelhas frequentemente. Presença visível em cocheiras.
             </p>
           </div>
 
@@ -680,8 +769,8 @@
             <div class="infestation-title" style="color:var(--status-vermelho);">
               <i class="fa-solid fa-radiation"></i> Pressão ALTA
             </div>
-            <p style="font-size:12px; color:#e2e8f0; line-height:1.5;">
-              <strong>Mais de 30 moscas por animal:</strong> Enxames densos, animais agrupados em círculo sob estresse agudo, balançando vigorosamente a cabeça e patas. Risco grave de queda de peso, perda na produção e contaminação.
+            <p style="font-size:11.5px; color:#e2e8f0; line-height:1.45;">
+              <strong>Mais de 30 moscas por animal:</strong> Enxames densos, animais sob estresse agudo, agrupados em círculo balançando vigorosamente cabeça e patas. Risco grave sanitário e produtivo.
             </p>
           </div>
         </div>
@@ -689,7 +778,7 @@
         <div class="alert-box">
           <i class="fa-solid fa-triangle-exclamation"></i>
           <p>
-            <strong>Atenção em caso de Pressão ALTA:</strong> Sempre registre no campo de observação se foi detectada matéria orgânica em decomposição (carcaça, fezes acumuladas em confinamento ou umidade excessiva) e informe imediatamente o encarregado regional.
+            <strong>Atenção em caso de Pressão ALTA:</strong> Sempre aponte nos possíveis causadores e no campo de observação se foi detectada matéria orgânica em decomposição (carcaça, fezes acumuladas em confinamento ou umidade excessiva) e avise a coordenação da usina.
           </p>
         </div>
       </div>
@@ -710,8 +799,8 @@
           <div class="step-item">
             <span class="step-num"><i class="fa-solid fa-check"></i></span>
             <div class="step-content">
-              <strong>O Mapa já fica guardado no aparelho:</strong>
-              <p>Após abrir o aplicativo NoFly pelo menos uma vez com internet, todas as sedes, polígonos e rotas permanecem salvos no cache do seu celular. Você consegue navegar normalmente sem sinal.</p>
+              <strong>O Mapa já fica gravado no celular:</strong>
+              <p>Após abrir o app NoFly uma vez com internet, todas as sedes, polígonos e rotas permanecem salvos na memória do seu celular. Você navega normalmente no meio do canavial sem sinal.</p>
             </div>
           </div>
 
@@ -719,15 +808,15 @@
             <span class="step-num"><i class="fa-solid fa-check"></i></span>
             <div class="step-content">
               <strong>Fila de envio do KoboToolbox:</strong>
-              <p>Se você preencher o formulário sem conexão de dados ou Wi-Fi, o Kobo guardará as respostas na memória do navegador (fila offline). Não feche ou limpe o histórico do navegador.</p>
+              <p>Ao preencher o formulário sem sinal de dados, o Kobo salva a vistoria na memória local do navegador (fila offline). Não limpe o histórico do navegador.</p>
             </div>
           </div>
 
           <div class="step-item">
             <span class="step-num"><i class="fa-solid fa-check"></i></span>
             <div class="step-content">
-              <strong>Sincronização ao voltar à base:</strong>
-              <p>Assim que o celular conectar ao Wi-Fi da usina ou pegar rede 4G, abra a página do Kobo para que todos os relatórios pendentes sejam enviados automaticamente para a nuvem.</p>
+              <strong>Sincronização ao conectar:</strong>
+              <p>Assim que o celular conectar ao Wi-Fi da usina ou rede móvel 4G, abra o Kobo para que todos os lançamentos pendentes sejam transmitidos automaticamente para a nuvem.</p>
             </div>
           </div>
         </div>
@@ -748,22 +837,22 @@
         <div class="golden-rules">
           <div class="rule-item">
             <i class="fa-solid fa-battery-full"></i>
-            <div><strong>Bateria Carregada:</strong> Saia sempre com 100% de carga e leve o cabo carregador veicular na camionete.</div>
+            <div><strong>Bateria Carregada:</strong> Saia a campo sempre com carga cheia e mantenha o cabo veicular na camionete.</div>
           </div>
 
           <div class="rule-item">
             <i class="fa-solid fa-location-crosshairs"></i>
-            <div><strong>GPS Ativado:</strong> Mantenha a localização do celular sempre em "Alta Precisão" para gravação correta do ponto.</div>
+            <div><strong>GPS em Alta Precisão:</strong> Mantenha a localização ativada no celular para captura correta da coordenada da sede.</div>
           </div>
 
           <div class="rule-item">
             <i class="fa-solid fa-circle-exclamation" style="color:var(--status-vermelho);"></i>
-            <div><strong>Prioridade Vermelha:</strong> Sempre atenda primeiro as sedes com 16 dias ou mais sem vistoria.</div>
+            <div><strong>Prioridade Vermelha:</strong> Inicie o roteiro pelas sedes que estão há 16 dias ou mais sem vistoria.</div>
           </div>
 
           <div class="rule-item">
-            <i class="fa-solid fa-camera"></i>
-            <div><strong>Fotos com Qualidade:</strong> Tire fotos nítidas do local vistoriado para comprovação técnica.</div>
+            <i class="fa-solid fa-magnifying-glass-location" style="color:var(--accent-orange);"></i>
+            <div><strong>Inspeção Minuciosa:</strong> Inspecione currais, bebedouros e áreas de matéria orgânica para identificar a fonte das moscas.</div>
           </div>
 
           <div class="rule-item">
@@ -782,6 +871,32 @@
     <p><strong>NoFly — Sistema de Monitoramento de Sedes</strong> | Usina Clealco</p>
     <p>Desenvolvido pelo Setor de Geotecnologia & Inovação Agrícola</p>
   </footer>
+
+  <script>
+    // Gerenciador de Tamanho de Fonte (Pequeno, Normal, Grande)
+    function definirTamanhoFonte(tamanho) {
+      document.body.classList.remove('font-small', 'font-normal', 'font-large');
+      document.body.classList.add('font-' + tamanho);
+
+      document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+      const btnAtivo = document.getElementById('btn-font-' + tamanho);
+      if (btnAtivo) btnAtivo.classList.add('active');
+
+      try {
+        localStorage.setItem('nofly_guia_font_size', tamanho);
+      } catch (e) {}
+    }
+
+    // Carregar preferência salva
+    (function() {
+      try {
+        const salva = localStorage.getItem('nofly_guia_font_size');
+        if (salva && ['small', 'normal', 'large'].includes(salva)) {
+          definirTamanhoFonte(salva);
+        }
+      } catch (e) {}
+    })();
+  </script>
 
 </body>
 </html>
