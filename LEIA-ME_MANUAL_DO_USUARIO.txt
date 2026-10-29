@@ -1,94 +1,128 @@
 ================================================================================
-           CLEALCO - SISTEMA DE MONITORAMENTO E ROTINA DE VISTORIAS DAS SEDES
+           NoFly - SISTEMA INTEGRADO DE MONITORAMENTO DE SEDES E VISTORIAS
+                       USINA CLEALCO - GEOTECNOLOGIA AGRÍCOLA
 ================================================================================
 
-Este projeto e uma aplicacao georreferenciada completa (PWA) e sistema de 
-gestao de rotina de vistorias tecnicas as sedes rurais da Clealco.
+Este projeto é uma aplicação georreferenciada completa (PWA) e plataforma de gestão
+de rotinas de vistorias técnicas das 77 sedes rurais vizinhas às unidades da Clealco,
+focada no monitoramento, controle e prevenção de moscas-dos-estábulos.
 
-Operacao rapida pelo painel de controle no computador:
-👉 MENU_MONITORAMENTO.bat
+MANUAL WEB INTERATIVO (RECOMENDADO):
+👉 Abra no navegador o arquivo: manual.html
+👉 Ou online em: https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/manual.html
 
-
-================================================================================
-1. ESTRUTURA ORGANIZADA DO PROJETO (ARQUIVOS ESSENCIAIS)
-================================================================================
-
-📁 10_Monitoramento_Sede/
-├── 🖼️ logos/
-│   ├── Logo_sede.jpg                        (Logo oficial de alta resolucao 2048x2048)
-│   ├── icon-192.png, icon-512.png           (Icones oficiais gerados para o PWA no celular)
-│   ├── apple-touch-icon.png                 (Icone para instalacao em iPhone/iPad)
-│   └── logo clealco.png                     (Identidade visual Clealco)
-│
-├── 🗺️ banco de dados geograficos/
-│   ├── Sede.shp, .dbf, .shx, .prj, .cpg     (Shapefile das 77 sedes)
-│   ├── AREAS.shp, .dbf, .shx, .prj, .cpg    (Shapefile dos limites das fazendas)
-│   └── MONITORAMENTO QUEIROZ.qgz            (Projeto oficial configurado no QGIS)
-│
-├── 📊 relatorios e formularios/
-│   ├── Formulario_Monitoramento_Sedes_Kobo.xlsx (XLSForm configurado no Kobo)
-│   └── Visitas_Monitoramento_Sedes_Kobo.xlsx    (Planilha Excel oficial com historico e status)
-│
-├── ⚙️ scripts/
-│   ├── atualizar_base_web.py                (Gera dados_mapa.js a partir dos shapefiles)
-│   └── baixar_planilha_visitas_kobo.py      (Script que baixa vistorias da nuvem Kobo)
-│
-├── 🌐 APLICATIVO WEB & MOBILE (PWA - Raiz):
-│   ├── index.html                           (Aplicacao web interativa com mapa, GPS e formulario)
-│   ├── dados_mapa.js                        (Base vetorial compacta de sedes e fazendas)
-│   ├── manifest.json                        (Configuracao do aplicativo PWA para download)
-│   ├── sw.js                                (Service Worker com cache e suporte offline)
-│   ├── MENU_MONITORAMENTO.bat               (Painel principal com 1 clique)
-│   ├── LEIA-ME_MANUAL_DO_USUARIO.txt        (Este manual completo de instrucoes)
-│   └── .gitignore                           (Ignora arquivos temporarios e a pasta 'excluir')
-│
-└── 📦 PASTA 'excluir/':
-    └── Contem arquivos obsoletos ou descontinuados (backups antigos, fotos, etc.)
+PAINEL RÁPIDO NO WINDOWS (1 CLIQUE):
+👉 Execute: MENU_MONITORAMENTO.bat
 
 
 ================================================================================
-2. COMO TRANSFERIR ESTE TRABALHO PARA OUTRO COMPUTADOR
+1. GUIA EXCLUSIVO DA EQUIPE DE CAMPO (AVALIADORES & VISTORIADORES)
 ================================================================================
 
-Caso precise migrar ou abrir em outra maquina:
+Este guia foi desenvolvido especialmente para os profissionais que vão ao campo
+realizar as inspeções in loco nas sedes rurais.
 
-1. Basta COPIAR esta pasta inteira ('10_Monitoramento_Sede') para o novo computador
-   (ou clonar o repositorio do GitHub):
-   git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
+A. COMO ACESSAR E BAIXAR O APP NO CELULAR:
+   1. Abra o navegador do celular (Chrome no Android ou Safari no iPhone).
+   2. Acesse o endereço oficial:
+      https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/
+   3. No Android: Toque no botão verde "Baixar App" ou no menu (3 pontinhos) e 
+      selecione "Instalar Aplicativo" ou "Adicionar à Tela Inicial".
+   4. No iPhone: Toque no botão Compartilhar (quadrado com seta para cima) e 
+      selecione "Adicionar à Tela de Início".
+   5. O NoFly funcionará como um aplicativo instalado no seu celular!
 
-2. Se a nova maquina precisar rodar os scripts Python de atualizacao de base ou
-   download de planilhas, execute uma unica vez no terminal:
-   pip install geopandas requests pandas openpyxl
+B. ENTENDENDO AS CORES DAS SEDES NO MAPA:
+   🟢 VERDE (≤ 7 dias): Sede vistoriada recentemente. Rotina em dia.
+   🟡 AMARELO (8 a 15 dias): Sede próxima de vencer o prazo. Visitar em breve.
+   🔴 VERMELHO (≥ 16 dias ou Sem Visita): CRÍTICA! Prioridade máxima de rota.
+      Sempre comece o planejamento do seu dia pelas sedes VERMELHAS!
 
-3. Pronto! Basta dar dois cliques em:
-   👉 MENU_MONITORAMENTO.bat
+C. COMO USAR O GPS NO CAMPO:
+   • Toque no botão de mira do GPS (canto superior direito do mapa).
+   • O mapa centrará na sua localização atual (ponto azul) e a barra superior
+     mostrará o nome da sede mais próxima e a distância em metros.
+
+D. PASSO A PASSO PARA PREENCHER O FORMULÁRIO KOBOTOOLBOX:
+   1. Ao chegar na sede, toque no pino correspondente no mapa e clique em
+      "Nova Vistoria (Kobo)" (já abre com o número da sede preenchido!).
+   2. Digite sua MATRÍCULA Clealco.
+   3. Confira DATA e HORA da vistoria.
+   4. Avalie o NÍVEL DE PRESSÃO DE MOSCA:
+      - BAIXA: 1 a 5 moscas por animal. Gado calmo, sem perturbação.
+      - MÉDIA: 6 a 20 moscas por animal. Animais batendo patas ou cauda.
+      - ALTA: Mais de 20 moscas por animal. Nuvens de insetos, animais aglomerados
+        em estresse severo. ALERTA IMEDIATO!
+   5. BANDEIRAS: Informe a quantidade de armadilhas/bandeiras contadas ou instaladas.
+   6. LARVA/PUPA: Marque se identificou larvas ou pupas em focos orgânicos.
+   7. INSETICIDA: Indique se houve aplicação de produto químico.
+   8. POSSÍVEIS CAUSADORES: Aponte a fonte atrativa (Vinhaça, Torta, Esterco, etc.).
+   9. PONTO GPS: Clique no botão de GPS do formulário para salvar suas coordenadas.
+      O sistema audita a distância exata em que você estava da sede!
+   10. OBSERVAÇÕES: Registre informações complementares e envie o formulário!
+
+E. TRABALHO OFFLINE (SEM SINAL DE CELULAR):
+   • Abra o NoFly enquanto tiver Wi-Fi ou sinal 4G antes de ir para o campo.
+   • No campo sem sinal, preencha normalmente. As vistorias ficam salvas no celular.
+   • Ao retornar para área com sinal, a sincronização com a nuvem é automática!
 
 
 ================================================================================
-3. LINKS IMPORTANTES (SISTEMA & NUVEM)
+2. GUIA DA GESTÃO & RELATÓRIOS (COORDENAÇÃO & DIRETORIA)
 ================================================================================
 
-• Link do Aplicativo no Celular / Computador:
-  https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/
+A. RELATÓRIO ONLINE EXECUTIVO (relatorio.html):
+   Link: https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html
+   • Indicadores Executivos em Tempo Real (KPIs de sedes visitadas e atrasadas).
+   • Gráficos dinâmicos com valores expressos dentro das roscas e nas legendas.
+   • Tabela completa das 77 sedes ordenadas por criticidade, com link para traçar
+     rotas no Google Maps.
+   • Exportar Excel (.xlsx): Gera em 1 clique o relatório formatado com 2 abas.
+   • Imprimir / PDF: Impressão executiva A4 (Página 1: Dashboard; Página 2: Tabela).
 
-• Link da Tabela de Dados no KoboToolbox:
-  https://kf.kobotoolbox.org/#/forms/a6xVWc5GTZEWFzSceegC4G/data/table
+B. ANÁLISE DE FREQUÊNCIA E MAPA DE CALOR (analise_frequencia.html):
+   Link: https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/analise_frequencia.html
+   • Raio físico de 300 metros em torno de cada sede.
+   • Comparação semanal com tela dividida (Split Screen).
+   • Mapa de calor por Pressão de Moscas ou Frequência de Vistorias.
+   • Cálculo automático do intervalo médio de retorno da equipe às sedes.
 
-• Resumo / Graficos no KoboToolbox:
-  https://kf.kobotoolbox.org/#/forms/a6xVWc5GTZEWFzSceegC4G/summary
-
-• Repositorio no GitHub:
-  https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES
-
-
-================================================================================
-4. REGRAS DE TEMATIZACAO POR DATA DA ULTIMA VISTORIA
-================================================================================
-
-🟢 Verde:    Ate 7 dias desde a ultima visita (Em dia).
-🟡 Amarelo:  De 8 a 15 dias apos a visita (Atencao).
-🔴 Vermelho: A partir de 16 dias da visita ou nunca vistoriada (Atrasada / Pendente).
 
 ================================================================================
-Clealco - Geotecnologia e Monitoramento Agricola
+3. GEOTECNOLOGIA & TI (MANUTENÇÃO TÉCNICA E ARQUIVOS)
+================================================================================
+
+A. ESTRUTURA ORGANIZADA DE DIRETÓRIOS:
+   📁 10_Monitoramento_Sede/
+   ├── 🖼️ logos/                      (Logos NoFly e ícones PWA para celular)
+   ├── 🗺️ banco de dados geograficos/ (Sede.shp, AREAS.shp e MONITORAMENTO QUEIROZ.qgz)
+   ├── 📊 relatorios e formularios/  (Visitas_Monitoramento_Sedes_Kobo.xlsx)
+   ├── ⚙️ scripts/                    (baixar_planilha_visitas_kobo.py, atualizar_base_web.py)
+   ├── 🌐 index.html                  (App de Campo mobile/desktop)
+   ├── 📊 relatorio.html              (Relatório Executivo Online com Excel e PDF)
+   ├── 📈 analise_frequencia.html     (Painel de Frequência e Calor 300m)
+   ├── 📖 manual.html                 (Manual Oficial Interativo Web)
+   ├── ⚙️ MENU_MONITORAMENTO.bat      (Central de Operações em 1 clique)
+   └── 📄 LEIA-ME_MANUAL_DO_USUARIO.txt (Este arquivo)
+
+B. MENU DE OPERAÇÕES NO WINDOWS (MENU_MONITORAMENTO.bat):
+   [1] Abrir Mapa de Vistorias no Navegador (index.html)
+   [2] Baixar Relatório de Vistorias do KoboToolbox (Excel Consolidado)
+   [3] Atualizar Base do Mapa Web (Processar shapefiles Sede.shp e AREAS.shp)
+   [4] Publicar Alterações no GitHub (Atualizar App do Celular de todos)
+   [5] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
+   [6] Acessar Painel KoboToolbox na Nuvem
+   [7] Abrir Painel de Análise de Frequência e Calor (analise_frequencia.html)
+   [8] Abrir Relatório Executivo Online (relatorio.html)
+   [9] Abrir Manual do Usuário e Guia de Campo (manual.html)
+
+C. MIGRAÇÃO PARA OUTRO COMPUTADOR:
+   1. Copie a pasta '10_Monitoramento_Sede' ou clone pelo GitHub:
+      git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
+   2. Instale as bibliotecas Python (necessário apenas para os scripts):
+      pip install geopandas requests pandas openpyxl
+   3. Pronto! Abra pelo MENU_MONITORAMENTO.bat.
+
+================================================================================
+Clealco - Geotecnologia e Inteligência Agrícola • 2026
 ================================================================================

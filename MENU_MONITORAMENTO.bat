@@ -18,13 +18,15 @@ echo   [5] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
 echo   [6] Acessar Painel KoboToolbox na Nuvem (Ver Dados Online)
 echo   [7] Abrir Painel de Analise de Frequencia e Calor (analise_frequencia.html)
 echo   [8] Abrir Relatorio Executivo Online (relatorio.html)
+echo   [9] Abrir Manual do Usuario e Guia de Campo (manual.html)
 echo   [0] Sair
 echo.
 echo ================================================================================
 echo.
-choice /C 123456780 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7, 8 ou 0: "
+choice /C 1234567890 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7, 8, 9 ou 0: "
 
-if errorlevel 9 goto OP_SAIR
+if errorlevel 10 goto OP_SAIR
+if errorlevel 9 goto OP_MANUAL
 if errorlevel 8 goto OP_RELATORIO
 if errorlevel 7 goto OP_ANALISE
 if errorlevel 6 goto OP_KOBO
@@ -33,6 +35,18 @@ if errorlevel 4 goto OP_GITHUB
 if errorlevel 3 goto OP_UPDATE
 if errorlevel 2 goto OP_EXCEL
 if errorlevel 1 goto OP_OPEN_WEB
+goto MENU
+
+:OP_MANUAL
+cls
+echo ================================================================================
+echo             NoFly - MANUAL DO USUARIO E GUIA DA EQUIPE DE CAMPO
+echo ================================================================================
+echo.
+echo Abrindo o manual interativo no navegador...
+start "" "manual.html"
+echo Pronto!
+timeout /t 3 > nul
 goto MENU
 
 :OP_RELATORIO

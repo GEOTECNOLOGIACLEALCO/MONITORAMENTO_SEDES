@@ -1,9 +1,10 @@
-const CACHE_NAME = 'nofly-sedes-v19';
+const CACHE_NAME = 'nofly-sedes-v20';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
   './analise_frequencia.html',
   './relatorio.html',
+  './manual.html',
   './dados_mapa.js',
   './vistorias_kobo.json',
   './manifest.json',
