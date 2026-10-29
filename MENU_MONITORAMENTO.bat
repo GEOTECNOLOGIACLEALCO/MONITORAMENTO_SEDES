@@ -37,10 +37,17 @@ goto MENU
 
 :OP_RELATORIO
 cls
-echo Abrindo Relatorio Executivo Online de Vistorias...
-start "" "relatorio.html"
+echo ================================================================================
+echo             NoFly - RELATORIO ONLINE DE MONITORAMENTO DE SEDES
+echo ================================================================================
+echo.
+echo Link oficial para Celular, Computador e WhatsApp:
+echo https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html
+echo.
+echo Abrindo o relatorio online no seu navegador...
+start "" "https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html"
 echo Pronto!
-timeout /t 2 > nul
+timeout /t 3 > nul
 goto MENU
 
 :OP_ANALISE
