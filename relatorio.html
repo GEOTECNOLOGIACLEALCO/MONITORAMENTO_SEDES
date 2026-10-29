@@ -612,23 +612,15 @@
         color: #64748b !important;
       }
 
-      /* GRÁFICOS: AJUSTADOS PARA PREENCHER HARMONIOSAMENTE A PÁGINA 1 */
+      /* GRÁFICOS: ESTRUTURA EM FLEXBOX SEM NENHUMA SOBREPOSIÇÃO */
       .charts-grid {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
         margin-bottom: 0 !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
-      }
-      .charts-grid .chart-box:first-child {
-        grid-column: 1 / -1 !important;
-        width: 100% !important;
-      }
-      .charts-grid .chart-box:nth-child(2),
-      .charts-grid .chart-box:nth-child(3) {
-        grid-column: span 1 !important;
-        width: 100% !important;
       }
       .chart-box {
         background: #fff !important;
@@ -639,6 +631,18 @@
         box-shadow: none !important;
         page-break-inside: avoid !important;
         break-inside: avoid !important;
+        box-sizing: border-box !important;
+      }
+      .charts-grid .chart-box:first-child {
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        margin-bottom: 0 !important;
+      }
+      .charts-grid .chart-box:nth-child(2),
+      .charts-grid .chart-box:nth-child(3) {
+        flex: 0 0 calc(50% - 6px) !important;
+        width: calc(50% - 6px) !important;
+        max-width: calc(50% - 6px) !important;
       }
       .chart-title {
         color: #000 !important;
@@ -646,8 +650,13 @@
         font-weight: 700 !important;
         margin-bottom: 4px !important;
       }
-      .chart-wrapper {
-        height: 165px !important; /* Altura exata para caber tudo na página 1 */
+      .charts-grid .chart-box:first-child .chart-wrapper {
+        height: 150px !important;
+        width: 100% !important;
+      }
+      .charts-grid .chart-box:nth-child(2) .chart-wrapper,
+      .charts-grid .chart-box:nth-child(3) .chart-wrapper {
+        height: 160px !important;
         width: 100% !important;
       }
 
@@ -1282,6 +1291,36 @@
         }
       });
 
+      // Plugin customizado para desenhar os valores diretamente dentro das fatias da rosca
+      const pluginValoresRosca = {
+        id: "pluginValoresRosca",
+        afterDatasetsDraw(chart) {
+          if (chart.config.type !== "doughnut") return;
+          const { ctx } = chart;
+          chart.data.datasets.forEach((dataset, datasetIndex) => {
+            const meta = chart.getDatasetMeta(datasetIndex);
+            if (!meta || meta.hidden) return;
+            meta.data.forEach((element, index) => {
+              const val = dataset.data[index];
+              if (val > 0) {
+                const pos = element.tooltipPosition();
+                ctx.save();
+                ctx.font = "bold 13px Inter, Arial, sans-serif";
+                ctx.fillStyle = "#ffffff";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.shadowColor = "rgba(0, 0, 0, 0.85)";
+                ctx.shadowBlur = 4;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 1;
+                ctx.fillText(String(val), pos.x, pos.y);
+                ctx.restore();
+              }
+            });
+          });
+        }
+      };
+
       // 2. Gráfico de Cobertura de Sedes (Verde / Amarelo / Vermelho)
       const emDia = listaSedesGeral.filter(s => s.status === "verde").length;
       const atencao = listaSedesGeral.filter(s => s.status === "amarelo").length;
@@ -1292,7 +1331,7 @@
       chartStatus = new Chart(ctxSt, {
         type: "doughnut",
         data: {
-          labels: ["Em Dia", "Atenção", "Atrasadas / Sem Visita"],
+          labels: [`Em Dia (${emDia})`, `Atenção (${atencao})`, `Atrasadas (${atrasadas})`],
           datasets: [{
             data: [emDia, atencao, atrasadas],
             backgroundColor: ["#22c55e", "#f59e0b", "#ef4444"],
@@ -1300,6 +1339,7 @@
             borderColor: "#1e293b"
           }]
         },
+        plugins: [pluginValoresRosca],
         options: {
           responsive: true,
           maintainAspectRatio: false,
@@ -1328,7 +1368,7 @@
       chartPressao = new Chart(ctxPr, {
         type: "doughnut",
         data: {
-          labels: ["Alta", "Média", "Baixa", "Sem Visita"],
+          labels: [`Alta (${alta})`, `Média (${media})`, `Baixa (${baixa})`, `Sem Visita (${semV})`],
           datasets: [{
             data: [alta, media, baixa, semV],
             backgroundColor: ["#ef4444", "#f97316", "#38bdf8", "#64748b"],
@@ -1336,6 +1376,7 @@
             borderColor: "#1e293b"
           }]
         },
+        plugins: [pluginValoresRosca],
         options: {
           responsive: true,
           maintainAspectRatio: false,
