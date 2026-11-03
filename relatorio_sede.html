@@ -631,7 +631,7 @@
       const feat = SEDES.find(f => String(f.properties.num_sede) === String(numSede));
       const el = document.getElementById("relatorio");
       if (!feat) {
-        el.innerHTML = `<div class="vazio">Nenhuma sede encontrada na base. Atualize a base pelo MENU (opção 3).</div>`;
+        el.innerHTML = `<div class="vazio">Nenhuma sede encontrada na base. Clique em "Atualizar dados".</div>`;
         return;
       }
       history.replaceState(null, "", `?sede=${encodeURIComponent(numSede)}`);

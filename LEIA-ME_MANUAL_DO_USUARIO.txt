@@ -109,20 +109,22 @@ A. ESTRUTURA ORGANIZADA DE DIRETÓRIOS:
    └── 📄 LEIA-ME_MANUAL_DO_USUARIO.txt (Este arquivo)
 
 B. MENU DE OPERAÇÕES NO WINDOWS (MENU_MONITORAMENTO.bat):
-   [1] Abrir Mapa de Vistorias no Navegador (index.html)
-   [2] Baixar Relatório de Vistorias do KoboToolbox (Excel Consolidado)
-   [3] Atualizar Base do Mapa Web (Processar shapefiles Sede.shp e AREAS.shp)
-   [4] Publicar Alterações no GitHub (Atualizar App do Celular de todos)
-   [5] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
-   [6] Acessar Painel KoboToolbox na Nuvem
-   [7] Abrir Painel de Análise de Frequência e Calor (analise_frequencia.html)
-   [8] Abrir Relatório Executivo Online (relatorio.html)
-   [9] Abrir Manual do Usuário e Guia de Campo (manual.html)
+   [1] Atualizar tudo e publicar (Kobo, fotos, mapa, Excel e app do celular)
+   [2] Abrir Relatórios (executivo e por sede - salvar PDF)
+   [3] Abrir Mapa de Campo e Análise de Frequência
+   [4] Abrir Manuais (gestão e guia da equipe de campo)
+   [5] Abrir KoboToolbox (dados na nuvem)
+   [6] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
+   [7] Instalar/atualizar bibliotecas Python (primeiro uso)
+   [0] Sair
+
+   Sem acesso a este computador: nos relatórios online, o botão
+   "Atualizar dados" faz o mesmo que a opção [1] direto no GitHub.
 
 C. MIGRAÇÃO PARA OUTRO COMPUTADOR:
    1. Copie a pasta '10_Monitoramento_Sede' ou clone pelo GitHub:
       git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
-   2. Instale as bibliotecas Python pelo menu, opção [R]
+   2. Instale as bibliotecas Python pelo menu, opção [7]
       (ou: pip install -r requirements.txt).
    3. Configure o token do KoboToolbox: copie scripts\.env.example para
       scripts\.env e cole o token (KoboToolbox > Account Settings > Security).
@@ -135,7 +137,7 @@ D. CONFIGURAÇÕES (scripts\nofly_config.json):
      da matrícula. Vistorias fora da regra aparecem na coluna ALERTAS_VALIDACAO
      do Excel e com ⚠️ no relatório.
    • privacidade: mascarar matrícula e publicar ou não o GPS do avaliador no site.
-   Depois de alterar, rode a opção [4] do menu para publicar.
+   Depois de alterar, rode a opção [1] do menu para publicar.
 
 E. ONDE FICAM OS DADOS:
    • Site (GitHub): dados_mapa.js e vistorias_kobo.json, com matrícula mascarada.
