@@ -1166,6 +1166,64 @@
       background: rgba(255, 255, 255, 0.22);
     }
 
+    /* Foto com coordenada por item do formulário */
+    .foto-campo {
+      margin-top: 8px;
+    }
+    .btn-foto {
+      width: 100%;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px dashed rgba(96, 165, 250, 0.6);
+      color: #bfdbfe;
+      padding: 9px 10px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-foto:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+    .foto-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      border-radius: 8px;
+      padding: 6px;
+    }
+    .foto-preview img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 6px;
+      flex-shrink: 0;
+      cursor: zoom-in;
+    }
+    .foto-preview-info {
+      flex: 1;
+      min-width: 0;
+      font-size: 11px;
+      color: #cbd5e1;
+      font-family: monospace;
+      line-height: 1.4;
+    }
+    .foto-preview-info strong {
+      color: #22c55e;
+      font-family: inherit;
+    }
+    .foto-preview-acoes {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
     @media (max-width: 680px) {
       .fab-gps {
         bottom: 78px;
@@ -1583,7 +1641,7 @@
   <div id="app-loading-screen">
     <div class="loading-card">
       <div class="loading-logo-box">
-        <img src="logos/NoFly.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
+        <img src="logos/NoFly_512.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
       </div>
       <div class="loading-title">NoFly | Monitoramento de Sedes</div>
       <div class="loading-spinner-wrapper">
@@ -1601,19 +1659,25 @@
     <header>
       <div class="brand">
         <div class="brand-icon">
-          <img src="logos/NoFly.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
+          <img src="logos/NoFly_512.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
         </div>
         <div class="brand-title">
           <h1><span class="brand-title-full">NoFly | Monitoramento de Sedes</span><span class="brand-title-short">NoFly</span></h1>
           <p>Gestão e Rotina de Vistorias no Campo</p>
+          <p id="dados-atualizacao" style="font-size:10px; opacity:.75; margin-top:2px;"></p>
         </div>
       </div>
       <div class="top-actions">
         <div class="badge-stats" title="Status das Vistorias">
-          <div class="stat-item" title="Até 7 dias (Em dia)"><span class="dot-green"></span> <span id="count-verde">0</span></div>
-          <div class="stat-item" title="8 a 15 dias (Atenção)"><span class="dot-yellow"></span> <span id="count-amarelo">0</span></div>
-          <div class="stat-item" title="A partir de 16 dias / Sem visita"><span class="dot-red"></span> <span id="count-vermelho">0</span></div>
+          <div class="stat-item" title="Até 7 dias (Em dia)" data-lim-title="Até {V} dias (Em dia)"><span class="dot-green"></span> <span id="count-verde">0</span></div>
+          <div class="stat-item" title="8 a 15 dias (Atenção)" data-lim-title="{A1} a {A} dias (Atenção)"><span class="dot-yellow"></span> <span id="count-amarelo">0</span></div>
+          <div class="stat-item" title="A partir de 16 dias / Sem visita" data-lim-title="A partir de {R} dias / Sem visita"><span class="dot-red"></span> <span id="count-vermelho">0</span></div>
         </div>
+
+        <!-- Vistorias guardadas no celular aguardando envio -->
+        <button id="btn-fila-envio" class="btn-top" onclick="processarFilaEnvio(true)" title="Vistorias guardadas no celular aguardando envio. Toque para tentar enviar agora." style="display:none; background:#b45309; color:#fff; border:1px solid #f59e0b; align-items:center; gap:6px;">
+          <i class="fa-solid fa-cloud-arrow-up"></i> <span id="fila-envio-qtd">0</span><span class="btn-text-full">&nbsp;pendente(s)</span>
+        </button>
 
         <!-- Botão Abrir Guia da Equipe de Campo -->
         <a href="guia_campo.html?v=nofly_v23" class="btn-top" title="Abrir Guia da Equipe de Campo" style="background:#1e293b; color:#fff; text-decoration:none; display:flex; align-items:center; gap:6px; border:1px solid #334155;">
@@ -1688,15 +1752,15 @@
       <div class="legend-body" id="legend-body">
         <div class="legend-row">
           <span class="legend-color verde"></span>
-          <span><strong>Até 7 dias</strong> (Verde - Em dia)</span>
+          <span><strong data-lim-text="Até {V} dias">Até 7 dias</strong> (Verde - Em dia)</span>
         </div>
         <div class="legend-row">
           <span class="legend-color amarelo"></span>
-          <span><strong>8 a 15 dias</strong> (Amarelo - Atenção)</span>
+          <span><strong data-lim-text="{A1} a {A} dias">8 a 15 dias</strong> (Amarelo - Atenção)</span>
         </div>
         <div class="legend-row">
           <span class="legend-color vermelho"></span>
-          <span><strong>≥ 16 dias</strong> (Vermelho - Atrasado)</span>
+          <span><strong data-lim-text="≥ {R} dias">≥ 16 dias</strong> (Vermelho - Atrasado)</span>
         </div>
       </div>
     </div>
@@ -1814,12 +1878,14 @@
               <div class="btn-select-opt"><i class="fa-solid fa-circle-exclamation"></i> Alta</div>
             </label>
           </div>
+          <div class="foto-campo" data-foto="pressao"></div>
         </div>
 
         <!-- 4. N° de bandeiras: quantidade (Digitável e obrigatório) -->
         <div class="form-group">
           <label>N° de Bandeiras (Quantidade) <span class="req">*</span></label>
           <input type="number" id="form-bandeiras" class="form-control" placeholder="Informe a quantidade de bandeiras" min="0" step="1" required>
+          <div class="foto-campo" data-foto="bandeiras"></div>
         </div>
 
         <!-- 5. Larva e Pupa: Ausência e Presença (Obrigatório) -->
@@ -1835,6 +1901,7 @@
               <div class="btn-select-opt"><i class="fa-solid fa-bug"></i> Presença</div>
             </label>
           </div>
+          <div class="foto-campo" data-foto="larva_pupa"></div>
         </div>
 
         <!-- 6. Inseticida: Aplicado ou Não Aplicado (Obrigatório) -->
@@ -1850,6 +1917,7 @@
               <div class="btn-select-opt"><i class="fa-solid fa-ban"></i> Não Aplicado</div>
             </label>
           </div>
+          <div class="foto-campo" data-foto="inseticida"></div>
         </div>
 
         <!-- 7. Possíveis Causadores: Torta, Vinhaça, Outro -->
@@ -1874,6 +1942,7 @@
             <label style="font-size: 11.5px; color: #cbd5e1; margin-bottom: 4px; display: block;">Qual o causador? <span class="req">*</span></label>
             <input type="text" id="form-causador-outro" class="form-control" placeholder="Especifique o causador (ex: Esterco, Palha úmida, etc.)">
           </div>
+          <div class="foto-campo" data-foto="causador"></div>
         </div>
 
         <div class="form-section-title">Informações Complementares</div>
@@ -1897,6 +1966,18 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Dados Geográficos -->
   <script src="dados_mapa.js"></script>
+  <script>
+    // Limites de status (dias) vindos de scripts/nofly_config.json via dados_mapa.js
+    const LIM_VERDE = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.verde_max_dias) || 7;
+    const LIM_AMARELO = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.amarelo_max_dias) || 15;
+    function aplicarTextosLimites() {
+      const fmt = s => s.replace(/\{V\}/g, LIM_VERDE).replace(/\{A1\}/g, LIM_VERDE + 1)
+                        .replace(/\{A\}/g, LIM_AMARELO).replace(/\{R\}/g, LIM_AMARELO + 1);
+      document.querySelectorAll("[data-lim-text]").forEach(el => { el.textContent = fmt(el.getAttribute("data-lim-text")); });
+      document.querySelectorAll("[data-lim-title]").forEach(el => { el.title = fmt(el.getAttribute("data-lim-title")); });
+    }
+    document.addEventListener("DOMContentLoaded", aplicarTextosLimites);
+  </script>
 
   <script>
         const ASSET_UID = "a6xVWc5GTZEWFzSceegC4G";
@@ -1943,6 +2024,9 @@
       atualizarContadores();
       sincronizarVistoriasRemotas();
       iniciarGpsTempoReal();
+      iniciarFilaEnvio();
+      montarCamposFoto();
+      mostrarDataAtualizacao();
 
       // Preencher Data da Vistoria automática (ex: 27/10/2026)
       atualizarCamposAutomaticos();
@@ -2168,7 +2252,8 @@
           if (!mapV.has(k)) mapV.set(k, []);
           const exists = mapV.get(k).some(ex =>
             (ex.data_vistoria === v.data_vistoria && ex.hora_vistoria === v.hora_vistoria) ||
-            (ex.kobo_id && v.kobo_id && ex.kobo_id === v.kobo_id)
+            (ex.kobo_id && v.kobo_id && ex.kobo_id === v.kobo_id) ||
+            (ex.instance_id && v.instance_id && ex.instance_id === v.instance_id)
           );
           if (!exists) {
             mapV.get(k).push(v);
@@ -2193,6 +2278,7 @@
             let adicionados = 0;
             remotas.forEach(rv => {
               const jaExiste = historicoVisitas.some(hv =>
+                (hv.instance_id && rv.instance_id && hv.instance_id === rv.instance_id) ||
                 String(hv.num_sede) === String(rv.num_sede) &&
                 (hv.data_vistoria || hv.data) === (rv.data_vistoria || rv.data) &&
                 (hv.hora_vistoria || hv.hora) === (rv.hora_vistoria || rv.hora)
@@ -2375,9 +2461,7 @@
     }
 
     // Calcula status temático conforme regra de vistoria:
-    // <= 7 dias: Verde
-    // 8 a 15 dias: Amarelo
-    // >= 16 dias (ou sem visita): Vermelho
+    // Limites definidos em scripts/nofly_config.json (padrao: verde <= 7, amarelo 8 a 15, vermelho >= 16)
     function calcularStatusTematico(vistoria) {
       if (!vistoria) {
         return {
@@ -2418,23 +2502,23 @@
       const diffDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
       const dias = Math.max(0, diffDias);
 
-      if (dias <= 7) {
+      if (dias <= LIM_VERDE) {
         return {
           status: "verde",
           classe: "status-verde",
           cor: "#22c55e",
           label: dias === 0 ? "Vistoriada Hoje" : (dias === 1 ? "Há 1 dia" : `Há ${dias} dias`),
-          sublabel: "≤ 7 dias (Em dia)",
+          sublabel: `≤ ${LIM_VERDE} dias (Em dia)`,
           dias: dias,
           icone: "fa-check"
         };
-      } else if (dias <= 15) {
+      } else if (dias <= LIM_AMARELO) {
         return {
           status: "amarelo",
           classe: "status-amarelo",
           cor: "#eab308",
           label: `Há ${dias} dias`,
-          sublabel: "8 a 15 dias (Atenção)",
+          sublabel: `${LIM_VERDE + 1} a ${LIM_AMARELO} dias (Atenção)`,
           dias: dias,
           icone: "fa-clock"
         };
@@ -2444,7 +2528,7 @@
           classe: "status-vermelho",
           cor: "#ef4444",
           label: `Há ${dias} dias`,
-          sublabel: "≥ 16 dias (Atrasada)",
+          sublabel: `≥ ${LIM_AMARELO + 1} dias (Atrasada)`,
           dias: dias,
           icone: "fa-triangle-exclamation"
         };
@@ -2554,7 +2638,7 @@
         statusBox.className = "detail-status-box status-vermelho";
         statusTexto.innerHTML = `
           <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
-            <span class="status-indicator-badge status-vermelho"><i class="fa-solid fa-triangle-exclamation"></i> Sem Vistoria (≥ 16 dias)</span>
+            <span class="status-indicator-badge status-vermelho"><i class="fa-solid fa-triangle-exclamation"></i> Sem Vistoria (≥ ${LIM_AMARELO + 1} dias)</span>
           </div>
           <div style="font-size:11px; opacity:0.9;">Nenhuma vistoria registrada para esta sede até o momento.</div>
         `;
@@ -2608,6 +2692,7 @@
       document.getElementById("form-causador-outro").value = "";
       document.getElementById("form-bandeiras").value = "";
       document.getElementById("form-obs").value = "";
+      limparFotosVistoria();
 
       // Abrir Modal Centralizado com Fundo Escurecido
       document.getElementById("modal-backdrop").classList.add("open");
@@ -2645,8 +2730,10 @@
       window.open(url, "_blank");
     }
 
-    function salvarVisita(e) {
+    async function salvarVisita(e) {
       e.preventDefault();
+      // Evita vistoria duplicada por toque duplo enquanto as fotos sao gravadas
+      if (salvandoVistoria) return;
 
       const numSede = document.getElementById("form-num-sede").value;
       const nomeSede = sedeSelecionada ? (sedeSelecionada.properties.nome_sede || `Sede ${numSede}`) : `Sede ${numSede}`;
@@ -2724,6 +2811,18 @@
         causador = `Outro: ${especificado}`;
       }
 
+      // Uma foto com coordenada para cada item preenchido
+      const camposPreenchidos = ["pressao", "bandeiras", "larva_pupa", "inseticida"].concat(causador ? ["causador"] : []);
+      const semFoto = camposPreenchidos.find(c => !fotosVistoria[c]);
+      if (semFoto) {
+        showToast(`Tire a foto do item "${FOTO_CAMPOS[semFoto]}"!`, "error");
+        const el = document.querySelector(`.foto-campo[data-foto="${semFoto}"]`);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
+      const fotosSalvar = camposPreenchidos.map(c => ({ campo: c, ...fotosVistoria[c] }));
+      salvandoVistoria = true;
+
       // Lembrar matrícula do avaliador
       localStorage.setItem("clealco_matricula", matricula);
 
@@ -2732,6 +2831,8 @@
       const sedeLon = (sedeSelecionada && sedeSelecionada.coords) ? sedeSelecionada.coords[1] : (sedeSelecionada && sedeSelecionada.properties ? sedeSelecionada.properties.lon : "");
       const locSede = (sedeLat && sedeLon) ? `${sedeLat}, ${sedeLon}` : "";
       const linkMapsSede = (sedeLat && sedeLon) ? `https://www.google.com/maps?q=${sedeLat},${sedeLon}` : "";
+
+      const instanceId = 'uuid:' + (crypto.randomUUID ? crypto.randomUUID() : (Date.now().toString(36) + '-' + Math.random().toString(36).substring(2)));
 
       const novaVistoria = {
         num_sede: numSede,
@@ -2759,7 +2860,9 @@
         longitude_gps_lancamento: lon,
         gps_precisao: userAcc || null,
         origem_coordenada: (userLat !== null && userLat !== undefined) ? "gps_lancamento" : "sede_referencia",
-        salvoEm: new Date().toISOString()
+        fotos: fotosSalvar.map(f => ({ campo: f.campo, nome: f.nome, lat: f.lat, lon: f.lon, data_hora: f.dataHora })),
+        salvoEm: new Date().toISOString(),
+        instance_id: instanceId
       };
 
       historicoVisitas.push(novaVistoria);
@@ -2767,7 +2870,7 @@
 
       // Enviar vistoria diretamente para o KoboToolbox na nuvem
       try {
-        const uuid = 'uuid:' + (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2));
+        const uuid = instanceId;
         const xml = `<?xml version="1.0"?>
 <data id="${ASSET_UID}" version="20261027">
   <num_sede>${escapeXml(numSede)}</num_sede>
@@ -2792,24 +2895,29 @@
   <lon_sede>${sedeLon}</lon_sede>
   <localizacao_sede>${locSede}</localizacao_sede>
   <link_google_maps_sede>${linkMapsSede}</link_google_maps_sede>
+${fotosSalvar.map(f => `  <foto_${f.campo}>${escapeXml(f.nome)}</foto_${f.campo}>`).join("\n")}
   <meta>
     <instanceID>${uuid}</instanceID>
   </meta>
 </data>`;
-        const formData = new FormData();
-        const xmlBlob = new Blob([xml], { type: 'text/xml' });
-        formData.append("xml_submission_file", xmlBlob, "submission.xml");
-        fetch(KOBO_SUBMISSION_URL, {
-          method: "POST",
-          body: formData,
-          mode: "no-cors"
-        }).catch(err => console.log("Kobo submission error or offline:", err));
+        // Fotos primeiro no banco local, depois a vistoria entra na fila do celular
+        const fotosNoBanco = await guardarFotosVistoria(uuid, fotosSalvar);
+        if (!fotosNoBanco) showToast("Atenção: envie a vistoria antes de fechar o app (fotos não ficam salvas neste navegador).", "info");
+        enfileirarEnvio(uuid, xml, numSede, fotosSalvar.map(f => f.nome));
       } catch (koboErr) {
         console.log("Kobo sync warning:", koboErr);
+        showToast("Erro ao preparar o envio da vistoria. Avise a coordenação.", "error");
       }
+      salvandoVistoria = false;
 
-      showToast(`Vistoria da Sede ${numSede} salva com sucesso!`, "success");
+      if (navigator.onLine) {
+        showToast(`Vistoria da Sede ${numSede} salva. Enviando para a nuvem...`, "success");
+      } else {
+        showToast(`Sem sinal: vistoria da Sede ${numSede} guardada no celular. Será enviada automaticamente.`, "info");
+      }
+      processarFilaEnvio();
       fecharFormulario();
+      limparFotosVistoria();
       renderizarSedes();
       atualizarContadores();
     }
@@ -3063,6 +3171,330 @@
         url.searchParams.set('_v', Date.now());
         window.location.replace(url.toString());
       }, 500);
+    }
+
+    // =========================================================================
+    // FOTOS COM COORDENADA: uma foto por item preenchido, carimbada com GPS
+    // =========================================================================
+    const FOTO_CAMPOS = {
+      pressao: "Pressão",
+      bandeiras: "N° de Bandeiras",
+      larva_pupa: "Larva e Pupa",
+      inseticida: "Inseticida",
+      causador: "Possíveis Causadores"
+    };
+    const FOTO_LADO_MAX = 1600;
+    let fotosVistoria = {};
+    let salvandoVistoria = false;
+    // Usado so quando o IndexedDB nao esta disponivel (ex.: aba anonima)
+    const fotosEmMemoria = new Map();
+
+    function montarCamposFoto() {
+      document.querySelectorAll(".foto-campo[data-foto]").forEach(el => renderizarCampoFoto(el.dataset.foto));
+    }
+
+    function renderizarCampoFoto(campo) {
+      const el = document.querySelector(`.foto-campo[data-foto="${campo}"]`);
+      if (!el) return;
+      const foto = fotosVistoria[campo];
+      if (!foto) {
+        el.innerHTML = `
+          <input type="file" accept="image/*" capture="environment" style="display:none" onchange="processarFotoCampo('${campo}', this)">
+          <button type="button" class="btn-foto" onclick="this.previousElementSibling.click()">
+            <i class="fa-solid fa-camera"></i> Tirar foto - ${FOTO_CAMPOS[campo]}
+          </button>`;
+        return;
+      }
+      el.innerHTML = `
+        <div class="foto-preview">
+          <img src="${foto.url}" alt="Foto ${FOTO_CAMPOS[campo]}" onclick="window.open('${foto.url}', '_blank')">
+          <div class="foto-preview-info">
+            <strong><i class="fa-solid fa-circle-check"></i> Foto registrada</strong><br>
+            ${foto.lat !== null ? `${foto.lat.toFixed(6)}, ${foto.lon.toFixed(6)}${foto.acc ? ` (±${foto.acc}m)` : ''}` : 'Sem GPS no momento da foto'}<br>
+            ${foto.dataHora}
+          </div>
+          <div class="foto-preview-acoes">
+            <input type="file" accept="image/*" capture="environment" style="display:none" onchange="processarFotoCampo('${campo}', this)">
+            <button type="button" class="btn-refresh-gps" onclick="this.previousElementSibling.click()"><i class="fa-solid fa-rotate"></i> Refazer</button>
+            <button type="button" class="btn-refresh-gps" onclick="removerFotoCampo('${campo}')"><i class="fa-solid fa-trash"></i> Remover</button>
+          </div>
+        </div>`;
+    }
+
+    function removerFotoCampo(campo) {
+      const foto = fotosVistoria[campo];
+      if (foto) URL.revokeObjectURL(foto.url);
+      delete fotosVistoria[campo];
+      renderizarCampoFoto(campo);
+    }
+
+    function limparFotosVistoria() {
+      Object.keys(fotosVistoria).forEach(c => URL.revokeObjectURL(fotosVistoria[c].url));
+      fotosVistoria = {};
+      montarCamposFoto();
+    }
+
+    // GPS novo no momento da foto; se demorar, usa o ultimo GPS conhecido
+    function obterGpsParaFoto() {
+      return new Promise(resolve => {
+        const ultimo = () => resolve(userLat !== null && userLon !== null ? { lat: userLat, lon: userLon, acc: userAcc } : null);
+        if (!("geolocation" in navigator)) return ultimo();
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            userLat = pos.coords.latitude;
+            userLon = pos.coords.longitude;
+            userAcc = Math.round(pos.coords.accuracy);
+            atualizarCoordenadasGpsForm(userLat, userLon, userAcc, "GPS do Lançamento");
+            resolve({ lat: userLat, lon: userLon, acc: userAcc });
+          },
+          ultimo,
+          { enableHighAccuracy: true, timeout: 8000, maximumAge: 15000 }
+        );
+      });
+    }
+
+    async function carregarImagem(file) {
+      if (window.createImageBitmap) {
+        try { return await createImageBitmap(file, { imageOrientation: "from-image" }); } catch (e) {}
+      }
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    function valorAtualCampo(campo) {
+      if (campo === "bandeiras") return document.getElementById("form-bandeiras").value.trim();
+      const nome = { pressao: "campo-pressao", larva_pupa: "campo-larva-pupa", inseticida: "campo-inseticida", causador: "campo-causador" }[campo];
+      const r = document.querySelector(`input[name="${nome}"]:checked`);
+      if (!r) return "";
+      if (r.value === "Outro") {
+        const outro = document.getElementById("form-causador-outro").value.trim();
+        return outro ? `Outro: ${outro}` : "Outro";
+      }
+      return r.value;
+    }
+
+    async function processarFotoCampo(campo, input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const btn = input.nextElementSibling;
+      if (btn) { btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Carimbando coordenadas...`; }
+
+      try {
+        const [gps, img] = await Promise.all([obterGpsParaFoto(), carregarImagem(file)]);
+        const agora = new Date();
+        const dataHora = `${getDataFormatadaBR(agora)} ${agora.toTimeString().slice(0, 8)}`;
+
+        const escala = Math.min(1, FOTO_LADO_MAX / Math.max(img.width, img.height));
+        const w = Math.round(img.width * escala);
+        const h = Math.round(img.height * escala);
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, h);
+        if (img.close) img.close();
+
+        const p = sedeSelecionada ? sedeSelecionada.properties : {};
+        const valor = valorAtualCampo(campo);
+        const linhas = [
+          `Sede ${p.num_sede || '-'} - ${p.nome_sede || ''}`.trim(),
+          `${FOTO_CAMPOS[campo]}${valor ? `: ${valor}` : ''}`,
+          gps ? `Lat: ${gps.lat.toFixed(6)}  Lon: ${gps.lon.toFixed(6)}${gps.acc ? `  ±${gps.acc}m` : ''}` : "GPS indisponível",
+          `${dataHora}${document.getElementById("form-matricula").value.trim() ? `  •  Matr. ${document.getElementById("form-matricula").value.trim()}` : ''}`
+        ];
+
+        const fs = Math.max(14, Math.round(Math.min(w, h) * 0.034));
+        const pad = Math.round(fs * 0.6);
+        const alturaFaixa = linhas.length * fs * 1.3 + pad * 2;
+        ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+        ctx.fillRect(0, h - alturaFaixa, w, alturaFaixa);
+        ctx.textBaseline = "top";
+        linhas.forEach((txt, i) => {
+          ctx.font = `${i === 0 ? '700' : '600'} ${fs}px Arial, sans-serif`;
+          ctx.fillStyle = i === 2 ? "#facc15" : "#ffffff";
+          ctx.fillText(txt, pad, h - alturaFaixa + pad + i * fs * 1.3, w - pad * 2);
+        });
+        ctx.font = `700 ${Math.round(fs * 0.8)}px Arial, sans-serif`;
+        ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+        ctx.textAlign = "right";
+        ctx.fillText("NoFly • Clealco", w - pad, h - alturaFaixa + pad);
+        ctx.textAlign = "left";
+
+        const blob = await new Promise(res => canvas.toBlob(res, "image/jpeg", 0.82));
+        if (!blob) throw new Error("toBlob falhou");
+
+        if (fotosVistoria[campo]) URL.revokeObjectURL(fotosVistoria[campo].url);
+        fotosVistoria[campo] = {
+          blob: blob,
+          url: URL.createObjectURL(blob),
+          nome: `foto_${campo}_sede${p.num_sede || 'x'}_${agora.getTime()}.jpg`,
+          lat: gps ? gps.lat : null,
+          lon: gps ? gps.lon : null,
+          acc: gps ? gps.acc : null,
+          dataHora: dataHora
+        };
+        renderizarCampoFoto(campo);
+        if (!gps) showToast("Foto salva, mas sem GPS. Ative a localização e refaça se possível.", "error");
+      } catch (err) {
+        console.log("Erro na foto:", err);
+        showToast("Não foi possível processar a foto. Tente novamente.", "error");
+        renderizarCampoFoto(campo);
+      }
+    }
+
+    // Banco local das fotos (IndexedDB): o localStorage nao comporta imagens
+    function abrirBancoFotos() {
+      return new Promise((resolve, reject) => {
+        if (!window.indexedDB) return reject(new Error("sem IndexedDB"));
+        const req = indexedDB.open("nofly_fotos", 1);
+        req.onupgradeneeded = () => req.result.createObjectStore("fotos", { keyPath: "chave" });
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function guardarFotosVistoria(instanceId, fotos) {
+      try {
+        const db = await abrirBancoFotos();
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction("fotos", "readwrite");
+          fotos.forEach(f => tx.objectStore("fotos").put({ chave: `${instanceId}|${f.nome}`, instance_id: instanceId, nome: f.nome, blob: f.blob }));
+          tx.oncomplete = resolve;
+          tx.onerror = () => reject(tx.error);
+        });
+        db.close();
+        return true;
+      } catch (err) {
+        console.log("Fotos ficaram so na memoria:", err);
+        fotos.forEach(f => fotosEmMemoria.set(`${instanceId}|${f.nome}`, f.blob));
+        return false;
+      }
+    }
+
+    async function lerFotoGuardada(instanceId, nome) {
+      const chave = `${instanceId}|${nome}`;
+      if (fotosEmMemoria.has(chave)) return fotosEmMemoria.get(chave);
+      try {
+        const db = await abrirBancoFotos();
+        const reg = await new Promise((resolve, reject) => {
+          const req = db.transaction("fotos").objectStore("fotos").get(chave);
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+        db.close();
+        return reg ? reg.blob : null;
+      } catch (e) { return null; }
+    }
+
+    async function apagarFotosGuardadas(instanceId, nomes) {
+      nomes.forEach(n => fotosEmMemoria.delete(`${instanceId}|${n}`));
+      try {
+        const db = await abrirBancoFotos();
+        const tx = db.transaction("fotos", "readwrite");
+        nomes.forEach(n => tx.objectStore("fotos").delete(`${instanceId}|${n}`));
+        await new Promise(resolve => { tx.oncomplete = resolve; tx.onerror = resolve; });
+        db.close();
+      } catch (e) {}
+    }
+
+    // =========================================================================
+    // FILA DE ENVIO OFFLINE: a vistoria fica guardada no celular ate ser enviada
+    // =========================================================================
+    const FILA_ENVIO_KEY = "nofly_fila_envio";
+    let filaEmProcessamento = false;
+
+    function lerFilaEnvio() {
+      try { return JSON.parse(localStorage.getItem(FILA_ENVIO_KEY) || "[]"); } catch (e) { return []; }
+    }
+
+    function gravarFilaEnvio(fila) {
+      try { localStorage.setItem(FILA_ENVIO_KEY, JSON.stringify(fila)); } catch (e) {}
+      atualizarIndicadorFila();
+    }
+
+    function enfileirarEnvio(instanceId, xml, numSede, nomesFotos = []) {
+      const fila = lerFilaEnvio();
+      if (!fila.some(i => i.instance_id === instanceId)) {
+        fila.push({ instance_id: instanceId, xml: xml, num_sede: numSede, fotos: nomesFotos, criadoEm: new Date().toISOString(), tentativas: 0 });
+      }
+      gravarFilaEnvio(fila);
+    }
+
+    function atualizarIndicadorFila() {
+      const qtd = lerFilaEnvio().length;
+      const btn = document.getElementById("btn-fila-envio");
+      const span = document.getElementById("fila-envio-qtd");
+      if (span) span.textContent = qtd;
+      if (btn) btn.style.display = qtd > 0 ? "inline-flex" : "none";
+    }
+
+    async function processarFilaEnvio(manual = false) {
+      if (filaEmProcessamento) return;
+      const fila = lerFilaEnvio();
+      if (fila.length === 0) {
+        if (manual) showToast("Nenhuma vistoria pendente de envio.", "success");
+        return;
+      }
+      if (!navigator.onLine) {
+        atualizarIndicadorFila();
+        if (manual) showToast(`Sem sinal. ${fila.length} vistoria(s) continuam guardadas no celular.`, "info");
+        return;
+      }
+      filaEmProcessamento = true;
+      const restantes = [];
+      let enviadas = 0;
+      for (const item of fila) {
+        try {
+          const fd = new FormData();
+          fd.append("xml_submission_file", new Blob([item.xml], { type: "text/xml" }), "submission.xml");
+          // Cada foto vai como anexo com o mesmo nome citado no XML
+          for (const nome of (item.fotos || [])) {
+            const blob = await lerFotoGuardada(item.instance_id, nome);
+            if (blob) fd.append(nome, blob, nome);
+          }
+          // O Kobo ignora reenvios com o mesmo instanceID, entao repetir e seguro
+          await fetch(KOBO_SUBMISSION_URL, { method: "POST", body: fd, mode: "no-cors" });
+          if (item.fotos && item.fotos.length) await apagarFotosGuardadas(item.instance_id, item.fotos);
+          enviadas++;
+        } catch (err) {
+          item.tentativas = (item.tentativas || 0) + 1;
+          item.ultimaTentativa = new Date().toISOString();
+          restantes.push(item);
+        }
+      }
+      // Preserva vistorias salvas enquanto a fila era processada
+      const processados = new Set(fila.map(i => i.instance_id));
+      const novas = lerFilaEnvio().filter(i => !processados.has(i.instance_id));
+      gravarFilaEnvio(restantes.concat(novas));
+      filaEmProcessamento = false;
+
+      if (enviadas > 0 && restantes.length === 0) {
+        showToast(`✅ ${enviadas} vistoria(s) enviada(s) para a nuvem.`, "success");
+      } else if (restantes.length > 0) {
+        showToast(`⚠️ ${restantes.length} vistoria(s) não foram enviadas. Nova tentativa automática ao voltar o sinal.`, "error");
+      }
+    }
+
+    function iniciarFilaEnvio() {
+      atualizarIndicadorFila();
+      window.addEventListener("online", () => processarFilaEnvio());
+      document.addEventListener("visibilitychange", () => { if (!document.hidden) processarFilaEnvio(); });
+      setInterval(() => processarFilaEnvio(), 60000);
+      processarFilaEnvio();
+    }
+
+    function mostrarDataAtualizacao() {
+      const el = document.getElementById("dados-atualizacao");
+      if (!el || typeof DADOS_ATUALIZADO_EM === "undefined") return;
+      const d = new Date(DADOS_ATUALIZADO_EM);
+      if (isNaN(d.getTime())) return;
+      const horas = Math.floor((Date.now() - d.getTime()) / 3600000);
+      el.textContent = `Base atualizada em ${getDataFormatadaBR(d)} ${getHoraFormatadaBR(d)}` + (horas >= 48 ? " (desatualizada)" : "");
+      if (horas >= 48) el.style.color = "#fbbf24";
     }
 
     function showToast(mensagem, tipo = "success") {
