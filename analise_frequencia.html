@@ -812,6 +812,18 @@
 
   <!-- Dados Geográficos e Vistorias Consolidadas -->
   <script src="dados_mapa.js"></script>
+  <script>
+    // Limites de status (dias) vindos de scripts/nofly_config.json via dados_mapa.js
+    const LIM_VERDE = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.verde_max_dias) || 7;
+    const LIM_AMARELO = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.amarelo_max_dias) || 15;
+    function aplicarTextosLimites() {
+      const fmt = s => s.replace(/\{V\}/g, LIM_VERDE).replace(/\{A1\}/g, LIM_VERDE + 1)
+                        .replace(/\{A\}/g, LIM_AMARELO).replace(/\{R\}/g, LIM_AMARELO + 1);
+      document.querySelectorAll("[data-lim-text]").forEach(el => { el.textContent = fmt(el.getAttribute("data-lim-text")); });
+      document.querySelectorAll("[data-lim-title]").forEach(el => { el.title = fmt(el.getAttribute("data-lim-title")); });
+    }
+    document.addEventListener("DOMContentLoaded", aplicarTextosLimites);
+  </script>
 
   <script>
     // =========================================================================
@@ -1064,8 +1076,8 @@
           // Dias desde a última visita até hoje
           const ultData = parseData(vList[vList.length - 1].data_vistoria || vList[vList.length - 1].data);
           const diffHoje = Math.max(0, Math.floor((hoje - ultData) / (1000 * 60 * 60 * 24)));
-          if (diffHoje <= 7) emDia++;
-          else if (diffHoje <= 15) atencao++;
+          if (diffHoje <= LIM_VERDE) emDia++;
+          else if (diffHoje <= LIM_AMARELO) atencao++;
           else atrasadas++;
         } else {
           atrasadas++;
@@ -1531,9 +1543,9 @@
           ultDataStr = `${ultV.data_vistoria || ultV.data || '-'} (${ultV.pressao || '-'})`;
           diasRetornoStr = `${diffDias} dias atrás`;
 
-          if (diffDias <= 7) {
+          if (diffDias <= LIM_VERDE) {
             badgeStatus = `<span class="kpi-badge verde">Em dia (${diffDias}d)</span>`;
-          } else if (diffDias <= 15) {
+          } else if (diffDias <= LIM_AMARELO) {
             badgeStatus = `<span class="kpi-badge amarelo">Atenção (${diffDias}d)</span>`;
           } else {
             badgeStatus = `<span class="kpi-badge vermelho">Atrasada (${diffDias}d)</span>`;

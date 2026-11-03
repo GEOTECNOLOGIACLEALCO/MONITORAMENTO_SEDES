@@ -8,7 +8,7 @@
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
     "data_vistoria": "08/10/2026",
     "hora_vistoria": "09:49",
-    "matricula": "65505",
+    "matricula": "***05",
     "pressao": "Alta",
     "bandeiras": "25",
     "larva_pupa": "Ausência",
@@ -26,7 +26,11 @@
     "distancia_sede_metros": 34834.5,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:50:46",
-    "kobo_id": 902773050
+    "kobo_id": 902773050,
+    "instance_id": "uuid:de2edd1f-5686-4e11-8db7-013fd70a6907",
+    "alertas": [
+      "GPS a 34834 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "55",
@@ -37,7 +41,7 @@
     "regiao": "Estrada Rural Sumidouro",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:50",
-    "matricula": "66541",
+    "matricula": "***41",
     "pressao": "Alta",
     "bandeiras": "50",
     "larva_pupa": "Presença",
@@ -55,7 +59,11 @@
     "distancia_sede_metros": 30610.6,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:51:30",
-    "kobo_id": 902773768
+    "kobo_id": 902773768,
+    "instance_id": "uuid:28d14b83-2bfe-4eb6-ad19-4734aa3ad6c3",
+    "alertas": [
+      "GPS a 30611 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "53",
@@ -66,7 +74,7 @@
     "regiao": "Queiroz / Vicinal Danilo Cervigne",
     "data_vistoria": "28/09/2026",
     "hora_vistoria": "09:51",
-    "matricula": "665504",
+    "matricula": "****04",
     "pressao": "Baixa",
     "bandeiras": "0",
     "larva_pupa": "Ausência",
@@ -84,7 +92,11 @@
     "distancia_sede_metros": 22633.8,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:52:21",
-    "kobo_id": 902774598
+    "kobo_id": 902774598,
+    "instance_id": "uuid:069fdc2b-9ad3-4afd-9175-bb251225b8be",
+    "alertas": [
+      "GPS a 22634 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "51",
@@ -95,7 +107,7 @@
     "regiao": "Queiroz / Vicinal Danilo Cervigne",
     "data_vistoria": "01/09/2026",
     "hora_vistoria": "09:52",
-    "matricula": "665509",
+    "matricula": "****09",
     "pressao": "Alta",
     "bandeiras": "10",
     "larva_pupa": "Ausência",
@@ -113,7 +125,11 @@
     "distancia_sede_metros": 26551.3,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:53:07",
-    "kobo_id": 902775429
+    "kobo_id": 902775429,
+    "instance_id": "uuid:671bffc2-277a-46dc-90b6-94889bfeb550",
+    "alertas": [
+      "GPS a 26551 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "10",
@@ -124,7 +140,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "12/09/2026",
     "hora_vistoria": "09:53",
-    "matricula": "66550",
+    "matricula": "***50",
     "pressao": "Baixa",
     "bandeiras": "0",
     "larva_pupa": "Ausência",
@@ -142,7 +158,11 @@
     "distancia_sede_metros": 39092.4,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:53:53",
-    "kobo_id": 902776276
+    "kobo_id": 902776276,
+    "instance_id": "uuid:27ddc1b2-b0db-4948-8b3e-a2647a8c70b7",
+    "alertas": [
+      "GPS a 39092 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "16",
@@ -153,7 +173,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "20/10/2026",
     "hora_vistoria": "09:54",
-    "matricula": "68055",
+    "matricula": "***55",
     "pressao": "Alta",
     "bandeiras": "35",
     "larva_pupa": "Presença",
@@ -171,7 +191,11 @@
     "distancia_sede_metros": 39418.3,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:54:36",
-    "kobo_id": 902776991
+    "kobo_id": 902776991,
+    "instance_id": "uuid:e857696b-d430-41ab-aff9-a773068fe599",
+    "alertas": [
+      "GPS a 39418 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "5",
@@ -182,7 +206,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "19/10/2026",
     "hora_vistoria": "09:54",
-    "matricula": "62055",
+    "matricula": "***55",
     "pressao": "Alta",
     "bandeiras": "45",
     "larva_pupa": "Presença",
@@ -200,7 +224,11 @@
     "distancia_sede_metros": 39703.8,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:57:18",
-    "kobo_id": 902779984
+    "kobo_id": 902779984,
+    "instance_id": "uuid:588308d6-9e0b-4a2f-a98a-d952f4a63ec0",
+    "alertas": [
+      "GPS a 39704 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "20",
@@ -211,7 +239,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "18/10/2026",
     "hora_vistoria": "09:57",
-    "matricula": "62079",
+    "matricula": "***79",
     "pressao": "Média",
     "bandeiras": "50",
     "larva_pupa": "Presença",
@@ -229,7 +257,11 @@
     "distancia_sede_metros": 38882.4,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:57:42",
-    "kobo_id": 902780339
+    "kobo_id": 902780339,
+    "instance_id": "uuid:9ea0d59d-3210-4f64-a23c-6033c145bde0",
+    "alertas": [
+      "GPS a 38882 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "75",
@@ -240,7 +272,7 @@
     "regiao": "Vicinal Mariano Tavares do Couto",
     "data_vistoria": "29/09/2026",
     "hora_vistoria": "09:57",
-    "matricula": "62082",
+    "matricula": "***82",
     "pressao": "Alta",
     "bandeiras": "22",
     "larva_pupa": "Presença",
@@ -258,7 +290,11 @@
     "distancia_sede_metros": 37798.4,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:58:16",
-    "kobo_id": 902780838
+    "kobo_id": 902780838,
+    "instance_id": "uuid:9d6cacbc-2f59-45de-9cbd-aedfa1b79dd9",
+    "alertas": [
+      "GPS a 37798 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "78",
@@ -269,7 +305,7 @@
     "regiao": "Vicinal Mariano Tavares do Couto",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:58",
-    "matricula": "62090",
+    "matricula": "***90",
     "pressao": "Alta",
     "bandeiras": "30",
     "larva_pupa": "Presença",
@@ -287,7 +323,11 @@
     "distancia_sede_metros": 37754.0,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:58:31",
-    "kobo_id": 902781066
+    "kobo_id": 902781066,
+    "instance_id": "uuid:b95e2285-ef07-4925-9391-fb36c48e181a",
+    "alertas": [
+      "GPS a 37754 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "70",
@@ -298,7 +338,7 @@
     "regiao": "Vicinal Mariano Tavares do Couto",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:58",
-    "matricula": "60090",
+    "matricula": "***90",
     "pressao": "Alta",
     "bandeiras": "20",
     "larva_pupa": "Presença",
@@ -316,7 +356,11 @@
     "distancia_sede_metros": 34504.1,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:58:52",
-    "kobo_id": 902781399
+    "kobo_id": 902781399,
+    "instance_id": "uuid:6d19bfe0-1faa-4a21-bc49-10c4b8ca0a33",
+    "alertas": [
+      "GPS a 34504 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "65",
@@ -327,7 +371,7 @@
     "regiao": "Vicinal Mariano Tavares do Couto",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:59",
-    "matricula": "68090",
+    "matricula": "***90",
     "pressao": "Alta",
     "bandeiras": "20",
     "larva_pupa": "Presença",
@@ -345,7 +389,11 @@
     "distancia_sede_metros": 31923.4,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:59:15",
-    "kobo_id": 902781785
+    "kobo_id": 902781785,
+    "instance_id": "uuid:b664bf0e-d75e-48b8-a596-0855f58fe052",
+    "alertas": [
+      "GPS a 31923 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "63",
@@ -356,7 +404,7 @@
     "regiao": "Vicinal Mariano Tavares do Couto",
     "data_vistoria": "20/10/2026",
     "hora_vistoria": "09:59",
-    "matricula": "68009",
+    "matricula": "***09",
     "pressao": "Alta",
     "bandeiras": "30",
     "larva_pupa": "Presença",
@@ -374,7 +422,11 @@
     "distancia_sede_metros": 31086.4,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T12:59:52",
-    "kobo_id": 902782328
+    "kobo_id": 902782328,
+    "instance_id": "uuid:04e127ec-fa15-43d1-b1b6-30d24552449f",
+    "alertas": [
+      "GPS a 31086 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "35",
@@ -385,7 +437,7 @@
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
     "data_vistoria": "12/10/2026",
     "hora_vistoria": "10:00",
-    "matricula": "68000",
+    "matricula": "***00",
     "pressao": "Alta",
     "bandeiras": "20",
     "larva_pupa": "Presença",
@@ -403,7 +455,11 @@
     "distancia_sede_metros": 37796.0,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:00:10",
-    "kobo_id": 902782562
+    "kobo_id": 902782562,
+    "instance_id": "uuid:084e7c87-c7ae-4dd5-8252-94fc27f72f53",
+    "alertas": [
+      "GPS a 37796 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "30",
@@ -414,7 +470,7 @@
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
     "data_vistoria": "13/10/2026",
     "hora_vistoria": "10:00",
-    "matricula": "68005",
+    "matricula": "***05",
     "pressao": "Alta",
     "bandeiras": "55",
     "larva_pupa": "Presença",
@@ -432,7 +488,11 @@
     "distancia_sede_metros": 36102.1,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:00:50",
-    "kobo_id": 902783133
+    "kobo_id": 902783133,
+    "instance_id": "uuid:db4fd7ac-65f8-4019-a72a-822a6643d079",
+    "alertas": [
+      "GPS a 36102 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "42",
@@ -443,7 +503,7 @@
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
     "data_vistoria": "02/10/2026",
     "hora_vistoria": "10:00",
-    "matricula": "68005",
+    "matricula": "***05",
     "pressao": "Média",
     "bandeiras": "40",
     "larva_pupa": "Presença",
@@ -461,7 +521,11 @@
     "distancia_sede_metros": 37420.0,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:01:09",
-    "kobo_id": 902783425
+    "kobo_id": 902783425,
+    "instance_id": "uuid:3b908576-0960-4166-b4f0-a0b3778c45d6",
+    "alertas": [
+      "GPS a 37420 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "2",
@@ -472,7 +536,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "04/10/2026",
     "hora_vistoria": "10:01",
-    "matricula": "60005",
+    "matricula": "***05",
     "pressao": "Alta",
     "bandeiras": "25",
     "larva_pupa": "Presença",
@@ -490,7 +554,11 @@
     "distancia_sede_metros": 40306.2,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:01:33",
-    "kobo_id": 902783747
+    "kobo_id": 902783747,
+    "instance_id": "uuid:2c4bc207-f0be-43bd-a9d5-1bc3d3689dfb",
+    "alertas": [
+      "GPS a 40306 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "24",
@@ -501,7 +569,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "01/10/2026",
     "hora_vistoria": "10:01",
-    "matricula": "60000",
+    "matricula": "***00",
     "pressao": "Alta",
     "bandeiras": "35",
     "larva_pupa": "Presença",
@@ -519,7 +587,11 @@
     "distancia_sede_metros": 40759.4,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:01:55",
-    "kobo_id": 902784161
+    "kobo_id": 902784161,
+    "instance_id": "uuid:e1c665c5-a28e-45b1-8914-a150c052b68f",
+    "alertas": [
+      "GPS a 40759 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "23",
@@ -530,7 +602,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "25/09/2026",
     "hora_vistoria": "10:01",
-    "matricula": "60000",
+    "matricula": "***00",
     "pressao": "Alta",
     "bandeiras": "30",
     "larva_pupa": "Presença",
@@ -548,7 +620,11 @@
     "distancia_sede_metros": 40695.8,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:02:10",
-    "kobo_id": 902784380
+    "kobo_id": 902784380,
+    "instance_id": "uuid:6191de22-f20e-43cc-9589-2e0d12886f91",
+    "alertas": [
+      "GPS a 40696 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "18",
@@ -559,7 +635,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "02/09/2026",
     "hora_vistoria": "10:02",
-    "matricula": "60001",
+    "matricula": "***01",
     "pressao": "Alta",
     "bandeiras": "60",
     "larva_pupa": "Presença",
@@ -577,7 +653,11 @@
     "distancia_sede_metros": 38623.8,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:02:25",
-    "kobo_id": 902784579
+    "kobo_id": 902784579,
+    "instance_id": "uuid:45e85ef8-8857-4d5c-ad74-0c31e5e8bfe0",
+    "alertas": [
+      "GPS a 38624 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "22",
@@ -588,7 +668,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:02",
-    "matricula": "60001",
+    "matricula": "***01",
     "pressao": "Baixa",
     "bandeiras": "0",
     "larva_pupa": "Ausência",
@@ -606,7 +686,11 @@
     "distancia_sede_metros": 38466.1,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:02:55",
-    "kobo_id": 902784958
+    "kobo_id": 902784958,
+    "instance_id": "uuid:adc7d1bc-b0f2-453d-b97b-0210b38efb3d",
+    "alertas": [
+      "GPS a 38466 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "44",
@@ -617,7 +701,7 @@
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:03",
-    "matricula": "60001",
+    "matricula": "***01",
     "pressao": "Alta",
     "bandeiras": "10",
     "larva_pupa": "Presença",
@@ -635,7 +719,11 @@
     "distancia_sede_metros": 37970.0,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:03:58",
-    "kobo_id": 902786142
+    "kobo_id": 902786142,
+    "instance_id": "uuid:8d709f31-3315-4949-a0d0-02d5eb8301f9",
+    "alertas": [
+      "GPS a 37970 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "3",
@@ -646,7 +734,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:04",
-    "matricula": "60009",
+    "matricula": "***09",
     "pressao": "Alta",
     "bandeiras": "36",
     "larva_pupa": "Presença",
@@ -664,7 +752,11 @@
     "distancia_sede_metros": 40388.3,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:11:31",
-    "kobo_id": 902793566
+    "kobo_id": 902793566,
+    "instance_id": "uuid:1ee50e18-4675-4a3d-9d73-a64847c5544d",
+    "alertas": [
+      "GPS a 40388 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "71",
@@ -675,7 +767,7 @@
     "regiao": "Vicinal Mariano Tavares do Couto",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:11",
-    "matricula": "60009",
+    "matricula": "***09",
     "pressao": "Alta",
     "bandeiras": "55",
     "larva_pupa": "Presença",
@@ -693,7 +785,11 @@
     "distancia_sede_metros": 36362.5,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:11:55",
-    "kobo_id": 902794008
+    "kobo_id": 902794008,
+    "instance_id": "uuid:8dfe6d52-907d-4ad5-b557-d363ac806bf9",
+    "alertas": [
+      "GPS a 36362 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "61",
@@ -704,7 +800,7 @@
     "regiao": "Rodovia Miguel Gantus",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:12",
-    "matricula": "60010",
+    "matricula": "***10",
     "pressao": "Baixa",
     "bandeiras": "2",
     "larva_pupa": "Ausência",
@@ -722,7 +818,11 @@
     "distancia_sede_metros": 31906.8,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:12:20",
-    "kobo_id": 902794525
+    "kobo_id": 902794525,
+    "instance_id": "uuid:0c1a7f5e-16d6-4be7-8f3c-579be37ad106",
+    "alertas": [
+      "GPS a 31907 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "26",
@@ -733,7 +833,7 @@
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:12",
-    "matricula": "60012",
+    "matricula": "***12",
     "pressao": "Média",
     "bandeiras": "20",
     "larva_pupa": "Presença",
@@ -751,7 +851,11 @@
     "distancia_sede_metros": 33730.5,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:12:52",
-    "kobo_id": 902795067
+    "kobo_id": 902795067,
+    "instance_id": "uuid:76a29e16-f1c4-4bb0-9e3a-338a93c2f7c8",
+    "alertas": [
+      "GPS a 33730 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "17",
@@ -762,7 +866,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:12",
-    "matricula": "60015",
+    "matricula": "***15",
     "pressao": "Alta",
     "bandeiras": "20",
     "larva_pupa": "Presença",
@@ -780,7 +884,11 @@
     "distancia_sede_metros": 38989.3,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:13:08",
-    "kobo_id": 902795263
+    "kobo_id": 902795263,
+    "instance_id": "uuid:9e5d6ef0-1890-4e84-9545-9f3ce39db64f",
+    "alertas": [
+      "GPS a 38989 m da sede (limite 500 m)"
+    ]
   },
   {
     "num_sede": "19",
@@ -791,7 +899,7 @@
     "regiao": "Bloco FA 308121",
     "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:13",
-    "matricula": "60036",
+    "matricula": "***36",
     "pressao": "Alta",
     "bandeiras": "20",
     "larva_pupa": "Presença",
@@ -809,35 +917,10 @@
     "distancia_sede_metros": 39205.7,
     "origem": "KoboToolbox",
     "submetido_em": "2026-10-28T13:13:29",
-    "kobo_id": 902795614
-  },
-  {
-    "num_sede": "39",
-    "nome_sede": "39 - Iraci Soler",
-    "fa": "201021",
-    "fazenda": "201021 - FAZENDA QUEIXADA",
-    "proprietario": "Iraci Soler",
-    "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
-    "data_vistoria": "28/10/2026",
-    "hora_vistoria": "10:13",
-    "matricula": "60035",
-    "pressao": "Média",
-    "bandeiras": "10",
-    "larva_pupa": "Presença",
-    "inseticida": "Aplicado",
-    "possiveis_causadores": "Vinhaça",
-    "observacoes": "",
-    "lat": -21.57887702194919,
-    "lon": -50.432733961803436,
-    "latitude_gps_lancamento": -21.57887702194919,
-    "longitude_gps_lancamento": -50.432733961803436,
-    "lat_sede": -21.848456,
-    "lon_sede": -50.199256,
-    "localizacao_sede": "-21.848456, -50.199256",
-    "link_google_maps_sede": "https://www.google.com/maps?q=-21.848456,-50.199256",
-    "distancia_sede_metros": 38474.6,
-    "origem": "KoboToolbox",
-    "submetido_em": "2026-10-28T13:13:45",
-    "kobo_id": 902795871
+    "kobo_id": 902795614,
+    "instance_id": "uuid:0eaf0c26-ca7b-46b5-9ee3-b68288b3d949",
+    "alertas": [
+      "GPS a 39206 m da sede (limite 500 m)"
+    ]
   }
 ]

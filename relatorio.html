@@ -804,7 +804,7 @@
   <div id="app-loading-screen">
     <div class="loading-card">
       <div class="loading-logo-box">
-        <img src="logos/NoFly.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
+        <img src="logos/NoFly_512.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
       </div>
       <div class="loading-title">NoFly | Relatório Executivo</div>
       <div class="loading-spinner"></div>
@@ -818,7 +818,7 @@
   <!-- CABEÇALHO SUPERIOR -->
   <header>
     <div class="brand-section">
-      <img src="logos/NoFly.jpg" alt="NoFly Logo" class="brand-logo" onerror="this.src='logos/icon-192.png'">
+      <img src="logos/NoFly_512.jpg" alt="NoFly Logo" class="brand-logo" onerror="this.src='logos/icon-192.png'">
       <div class="brand-text">
         <h1><i class="fa-solid fa-file-invoice" style="color:var(--primary-light);"></i> NoFly | Relatório Online de Vistorias</h1>
         <span id="data-atualizacao-topo">Carregando dados consolidados...</span>
@@ -894,7 +894,7 @@
 
       <div class="kpi-card verde">
         <div class="kpi-header">
-          <span>Em Dia (≤ 7 dias)</span>
+          <span data-lim-text="Em Dia (≤ {V} dias)">Em Dia (≤ 7 dias)</span>
           <i class="fa-solid fa-circle-check" style="color:var(--status-verde);"></i>
         </div>
         <div class="kpi-value" id="kpi-em-dia" style="color:var(--status-verde);">0</div>
@@ -903,7 +903,7 @@
 
       <div class="kpi-card amarelo">
         <div class="kpi-header">
-          <span>Atenção (8 a 15 dias)</span>
+          <span data-lim-text="Atenção ({A1} a {A} dias)">Atenção (8 a 15 dias)</span>
           <i class="fa-solid fa-triangle-exclamation" style="color:var(--status-amarelo);"></i>
         </div>
         <div class="kpi-value" id="kpi-atencao" style="color:var(--status-amarelo);">0</div>
@@ -912,7 +912,7 @@
 
       <div class="kpi-card vermelho">
         <div class="kpi-header">
-          <span>Atrasadas (≥ 16 dias)</span>
+          <span data-lim-text="Atrasadas (≥ {R} dias)">Atrasadas (≥ 16 dias)</span>
           <i class="fa-solid fa-circle-xmark" style="color:var(--status-vermelho);"></i>
         </div>
         <div class="kpi-value" id="kpi-atrasadas" style="color:var(--status-vermelho);">0</div>
@@ -973,9 +973,9 @@
       <div class="filter-group">
         <select id="filtro-status" class="select-filter" onchange="aplicarFiltros()">
           <option value="todos">Status: Todos</option>
-          <option value="verde">🟢 Em Dia (≤ 7 dias)</option>
-          <option value="amarelo">🟡 Atenção (8 a 15 dias)</option>
-          <option value="vermelho">🔴 Atrasadas / Sem Visita (≥ 16 dias)</option>
+          <option value="verde" data-lim-text="🟢 Em Dia (≤ {V} dias)">🟢 Em Dia (≤ 7 dias)</option>
+          <option value="amarelo" data-lim-text="🟡 Atenção ({A1} a {A} dias)">🟡 Atenção (8 a 15 dias)</option>
+          <option value="vermelho" data-lim-text="🔴 Atrasadas / Sem Visita (≥ {R} dias)">🔴 Atrasadas / Sem Visita (≥ 16 dias)</option>
         </select>
 
         <select id="filtro-pressao" class="select-filter" onchange="aplicarFiltros()">
@@ -1077,6 +1077,18 @@
 
   <!-- SCRIPT DE DADOS E LÓGICA -->
   <script src="dados_mapa.js"></script>
+  <script>
+    // Limites de status (dias) vindos de scripts/nofly_config.json via dados_mapa.js
+    const LIM_VERDE = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.verde_max_dias) || 7;
+    const LIM_AMARELO = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.amarelo_max_dias) || 15;
+    function aplicarTextosLimites() {
+      const fmt = s => s.replace(/\{V\}/g, LIM_VERDE).replace(/\{A1\}/g, LIM_VERDE + 1)
+                        .replace(/\{A\}/g, LIM_AMARELO).replace(/\{R\}/g, LIM_AMARELO + 1);
+      document.querySelectorAll("[data-lim-text]").forEach(el => { el.textContent = fmt(el.getAttribute("data-lim-text")); });
+      document.querySelectorAll("[data-lim-title]").forEach(el => { el.title = fmt(el.getAttribute("data-lim-title")); });
+    }
+    document.addEventListener("DOMContentLoaded", aplicarTextosLimites);
+  </script>
   <script>
     let listaSedesGeral = [];
     let listaHistoricoGeral = [];
@@ -1198,10 +1210,10 @@
           pressao = ult.pressao || "Média";
           bandeiras = ult.bandeiras || "0";
 
-          if (dias <= 7) {
+          if (dias <= LIM_VERDE) {
             status = "verde";
             statusTexto = "Em Dia";
-          } else if (dias <= 15) {
+          } else if (dias <= LIM_AMARELO) {
             status = "amarelo";
             statusTexto = "Atenção";
           } else {
@@ -1556,6 +1568,9 @@
         const lon = v.lon || v.longitude_gps_lancamento;
         const linkGps = (lat && lon) ? `https://www.google.com/maps?q=${lat},${lon}` : null;
         const distTxt = v.distancia_sede_metros !== undefined && v.distancia_sede_metros !== "" ? `${v.distancia_sede_metros} m` : "-";
+        const distMax = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.distancia_max_metros) || 500;
+        const distForaLimite = distTxt !== "-" && Number(v.distancia_sede_metros) > distMax;
+        const alertasTxt = (v.alertas && v.alertas.length) ? v.alertas.join("; ") : (distForaLimite ? `GPS a mais de ${distMax} m da sede` : "");
 
         html += `
           <tr>
@@ -1568,7 +1583,7 @@
             <td>${v.larva_pupa || '-'}</td>
             <td>${v.inseticida || '-'}</td>
             <td style="font-size:11px;">${v.possiveis_causadores || '-'}</td>
-            <td style="font-size:11px; color:#38bdf8;">${distTxt}</td>
+            <td style="font-size:11px; color:${distForaLimite ? '#f87171' : '#38bdf8'};" title="${alertasTxt}">${distForaLimite ? '<i class="fa-solid fa-triangle-exclamation"></i> ' : ''}${distTxt}</td>
             <td style="font-size:11px; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${v.observacoes || ''}">${v.observacoes || '-'}</td>
             <td>
               ${linkGps ? `<a href="${linkGps}" target="_blank" class="link-maps"><i class="fa-solid fa-crosshairs"></i> GPS</a>` : '-'}
@@ -1651,6 +1666,7 @@
         "Latitude GPS Lançamento": v.lat || v.latitude_gps_lancamento,
         "Longitude GPS Lançamento": v.lon || v.longitude_gps_lancamento,
         "Distância Sede (m)": v.distancia_sede_metros,
+        "Alertas de Validação": (v.alertas || []).join("; "),
         "Link Google Maps Ponto GPS": (v.lat && v.lon) ? `https://www.google.com/maps?q=${v.lat},${v.lon}` : "",
         "Data Submissão Kobo": v.submetido_em || ""
       }));

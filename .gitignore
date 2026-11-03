@@ -10,3 +10,9 @@ __pycache__/
 # IDEs
 .vscode/
 .idea/
+
+# Segredos e dados pessoais (ficam so neste computador)
+.env
+scripts/.env
+dados_locais/
+relatorios e formularios/Visitas_Monitoramento_Sedes_Kobo.xlsx

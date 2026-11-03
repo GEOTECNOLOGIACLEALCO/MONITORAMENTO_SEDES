@@ -20,13 +20,15 @@ echo   [7] Abrir Painel de Analise de Frequencia e Calor (analise_frequencia.htm
 echo   [8] Abrir Relatorio Executivo Online (relatorio.html)
 echo   [9] Abrir Manual de Gestao e Geotecnologia (manual.html)
 echo   [C] Abrir Guia da Equipe de Campo (guia_campo.html)
+echo   [R] Instalar/atualizar bibliotecas Python (primeiro uso)
 echo   [0] Sair
 echo.
 echo ================================================================================
 echo.
-choice /C 123456789C0 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7, 8, 9, C ou 0: "
+choice /C 123456789CR0 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7, 8, 9, C, R ou 0: "
 
-if errorlevel 11 goto OP_SAIR
+if errorlevel 12 goto OP_SAIR
+if errorlevel 11 goto OP_DEPS
 if errorlevel 10 goto OP_CAMPO
 if errorlevel 9 goto OP_MANUAL
 if errorlevel 8 goto OP_RELATORIO
@@ -129,19 +131,60 @@ echo ===========================================================================
 echo.
 echo [*] Sincronizando vistorias do KoboToolbox e atualizando base web...
 python "scripts\atualizar_base_web.py"
+if errorlevel 1 (
+  color 0C
+  echo.
+  echo [ERRO] A atualizacao da base falhou. Nada foi publicado.
+  pause
+  goto MENU
+)
 echo.
 echo [*] Verificando arquivos alterados...
+rem A planilha completa (com matriculas) fica so neste computador
+git rm --cached --ignore-unmatch -q "relatorios e formularios/Visitas_Monitoramento_Sedes_Kobo.xlsx" >nul 2>&1
 git add -A
 git status -s
+git diff --cached --quiet
+if not errorlevel 1 (
+  echo.
+  echo [INFO] Nenhuma alteracao para publicar.
+  pause
+  goto MENU
+)
+for /f "tokens=*" %%i in ('powershell -NoProfile -Command "Get-Date -Format 'dd/MM/yyyy HH:mm'"') do set "DATAHORA=%%i"
+git commit -q -m "Atualizacao da base NoFly - %DATAHORA%"
 echo.
 echo [*] Enviando atualizacoes para o GitHub...
-git commit -m "Atualizacao do sistema de vistoria de sedes" > nul 2>&1
 git push origin main
+if errorlevel 1 (
+  color 0C
+  echo.
+  echo ================================================================================
+  echo   [ERRO] O envio para o GitHub FALHOU. O app do celular NAO foi atualizado.
+  echo   Verifique a internet e o login do Git e tente a opcao [4] novamente.
+  echo ================================================================================
+  pause
+  goto MENU
+)
 echo.
 echo ================================================================================
-echo   [CONCLUIDO] Projeto sincronizado com o GitHub com sucesso!
-echo   Basta tocar em 'Limpar Cache' no celular para carregar as mudancas.
+echo   [CONCLUIDO] Projeto publicado no GitHub em %DATAHORA%.
+echo   Em alguns minutos o app do celular recebe a nova versao automaticamente.
 echo ================================================================================
+pause
+goto MENU
+
+:OP_DEPS
+cls
+echo ================================================================================
+echo   [R] INSTALANDO BIBLIOTECAS PYTHON (requirements.txt)...
+echo ================================================================================
+python -m pip install -r requirements.txt
+if not exist "scripts\.env" (
+  echo.
+  echo [ATENCAO] Falta o arquivo scripts\.env com o token do KoboToolbox.
+  echo           Copie scripts\.env.example para scripts\.env e cole o token.
+)
 pause
 goto MENU
 

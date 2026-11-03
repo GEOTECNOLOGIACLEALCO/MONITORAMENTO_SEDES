@@ -65,6 +65,9 @@ E. TRABALHO OFFLINE (SEM SINAL DE CELULAR):
    • Abra o NoFly enquanto tiver Wi-Fi ou sinal 4G antes de ir para o campo.
    • No campo sem sinal, preencha normalmente. As vistorias ficam salvas no celular.
    • Ao retornar para área com sinal, a sincronização com a nuvem é automática!
+   • Enquanto houver vistorias aguardando envio, aparece um botão laranja com
+     a quantidade no topo do app. Toque nele para tentar enviar na hora.
+   • NÃO desinstale o app nem limpe os dados do navegador com vistorias pendentes.
 
 
 ================================================================================
@@ -119,9 +122,24 @@ B. MENU DE OPERAÇÕES NO WINDOWS (MENU_MONITORAMENTO.bat):
 C. MIGRAÇÃO PARA OUTRO COMPUTADOR:
    1. Copie a pasta '10_Monitoramento_Sede' ou clone pelo GitHub:
       git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
-   2. Instale as bibliotecas Python (necessário apenas para os scripts):
-      pip install geopandas requests pandas openpyxl
-   3. Pronto! Abra pelo MENU_MONITORAMENTO.bat.
+   2. Instale as bibliotecas Python pelo menu, opção [R]
+      (ou: pip install -r requirements.txt).
+   3. Configure o token do KoboToolbox: copie scripts\.env.example para
+      scripts\.env e cole o token (KoboToolbox > Account Settings > Security).
+      O arquivo .env NÃO vai para o GitHub.
+   4. Pronto! Abra pelo MENU_MONITORAMENTO.bat.
+
+D. CONFIGURAÇÕES (scripts\nofly_config.json):
+   • status: dias limite para Verde e Amarelo (vale para mapa, relatório e análise).
+   • validacao: distância máxima (m) entre o GPS da vistoria e a sede, e formato
+     da matrícula. Vistorias fora da regra aparecem na coluna ALERTAS_VALIDACAO
+     do Excel e com ⚠️ no relatório.
+   • privacidade: mascarar matrícula e publicar ou não o GPS do avaliador no site.
+   Depois de alterar, rode a opção [4] do menu para publicar.
+
+E. ONDE FICAM OS DADOS:
+   • Site (GitHub): dados_mapa.js e vistorias_kobo.json, com matrícula mascarada.
+   • Só neste computador: Excel consolidado completo e dados_locais\ (cache).
 
 ================================================================================
 Clealco - Geotecnologia e Inteligência Agrícola • 2026
