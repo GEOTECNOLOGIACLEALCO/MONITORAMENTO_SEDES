@@ -8,6 +8,8 @@ const ASSETS_LOCAIS = [
   './guia_campo.html',
   './analise_frequencia.html',
   './relatorio.html',
+  './relatorio_sede.html',
+  './atualizar_dados.js',
   './manual.html',
   './dados_mapa.js',
   './vistorias_kobo.json',

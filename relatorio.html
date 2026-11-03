@@ -826,6 +826,16 @@
     </div>
 
     <div class="header-actions">
+      <!-- Buscar vistorias e fotos novas no Kobo (GitHub Actions) -->
+      <button class="btn-action" onclick="NoFlyAtualizacao.abrir()" title="Buscar vistorias e fotos novas no KoboToolbox">
+        <i class="fa-solid fa-cloud-arrow-down"></i> Atualizar dados
+      </button>
+
+      <!-- Relatório individual da sede com fotos, pronto para PDF -->
+      <a class="btn-action" href="relatorio_sede.html" title="Relatório de uma sede com tratativas e fotos">
+        <i class="fa-solid fa-file-lines"></i> Relatório por Sede
+      </a>
+
       <!-- Botão Compartilhar Link para Celular / WhatsApp -->
       <button class="btn-action" onclick="compartilharRelatorio()" style="background:#0284c7; color:#fff; border-color:#38bdf8;" title="Copiar link ou compartilhar no WhatsApp para ver no celular">
         <i class="fa-solid fa-share-nodes"></i> Compartilhar Link
@@ -1077,6 +1087,7 @@
 
   <!-- SCRIPT DE DADOS E LÓGICA -->
   <script src="dados_mapa.js"></script>
+  <script src="atualizar_dados.js"></script>
   <script>
     // Limites de status (dias) vindos de scripts/nofly_config.json via dados_mapa.js
     const LIM_VERDE = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.verde_max_dias) || 7;

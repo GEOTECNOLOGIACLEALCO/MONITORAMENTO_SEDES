@@ -23,6 +23,7 @@ XLSX_DIR = os.path.join(ROOT_DIR, "relatorios e formularios")
 XLSX_PATH = os.path.join(XLSX_DIR, "Visitas_Monitoramento_Sedes_Kobo.xlsx")
 DADOS_LOCAIS_DIR = os.path.join(ROOT_DIR, "dados_locais")  # fora do GitHub
 CACHE_COMPLETO = os.path.join(DADOS_LOCAIS_DIR, "vistorias_completas.json")
+FOTOS_DIR = os.path.join(ROOT_DIR, "fotos")  # publicada no site junto com o app
 OUT_JS = os.path.join(ROOT_DIR, "dados_mapa.js")
 OUT_JSON_PUBLICO = os.path.join(ROOT_DIR, "vistorias_kobo.json")
 SW_PATH = os.path.join(ROOT_DIR, "sw.js")
@@ -217,6 +218,61 @@ def baixar_kobo(cfg):
         return None
 
 
+CAMPOS_FOTO = ("pressao", "bandeiras", "larva_pupa", "inseticida", "causador")
+
+
+def _fotos_da_submissao(r):
+    """Nome do arquivo de cada foto citada na submissao (campos foto_<item>, com ou sem grupo)."""
+    fotos = {}
+    for chave, valor in r.items():
+        nome = chave.split("/")[-1]
+        if nome.startswith("foto_") and nome[5:] in CAMPOS_FOTO and valor:
+            fotos[nome[5:]] = str(valor)
+    return fotos
+
+
+def baixar_fotos_kobo(kobo_results):
+    """Baixa as fotos das vistorias para a pasta fotos/. Retorna {kobo_id: [{campo, arquivo}]}."""
+    token = obter_token()
+    if not token:
+        return {}
+    os.makedirs(FOTOS_DIR, exist_ok=True)
+    headers = {"Authorization": f"Token {token}"}
+    indice, novas, falhas = {}, 0, 0
+    for r in kobo_results:
+        fotos = _fotos_da_submissao(r)
+        if not fotos:
+            continue
+        anexos = {os.path.basename(str(a.get("filename", ""))): a for a in r.get("_attachments", [])}
+        itens = []
+        for campo, arquivo in fotos.items():
+            anexo = anexos.get(os.path.basename(arquivo))
+            if not anexo:
+                continue
+            local = os.path.join(FOTOS_DIR, f"{r.get('_id')}_{os.path.basename(arquivo)}")
+            if not os.path.exists(local):
+                url = anexo.get("download_large_url") or anexo.get("download_url")
+                try:
+                    resp = requests.get(url, headers=headers, timeout=60)
+                    if resp.status_code != 200:
+                        falhas += 1
+                        continue
+                    with open(local, "wb") as f:
+                        f.write(resp.content)
+                    novas += 1
+                except Exception:
+                    falhas += 1
+                    continue
+            itens.append({"campo": campo, "arquivo": "fotos/" + os.path.basename(local)})
+        if itens:
+            indice[str(r.get("_id"))] = itens
+    total = sum(len(v) for v in indice.values())
+    print(f"-> [FOTOS] {total} foto(s) disponiveis para os relatorios ({novas} nova(s) baixada(s)).")
+    if falhas:
+        print(f"[AVISO] {falhas} foto(s) nao puderam ser baixadas; tente novamente mais tarde.")
+    return indice
+
+
 def _gps_da_submissao(r):
     lat, lon = None, None
     gps = r.get("localizacao_gps")
@@ -397,6 +453,9 @@ def obter_vistorias(sedes_ref, cfg):
             v.setdefault("alertas", validar_vistoria(v, cfg))
     else:
         vistorias = normalizar_submissoes(brutos, sedes_ref, cfg)
+        fotos = baixar_fotos_kobo(brutos)
+        for v in vistorias:
+            v["fotos_arquivos"] = fotos.get(str(v.get("kobo_id")), [])
     vistorias = aplicar_datas_manuais(vistorias, ler_datas_manuais_excel())
     if brutos is not None:
         salvar_cache_completo(vistorias)

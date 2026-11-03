@@ -19,15 +19,17 @@ echo   [6] Acessar Painel KoboToolbox na Nuvem (Ver Dados Online)
 echo   [7] Abrir Painel de Analise de Frequencia e Calor (analise_frequencia.html)
 echo   [8] Abrir Relatorio Executivo Online (relatorio.html)
 echo   [9] Abrir Manual de Gestao e Geotecnologia (manual.html)
+echo   [S] Gerar Relatorio por Sede com Fotos (relatorio_sede.html - salvar PDF)
 echo   [C] Abrir Guia da Equipe de Campo (guia_campo.html)
 echo   [R] Instalar/atualizar bibliotecas Python (primeiro uso)
 echo   [0] Sair
 echo.
 echo ================================================================================
 echo.
-choice /C 123456789CR0 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7, 8, 9, C, R ou 0: "
+choice /C 123456789CRS0 /N /M "Pressione 1, 2, 3, 4, 5, 6, 7, 8, 9, S, C, R ou 0: "
 
-if errorlevel 12 goto OP_SAIR
+if errorlevel 13 goto OP_SAIR
+if errorlevel 12 goto OP_RELATORIO_SEDE
 if errorlevel 11 goto OP_DEPS
 if errorlevel 10 goto OP_CAMPO
 if errorlevel 9 goto OP_MANUAL
@@ -39,6 +41,23 @@ if errorlevel 4 goto OP_GITHUB
 if errorlevel 3 goto OP_UPDATE
 if errorlevel 2 goto OP_EXCEL
 if errorlevel 1 goto OP_OPEN_WEB
+goto MENU
+
+:OP_RELATORIO_SEDE
+cls
+echo ================================================================================
+echo             NoFly - RELATORIO POR SEDE (LEVANTAMENTO, TRATATIVAS E FOTOS)
+echo ================================================================================
+echo.
+echo Link para qualquer pessoa (celular ou computador):
+echo https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio_sede.html
+echo.
+echo No relatorio: "Atualizar dados" busca vistorias e fotos novas do Kobo;
+echo escolha a sede e clique em "Salvar PDF".
+echo.
+start "" "https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio_sede.html"
+echo Pronto!
+timeout /t 4 > nul
 goto MENU
 
 :OP_CAMPO
@@ -129,6 +148,23 @@ echo ===========================================================================
 echo   [4] PUBLICANDO ATUALIZACOES NO GITHUB (APP DO CELULAR)...
 echo ================================================================================
 echo.
+rem So o branch main vai para o site; em outro branch o envio nao atualiza nada
+for /f "tokens=*" %%b in ('git rev-parse --abbrev-ref HEAD') do set "BRANCH=%%b"
+if /i not "%BRANCH%"=="main" (
+  color 0C
+  echo [ERRO] Este computador esta no branch "%BRANCH%", nao no "main".
+  echo        Publicar daqui NAO atualiza o site. Volte para o main e tente de novo.
+  pause
+  goto MENU
+)
+echo [*] Baixando atualizacoes feitas online (botao "Atualizar dados")...
+git pull --rebase --autostash -q origin main
+if errorlevel 1 (
+  color 0C
+  echo [ERRO] Nao foi possivel sincronizar com o GitHub. Verifique a internet e tente novamente.
+  pause
+  goto MENU
+)
 echo [*] Sincronizando vistorias do KoboToolbox e atualizando base web...
 python "scripts\atualizar_base_web.py"
 if errorlevel 1 (
