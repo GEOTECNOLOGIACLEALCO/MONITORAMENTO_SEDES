@@ -6,7 +6,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Fábio Inácio",
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
-    "data_vistoria": "08/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:49",
     "matricula": "***05",
     "pressao": "Alta",
@@ -30,7 +30,8 @@
     "instance_id": "uuid:de2edd1f-5686-4e11-8db7-013fd70a6907",
     "alertas": [
       "GPS a 34834 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "55",
@@ -63,7 +64,8 @@
     "instance_id": "uuid:28d14b83-2bfe-4eb6-ad19-4734aa3ad6c3",
     "alertas": [
       "GPS a 30611 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "53",
@@ -72,7 +74,7 @@
     "fazenda": "SEM FA - FAZENDA CATARINA",
     "proprietario": "Osvaldo Cervigne",
     "regiao": "Queiroz / Vicinal Danilo Cervigne",
-    "data_vistoria": "28/09/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:51",
     "matricula": "****04",
     "pressao": "Baixa",
@@ -96,7 +98,8 @@
     "instance_id": "uuid:069fdc2b-9ad3-4afd-9175-bb251225b8be",
     "alertas": [
       "GPS a 22634 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "51",
@@ -105,7 +108,7 @@
     "fazenda": "201303 - FAZENDA SOBRADINHO",
     "proprietario": "Marcos G. Laraya",
     "regiao": "Queiroz / Vicinal Danilo Cervigne",
-    "data_vistoria": "01/09/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:52",
     "matricula": "****09",
     "pressao": "Alta",
@@ -129,7 +132,8 @@
     "instance_id": "uuid:671bffc2-277a-46dc-90b6-94889bfeb550",
     "alertas": [
       "GPS a 26551 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "10",
@@ -138,7 +142,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Osvaldo Angelin",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "12/09/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:53",
     "matricula": "***50",
     "pressao": "Baixa",
@@ -162,7 +166,8 @@
     "instance_id": "uuid:27ddc1b2-b0db-4948-8b3e-a2647a8c70b7",
     "alertas": [
       "GPS a 39092 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "16",
@@ -171,7 +176,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Rubens Fernandes",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "20/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:54",
     "matricula": "***55",
     "pressao": "Alta",
@@ -195,7 +200,8 @@
     "instance_id": "uuid:e857696b-d430-41ab-aff9-a773068fe599",
     "alertas": [
       "GPS a 39418 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "5",
@@ -204,7 +210,7 @@
     "fazenda": "308121 - FAZENDA CONQUISTA",
     "proprietario": "Edson Correia",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "19/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:54",
     "matricula": "***55",
     "pressao": "Alta",
@@ -228,7 +234,8 @@
     "instance_id": "uuid:588308d6-9e0b-4a2f-a98a-d952f4a63ec0",
     "alertas": [
       "GPS a 39704 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "20",
@@ -237,7 +244,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Josias Fernandes",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "18/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:57",
     "matricula": "***79",
     "pressao": "Média",
@@ -261,7 +268,8 @@
     "instance_id": "uuid:9ea0d59d-3210-4f64-a23c-6033c145bde0",
     "alertas": [
       "GPS a 38882 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "75",
@@ -270,7 +278,7 @@
     "fazenda": "SEM FA - SITIO NSr FATIMA",
     "proprietario": "Eurico Bezerra",
     "regiao": "Vicinal Mariano Tavares do Couto",
-    "data_vistoria": "29/09/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:57",
     "matricula": "***82",
     "pressao": "Alta",
@@ -294,7 +302,8 @@
     "instance_id": "uuid:9d6cacbc-2f59-45de-9cbd-aedfa1b79dd9",
     "alertas": [
       "GPS a 37798 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "78",
@@ -327,7 +336,8 @@
     "instance_id": "uuid:b95e2285-ef07-4925-9391-fb36c48e181a",
     "alertas": [
       "GPS a 37754 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "70",
@@ -360,7 +370,8 @@
     "instance_id": "uuid:6d19bfe0-1faa-4a21-bc49-10c4b8ca0a33",
     "alertas": [
       "GPS a 34504 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "65",
@@ -393,7 +404,8 @@
     "instance_id": "uuid:b664bf0e-d75e-48b8-a596-0855f58fe052",
     "alertas": [
       "GPS a 31923 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "63",
@@ -402,7 +414,7 @@
     "fazenda": "308007 - FAZENDA SAO JOSE",
     "proprietario": "Claudio Grisolia",
     "regiao": "Vicinal Mariano Tavares do Couto",
-    "data_vistoria": "20/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "09:59",
     "matricula": "***09",
     "pressao": "Alta",
@@ -426,7 +438,8 @@
     "instance_id": "uuid:04e127ec-fa15-43d1-b1b6-30d24552449f",
     "alertas": [
       "GPS a 31086 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "35",
@@ -435,7 +448,7 @@
     "fazenda": "SEM FA - SITIO NSr APARECIDA",
     "proprietario": "Aldemir Fernades",
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
-    "data_vistoria": "12/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:00",
     "matricula": "***00",
     "pressao": "Alta",
@@ -459,7 +472,8 @@
     "instance_id": "uuid:084e7c87-c7ae-4dd5-8252-94fc27f72f53",
     "alertas": [
       "GPS a 37796 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "30",
@@ -468,7 +482,7 @@
     "fazenda": "308175 - FAZENDA SAO JORGE",
     "proprietario": "Florinda Sakuno",
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
-    "data_vistoria": "13/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:00",
     "matricula": "***05",
     "pressao": "Alta",
@@ -492,7 +506,8 @@
     "instance_id": "uuid:db4fd7ac-65f8-4019-a72a-822a6643d079",
     "alertas": [
       "GPS a 36102 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "42",
@@ -501,7 +516,7 @@
     "fazenda": "SEM FA - SITIO NSr APARECIDA",
     "proprietario": "Osvaldo Silveira",
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
-    "data_vistoria": "02/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:00",
     "matricula": "***05",
     "pressao": "Média",
@@ -525,7 +540,8 @@
     "instance_id": "uuid:3b908576-0960-4166-b4f0-a0b3778c45d6",
     "alertas": [
       "GPS a 37420 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "2",
@@ -534,7 +550,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "João Inácio",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "04/10/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:01",
     "matricula": "***05",
     "pressao": "Alta",
@@ -558,7 +574,8 @@
     "instance_id": "uuid:2c4bc207-f0be-43bd-a9d5-1bc3d3689dfb",
     "alertas": [
       "GPS a 40306 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "24",
@@ -567,7 +584,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Neide Abreu",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "01/10/2026",
+    "data_vistoria": "2026-09-28",
     "hora_vistoria": "10:01",
     "matricula": "***00",
     "pressao": "Alta",
@@ -591,7 +608,8 @@
     "instance_id": "uuid:e1c665c5-a28e-45b1-8914-a150c052b68f",
     "alertas": [
       "GPS a 40759 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "23",
@@ -600,7 +618,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Djalma Abreu",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "25/09/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:01",
     "matricula": "***00",
     "pressao": "Alta",
@@ -624,7 +642,8 @@
     "instance_id": "uuid:6191de22-f20e-43cc-9589-2e0d12886f91",
     "alertas": [
       "GPS a 40696 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "18",
@@ -633,7 +652,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Ademar Silva",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "02/09/2026",
+    "data_vistoria": "28/10/2026",
     "hora_vistoria": "10:02",
     "matricula": "***01",
     "pressao": "Alta",
@@ -657,7 +676,8 @@
     "instance_id": "uuid:45e85ef8-8857-4d5c-ad74-0c31e5e8bfe0",
     "alertas": [
       "GPS a 38624 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "22",
@@ -690,7 +710,8 @@
     "instance_id": "uuid:adc7d1bc-b0f2-453d-b97b-0210b38efb3d",
     "alertas": [
       "GPS a 38466 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "44",
@@ -723,7 +744,8 @@
     "instance_id": "uuid:8d709f31-3315-4949-a0d0-02d5eb8301f9",
     "alertas": [
       "GPS a 37970 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "3",
@@ -732,7 +754,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Adilson Colucci",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "28/10/2026",
+    "data_vistoria": "2026-09-29",
     "hora_vistoria": "10:04",
     "matricula": "***09",
     "pressao": "Alta",
@@ -756,7 +778,8 @@
     "instance_id": "uuid:1ee50e18-4675-4a3d-9d73-a64847c5544d",
     "alertas": [
       "GPS a 40388 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "71",
@@ -765,7 +788,7 @@
     "fazenda": "201431 - FAZENDA CARRILHO IV",
     "proprietario": "Cleber Carilho",
     "regiao": "Vicinal Mariano Tavares do Couto",
-    "data_vistoria": "28/10/2026",
+    "data_vistoria": "2026-10-05",
     "hora_vistoria": "10:11",
     "matricula": "***09",
     "pressao": "Alta",
@@ -789,7 +812,8 @@
     "instance_id": "uuid:8dfe6d52-907d-4ad5-b557-d363ac806bf9",
     "alertas": [
       "GPS a 36362 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "61",
@@ -822,7 +846,8 @@
     "instance_id": "uuid:0c1a7f5e-16d6-4be7-8f3c-579be37ad106",
     "alertas": [
       "GPS a 31907 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "26",
@@ -831,7 +856,7 @@
     "fazenda": "SEM FA - SITIO SANTO ALGOSTINHO",
     "proprietario": "João Inácio",
     "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
-    "data_vistoria": "28/10/2026",
+    "data_vistoria": "2026-10-09",
     "hora_vistoria": "10:12",
     "matricula": "***12",
     "pressao": "Média",
@@ -855,7 +880,8 @@
     "instance_id": "uuid:76a29e16-f1c4-4bb0-9e3a-338a93c2f7c8",
     "alertas": [
       "GPS a 33730 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "17",
@@ -864,7 +890,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Danilo Valeriano",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "28/10/2026",
+    "data_vistoria": "2026-10-07",
     "hora_vistoria": "10:12",
     "matricula": "***15",
     "pressao": "Alta",
@@ -888,7 +914,8 @@
     "instance_id": "uuid:9e5d6ef0-1890-4e84-9545-9f3ce39db64f",
     "alertas": [
       "GPS a 38989 m da sede (limite 500 m)"
-    ]
+    ],
+    "fotos_arquivos": []
   },
   {
     "num_sede": "19",
@@ -897,7 +924,7 @@
     "fazenda": "SEM FA - SEM INFORMAÇÃO",
     "proprietario": "Celso Fernandes",
     "regiao": "Bloco FA 308121",
-    "data_vistoria": "28/10/2026",
+    "data_vistoria": "2026-10-14",
     "hora_vistoria": "10:13",
     "matricula": "***36",
     "pressao": "Alta",
@@ -921,6 +948,62 @@
     "instance_id": "uuid:0eaf0c26-ca7b-46b5-9ee3-b68288b3d949",
     "alertas": [
       "GPS a 39206 m da sede (limite 500 m)"
+    ],
+    "fotos_arquivos": []
+  },
+  {
+    "num_sede": "30",
+    "nome_sede": "30 - Florinda Sakuno",
+    "fa": "308175",
+    "fazenda": "308175 - FAZENDA SAO JORGE",
+    "proprietario": "Florinda Sakuno",
+    "regiao": "Vicinal Francisco Curcio (QRZ / Pompeia)",
+    "data_vistoria": "03/11/2026",
+    "hora_vistoria": "14:35",
+    "matricula": "***05",
+    "pressao": "Alta",
+    "bandeiras": "10",
+    "larva_pupa": "Presença",
+    "inseticida": "Aplicado",
+    "possiveis_causadores": "Vinhaça",
+    "observacoes": "",
+    "lat": -21.5788855,
+    "lon": -50.4332001,
+    "latitude_gps_lancamento": -21.5788855,
+    "longitude_gps_lancamento": -50.4332001,
+    "lat_sede": -21.8294,
+    "lon_sede": -50.210464,
+    "localizacao_sede": "-21.8294, -50.210464",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.8294,-50.210464",
+    "distancia_sede_metros": 36131.3,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-03T17:53:01",
+    "kobo_id": 907368483,
+    "instance_id": "uuid:d1740ed1-d1ef-4e4e-9c14-d4ea1812a1b7",
+    "alertas": [
+      "GPS a 36131 m da sede (limite 500 m)"
+    ],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/907368483_foto_pressao_sede30_1793727807575.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/907368483_foto_bandeiras_sede30_1793727853045.jpg"
+      },
+      {
+        "campo": "larva_pupa",
+        "arquivo": "fotos/907368483_foto_larva_pupa_sede30_1793727907103.jpg"
+      },
+      {
+        "campo": "inseticida",
+        "arquivo": "fotos/907368483_foto_inseticida_sede30_1793727953228.jpg"
+      },
+      {
+        "campo": "causador",
+        "arquivo": "fotos/907368483_foto_causador_sede30_1793728007183.jpg"
+      }
     ]
   }
 ]
