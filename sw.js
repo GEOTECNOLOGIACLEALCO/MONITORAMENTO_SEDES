@@ -1,5 +1,5 @@
 // A versao abaixo e atualizada automaticamente por scripts/atualizar_base_web.py
-const CACHE_NAME = 'nofly-sedes-20261103-1653';
+const CACHE_NAME = 'nofly-sedes-20261104-1344';
 
 // Arquivos do proprio app
 const ASSETS_LOCAIS = [
