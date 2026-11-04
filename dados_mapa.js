@@ -1,7 +1,7 @@
 // BASE DE DADOS COMPILADA DO MONITORAMENTO DE SEDES CLEALCO
-// Atualizado em: 04/11/2026 16:23:39
+// Atualizado em: 04/11/2026 16:24:55
 
-const DADOS_ATUALIZADO_EM = "2026-11-04T16:23:39";
+const DADOS_ATUALIZADO_EM = "2026-11-04T16:24:55";
 
 const CONFIG_NOFLY = {"verde_max_dias": 7, "amarelo_max_dias": 15, "distancia_max_metros": 500};
 
