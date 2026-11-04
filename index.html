@@ -3301,10 +3301,10 @@ ${fotosSalvar.map(f => `  <foto_${f.campo}>${escapeXml(f.nome)}</foto_${f.campo}
         const p = sedeSelecionada ? sedeSelecionada.properties : {};
         const valor = valorAtualCampo(campo);
         const linhas = [
-          `Sede ${p.num_sede || '-'} - ${p.nome_sede || ''}`.trim(),
+          `Sede ${p.nome_sede || p.num_sede || '-'}`,
           `${FOTO_CAMPOS[campo]}${valor ? `: ${valor}` : ''}`,
           gps ? `Lat: ${gps.lat.toFixed(6)}  Lon: ${gps.lon.toFixed(6)}${gps.acc ? `  ±${gps.acc}m` : ''}` : "GPS indisponível",
-          `${dataHora}${document.getElementById("form-matricula").value.trim() ? `  •  Matr. ${document.getElementById("form-matricula").value.trim()}` : ''}`
+          dataHora
         ];
 
         const fs = Math.max(14, Math.round(Math.min(w, h) * 0.034));

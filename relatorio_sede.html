@@ -382,7 +382,7 @@
     }
 
     #mapa-sede {
-      height: 300px;
+      height: 195px;
       border-radius: 8px;
       border: 1px solid var(--doc-border);
     }
@@ -421,18 +421,6 @@
       text-align: center;
     }
 
-    .assinaturas {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      margin-top: 36px;
-      font-size: 11px;
-      text-align: center;
-    }
-    .assinaturas div {
-      border-top: 1px solid #475569;
-      padding-top: 5px;
-    }
     .doc-footer {
       margin-top: 18px;
       border-top: 1px solid var(--doc-border);
@@ -545,7 +533,6 @@
   <script>
     const LIM_VERDE = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.verde_max_dias) || 7;
     const LIM_AMARELO = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.amarelo_max_dias) || 15;
-    const DIST_MAX = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.distancia_max_metros) || 500;
     const SEDES = (typeof DADOS_SEDES !== "undefined" ? DADOS_SEDES.features : [])
       .slice().sort((a, b) => (parseInt(a.properties.num_sede) || 0) - (parseInt(b.properties.num_sede) || 0));
     const VISTORIAS = typeof DADOS_VISTORIAS_KOBO !== "undefined" ? DADOS_VISTORIAS_KOBO : [];
@@ -556,8 +543,7 @@
       pressao: "Pressão",
       bandeiras: "N° de Bandeiras",
       larva_pupa: "Larva e Pupa",
-      inseticida: "Inseticida",
-      causador: "Possíveis Causadores"
+      inseticida: "Inseticida"
     };
     const COR_PRESSAO = { "Baixa": "#38bdf8", "Média": "#f97316", "Alta": "#ef4444" };
 
@@ -653,9 +639,6 @@
       const nLarva = vis.filter(v => v.larva_pupa === "Presença").length;
       const contPressao = { "Alta": 0, "Média": 0, "Baixa": 0 };
       vis.forEach(v => { if (contPressao[v.pressao] !== undefined) contPressao[v.pressao]++; });
-      const causadores = {};
-      vis.forEach(v => { if (v.possiveis_causadores) causadores[v.possiveis_causadores] = (causadores[v.possiveis_causadores] || 0) + 1; });
-      const listaCausadores = Object.entries(causadores).sort((a, b) => b[1] - a[1]).map(([c, n]) => `${esc(c)} (${n}x)`).join(", ");
 
       const de = document.getElementById("filtro-de").value;
       const ate = document.getElementById("filtro-ate").value;
@@ -670,8 +653,8 @@
         ? `Declaramos que a equipe de monitoramento da Usina Clealco realizou o <strong>levantamento de infestação de mosca-dos-estábulos</strong>
            na <strong>Sede ${esc(nomeSede)}</strong>, pertencente à <strong>${esc(fazenda)}</strong> (proprietário(a): ${esc(p.proprietario || "-")}),
            totalizando <strong>${vis.length} vistoria${vis.length === 1 ? "" : "s"}</strong> entre <strong>${fmtData(primeira)}</strong> e <strong>${fmtData(ultima)}</strong>.
-           Em cada visita foram avaliados o nível de pressão da mosca, a quantidade de bandeiras, a presença de larvas e pupas, a aplicação de inseticida
-           e os possíveis causadores, conforme detalhado neste relatório${nInseticida ? `, com <strong>${nInseticida} aplicação(ões) de inseticida</strong> como tratativa` : ""}.`
+           Em cada visita foram avaliados o nível de pressão da mosca, a quantidade de bandeiras, a presença de larvas e pupas e a aplicação de inseticida,
+           conforme detalhado neste relatório${nInseticida ? `, com <strong>${nInseticida} aplicação(ões) de inseticida</strong> como tratativa` : ""}.`
         : `Não há vistorias registradas para a <strong>Sede ${esc(nomeSede)}</strong> (${esc(fazenda)}) no período selecionado.`;
 
       el.innerHTML = `
@@ -725,8 +708,7 @@
           ${vis.length ? `
             <div class="resumo-tratativas">
               <strong>Resumo:</strong> inseticida aplicado em <strong>${nInseticida}</strong> de ${vis.length} visita(s);
-              larvas/pupas encontradas em <strong>${nLarva}</strong> visita(s);
-              possíveis causadores identificados: <strong>${listaCausadores || "nenhum informado"}</strong>.
+              larvas/pupas encontradas em <strong>${nLarva}</strong> visita(s).
             </div>
             <div class="tratativas">${vis.slice().reverse().map(montarCardTratativa).join("")}</div>
           ` : `<div class="vazio">Sem tratativas registradas no período.</div>`}
@@ -745,11 +727,6 @@
         <div class="section" style="break-inside:auto; page-break-inside:auto;">
           <div class="section-title" style="break-after:avoid; page-break-after:avoid;"><i class="fa-solid fa-camera"></i> Evidências fotográficas (últimas fotos)</div>
           ${montarFotos(vis)}
-        </div>
-
-        <div class="assinaturas">
-          <div>Responsável pelo monitoramento<br><small>Usina Clealco</small></div>
-          <div>Ciente do(a) proprietário(a)<br><small>${esc(p.proprietario || "")}</small></div>
         </div>
 
         <div class="doc-footer">
@@ -792,11 +769,6 @@
     function montarTabela(vis) {
       if (!vis.length) return `<div class="vazio">Nenhuma vistoria no período.</div>`;
       const linhas = vis.slice().reverse().map((v, i) => {
-        const temDist = v.distancia_sede_metros !== "" && v.distancia_sede_metros !== undefined && v.distancia_sede_metros !== null;
-        // GPS longe da sede indica lançamento fora do local; destaca para conferência
-        const dist = !temDist ? "-" : (v.distancia_sede_metros > DIST_MAX
-          ? `<span style="color:#dc2626;font-weight:700;" title="Acima do limite de ${DIST_MAX} m">${Math.round(v.distancia_sede_metros)} m ⚠</span>`
-          : `${Math.round(v.distancia_sede_metros)} m`);
         return `
           <tr>
             <td>${vis.length - i}</td>
@@ -805,15 +777,12 @@
             <td style="text-align:center;font-weight:700;">${esc(v.bandeiras !== undefined ? v.bandeiras : "-")}</td>
             <td>${esc(v.larva_pupa || "-")}</td>
             <td>${esc(v.inseticida || "-")}</td>
-            <td>${esc(v.possiveis_causadores || "-")}</td>
-            <td>${dist}</td>
-            <td>${esc(v.matricula || "-")}</td>
           </tr>`;
       }).join("");
       return `
         <div class="table-wrap">
           <table>
-            <thead><tr><th>#</th><th>Data</th><th>Pressão</th><th>Bandeiras</th><th>Larva/Pupa</th><th>Inseticida</th><th>Causador</th><th>Dist. GPS</th><th>Matrícula</th></tr></thead>
+            <thead><tr><th>#</th><th>Data</th><th>Pressão</th><th>Bandeiras</th><th>Larva/Pupa</th><th>Inseticida</th></tr></thead>
             <tbody>${linhas}</tbody>
           </table>
         </div>`;
@@ -830,9 +799,6 @@
       itens.push(v.larva_pupa === "Presença"
         ? `<li><i class="fa-solid fa-bug"></i><span><strong>Foco de larva/pupa identificado</strong></span></li>`
         : `<li><i class="fa-solid fa-shield"></i><span>Larvas/pupas: ${esc(v.larva_pupa || "não informado")}</span></li>`);
-      if (v.possiveis_causadores) {
-        itens.push(`<li><i class="fa-solid fa-magnifying-glass"></i><span>Possível causador: <strong>${esc(v.possiveis_causadores)}</strong></span></li>`);
-      }
       if (v.observacoes) {
         itens.push(`<li><i class="fa-solid fa-comment"></i><span>${esc(v.observacoes)}</span></li>`);
       }
@@ -846,7 +812,9 @@
     function montarFotos(vis) {
       const fotos = [];
       vis.slice().reverse().forEach(v => {
-        (v.fotos_arquivos || []).forEach(f => fotos.push({ ...f, data: v.data_vistoria, hora: v.hora_vistoria }));
+        // A foto de causador traz o causador carimbado na imagem, que não sai neste relatório
+        (v.fotos_arquivos || []).filter(f => f.campo !== "causador")
+          .forEach(f => fotos.push({ ...f, data: v.data_vistoria, hora: v.hora_vistoria }));
       });
       if (!fotos.length) {
         return `<div class="aviso-fotos"><i class="fa-solid fa-camera"></i> Nenhuma foto registrada para esta sede no período.<br>
