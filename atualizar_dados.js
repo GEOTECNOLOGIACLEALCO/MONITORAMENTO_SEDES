@@ -69,9 +69,10 @@
     abrir(`
       <h3><i class="fa-solid fa-cloud-arrow-down"></i> Atualizar dados do Kobo</h3>
       ${msgErro ? `<p style="color:#f87171;font-weight:700;">${msgErro}</p>` : ""}
-      <p>Na primeira vez, cole uma <strong>chave de acesso do GitHub</strong>. Ela fica salva só neste navegador.</p>
+      <p>Na primeira vez, cole a <strong>chave de acesso do NoFly</strong> recebida da Geotecnologia. Ela fica salva só neste navegador.</p>
+      <p><small>Para gerar a chave (somente o responsável pela conta GEOTECNOLOGIACLEALCO):</small></p>
       <ol>
-        <li>Entre no GitHub com uma conta que tenha acesso ao repositório e abra <a href="${LINK_NOVO_TOKEN}" target="_blank" rel="noopener">este link</a>.</li>
+        <li>Entre no GitHub com a conta <strong>GEOTECNOLOGIACLEALCO</strong> e abra <a href="${LINK_NOVO_TOKEN}" target="_blank" rel="noopener">este link</a>.</li>
         <li>Em <em>Repository access</em>, escolha <strong>Only select repositories</strong> → <strong>MONITORAMENTO_SEDES</strong>.</li>
         <li>Em <em>Permissions</em>, deixe <strong>Actions: Read and write</strong>.</li>
         <li>Clique em <strong>Generate token</strong> e cole aqui.</li>
