@@ -671,12 +671,20 @@
       const nomeSede = p.nome_sede || `Sede ${p.num_sede}`;
       const fazenda = p.fa_completo || p.fazenda || "Sem informação";
 
+      // Pressão e larvas/pupas são levantamento; inseticida e bandeiras são tratativas
+      const nBandeiras = vis.filter(v => parseInt(v.bandeiras) > 0).length;
+      const tratativas = [];
+      if (nInseticida) tratativas.push(`<strong>${nInseticida} aplicação(ões) de inseticida</strong>`);
+      if (nBandeiras) tratativas.push(`<strong>uso de bandeiras em ${nBandeiras} visita(s)</strong>`);
+      const fraseTratativas = tratativas.length
+        ? ` Como tratativa${tratativas.length > 1 ? "s" : ""}, houve ${tratativas.join(" e ")}.`
+        : "";
+
       const declaracao = vis.length
         ? `Declaramos que a equipe de monitoramento da Usina Clealco realizou o <strong>levantamento de infestação de mosca-dos-estábulos</strong>
            na <strong>Sede ${esc(nomeSede)}</strong>, pertencente à <strong>${esc(fazenda)}</strong> (proprietário(a): ${esc(p.proprietario || "-")}),
            totalizando <strong>${vis.length} vistoria${vis.length === 1 ? "" : "s"}</strong> entre <strong>${fmtData(primeira)}</strong> e <strong>${fmtData(ultima)}</strong>.
-           Em cada visita foram avaliados o nível de pressão da mosca, a quantidade de bandeiras, a presença de larvas e pupas e a aplicação de inseticida,
-           conforme detalhado neste relatório${nInseticida ? `, com <strong>${nInseticida} aplicação(ões) de inseticida</strong> como tratativa` : ""}.`
+           Em cada visita foram avaliados o nível de pressão da mosca e a presença de larvas e pupas, conforme detalhado neste relatório.${fraseTratativas}`
         : `Não há vistorias registradas para a <strong>Sede ${esc(nomeSede)}</strong> (${esc(fazenda)}) no período selecionado.`;
 
       el.innerHTML = `
