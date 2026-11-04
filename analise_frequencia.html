@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>NoFly - Painel de Frequência de Retorno e Calor (Raio 300m)</title>
 
-  <!-- PWA & Favicon -->
-  <link rel="manifest" href="manifest.json?v=nofly">
-  <link rel="apple-touch-icon" href="logos/apple-touch-icon.png?v=nofly">
-  <link rel="icon" type="image/png" sizes="192x192" href="logos/icon-192.png?v=nofly">
-  <link rel="icon" type="image/png" sizes="512x512" href="logos/icon-512.png?v=nofly">
   <link rel="icon" type="image/x-icon" href="favicon.ico?v=nofly">
-  <link rel="shortcut icon" href="logos/favicon.ico?v=nofly">
-  <meta name="theme-color" content="#15803d">
+  <script>
+    // Esta pagina e a aba "Calor & Retorno" do relatorio; links antigos vao para la
+    if (window.top === window.self) location.replace("relatorio.html#calor");
+  </script>
 
   <!-- Fontes & Ícones -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +19,6 @@
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-  <!-- Chart.js para gráficos -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     :root {
@@ -76,36 +70,6 @@
       flex-wrap: wrap;
     }
 
-    .brand-section {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      object-fit: cover;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-
-    .brand-text h1 {
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .brand-text span {
-      font-size: 11px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
     /* CONTROLES DO CABEÇALHO */
     .header-controls {
       display: flex;
@@ -142,75 +106,6 @@
       color: #fff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-
-    .btn-action-top {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 7px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .btn-action-top:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--primary-light);
-      color: #fff;
-    }
-
-    .btn-primary-top {
-      background: var(--primary);
-      border-color: var(--primary-dark);
-      color: #fff;
-    }
-    .btn-primary-top:hover {
-      background: var(--primary-dark);
-    }
-
-    /* BARRA DE KPIS RÁPIDOS */
-    .kpi-bar {
-      background: #0b1120;
-      border-bottom: 1px solid var(--border-color);
-      padding: 6px 16px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      overflow-x: auto;
-      white-space: nowrap;
-      font-size: 11px;
-    }
-
-    .kpi-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-muted);
-    }
-
-    .kpi-item strong {
-      color: #fff;
-      font-size: 12px;
-    }
-
-    .kpi-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 10px;
-    }
-    .kpi-badge.verde { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
-    .kpi-badge.amarelo { background: rgba(234, 179, 8, 0.15); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
-    .kpi-badge.vermelho { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
     /* CONTAINER PRINCIPAL DOS MAPAS */
     .main-viewport {
@@ -375,92 +270,6 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
 
-    /* GAVETA / MODAL DE TABELA & GRÁFICOS */
-    #drawer-tabela {
-      position: absolute;
-      top: 0;
-      right: -100%;
-      width: 500px;
-      max-width: 92vw;
-      height: 100%;
-      background: var(--bg-card);
-      border-left: 1px solid var(--border-color);
-      z-index: 2000;
-      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      box-shadow: -8px 0 24px rgba(0,0,0,0.5);
-    }
-    #drawer-tabela.open {
-      right: 0;
-    }
-
-    .drawer-header {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .drawer-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-    }
-
-    .table-container {
-      overflow-x: auto;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 11px;
-    }
-    th, td {
-      padding: 8px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-    th {
-      background: #0f172a;
-      color: var(--text-muted);
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 10px;
-    }
-    tr:hover {
-      background: rgba(255,255,255,0.04);
-    }
-
-    /* TOAST */
-    #toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #1e293b;
-      color: #fff;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid var(--primary);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      z-index: 9999;
-      opacity: 0;
-      transition: all 0.3s;
-    }
-    #toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
     @media (max-width: 768px) {
       .header-controls {
         width: 100%;
@@ -480,120 +289,11 @@
     .sede-heat-pin.freq-2 { background: #f59e0b; } /* 2 visitas: Laranja */
     .sede-heat-pin.freq-1 { background: #10b981; } /* 1 visita: Verde */
 
-    /* TELA DE CARREGAMENTO INICIAL */
-    #app-loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-      z-index: 999999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.4s ease-out, visibility 0.4s;
-    }
-
-    .loading-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 30px 24px;
-      max-width: 320px;
-      width: 90%;
-    }
-
-    .loading-logo-box {
-      width: 86px;
-      height: 86px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 24px rgba(34, 197, 94, 0.25);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      margin-bottom: 18px;
-      background: #0f172a;
-      animation: pulseLogo 2s ease-in-out infinite;
-    }
-
-    .loading-logo-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    @keyframes pulseLogo {
-      0%, 100% { transform: scale(1); box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(34, 197, 94, 0.2); }
-      50% { transform: scale(1.05); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6), 0 0 30px rgba(34, 197, 94, 0.45); }
-    }
-
-    .loading-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #f8fafc;
-      letter-spacing: 0.3px;
-      margin-bottom: 14px;
-    }
-
-    .loading-spinner-wrapper {
-      margin-bottom: 12px;
-    }
-
-    .loading-spinner {
-      width: 36px;
-      height: 36px;
-      border: 3.5px solid rgba(34, 197, 94, 0.2);
-      border-top-color: #22c55e;
-      border-radius: 50%;
-      animation: spinLoader 0.75s linear infinite;
-    }
-
-    @keyframes spinLoader {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-status {
-      font-size: 12px;
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 500;
-    }
-
   </style>
 </head>
 <body>
-  <!-- TELA DE CARREGAMENTO INICIAL COM LOGO E ANIMAÇÃO -->
-  <div id="app-loading-screen">
-    <div class="loading-card">
-      <div class="loading-logo-box">
-        <img src="logos/NoFly.jpg" alt="NoFly Logo" onerror="this.onerror=null; this.src='logos/icon-192.png';">
-      </div>
-      <div class="loading-title">NoFly | Retorno & Frequência</div>
-      <div class="loading-spinner-wrapper">
-        <div class="loading-spinner"></div>
-      </div>
-      <div class="loading-status" id="loading-status-text">
-        <i class="fa-solid fa-arrows-rotate fa-spin" style="color:#22c55e;"></i>
-        <span>Carregando mapas e histórico de visitas...</span>
-      </div>
-    </div>
-  </div>
-
   <!-- CABEÇALHO SUPERIOR -->
   <header>
-    <div class="brand-section">
-      <img src="logos/NoFly.jpg" alt="NoFly Logo" class="brand-logo" onerror="this.src='logos/logo clealco.png'">
-      <div class="brand-text">
-        <h1><i class="fa-solid fa-chart-line" style="color:var(--primary-light);"></i> NoFly - Retorno & Frequência</h1>
-        <span>Análise Semanal & Raio de Influência (300 metros)</span>
-      </div>
-    </div>
-
     <div class="header-controls">
       <!-- Seletor de Modo: Tela Única vs Dividida -->
       <div class="btn-toggle-group">
@@ -627,52 +327,8 @@
         <span>Sincronizar Zoom/Pan</span>
       </label>
 
-      <!-- Abrir Tabela e Gráficos -->
-      <button class="btn-action-top" onclick="abrirDrawerTabela()">
-        <i class="fa-solid fa-table-list"></i> Tabela & Gráficos
-      </button>
-
-      <!-- Abrir Relatório Executivo Online -->
-      <a href="relatorio.html" class="btn-action-top" style="background:linear-gradient(135deg, #15803d, #166534); border-color:#22c55e; color:#fff;" title="Abrir Relatório Executivo Online e Exportação Excel">
-        <i class="fa-solid fa-file-invoice"></i> Relatório Online
-      </a>
-
-      <!-- Abrir Manual do Usuário e Campo -->
-      <a href="manual.html" class="btn-action-top" title="Abrir Manual de Uso e Guia de Campo">
-        <i class="fa-solid fa-book-open"></i> Manual
-      </a>
-
-      <!-- Voltar ao Mapa de Vistorias -->
-      <a href="index.html" class="btn-action-top btn-primary-top">
-        <i class="fa-solid fa-map-location-dot"></i> Ir ao Mapa de Campo
-      </a>
     </div>
   </header>
-
-  <!-- BARRA DE KPIS RÁPIDOS GERAIS -->
-  <div class="kpi-bar" id="kpi-bar-geral">
-    <div class="kpi-item">
-      <span>Total de Vistorias:</span>
-      <strong id="kpi-total-vistorias">Carregando...</strong>
-    </div>
-    <div class="kpi-item">
-      <span>Sedes Vistoriadas:</span>
-      <strong id="kpi-sedes-vistoriadas">-</strong>
-    </div>
-    <div class="kpi-item">
-      <span>Média de Intervalo de Retorno:</span>
-      <strong id="kpi-media-retorno">-</strong>
-    </div>
-    <div class="kpi-item">
-      <span class="kpi-badge verde"><i class="fa-solid fa-check"></i> <span id="kpi-em-dia">0</span> Em dia (≤ 7d)</span>
-    </div>
-    <div class="kpi-item">
-      <span class="kpi-badge amarelo"><i class="fa-solid fa-clock"></i> <span id="kpi-atencao">0</span> Atenção (8-15d)</span>
-    </div>
-    <div class="kpi-item">
-      <span class="kpi-badge vermelho"><i class="fa-solid fa-triangle-exclamation"></i> <span id="kpi-atrasadas">0</span> Atrasadas (≥ 16d)</span>
-    </div>
-  </div>
 
   <!-- ÁREA PRINCIPAL DOS MAPAS -->
   <div class="main-viewport" id="viewport-container">
@@ -753,57 +409,6 @@
 
   </div>
 
-  <!-- GAVETA LATERAL: TABELA DE RETORNO E GRÁFICOS -->
-  <div id="drawer-tabela">
-    <div class="drawer-header">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <i class="fa-solid fa-table-list" style="color:var(--primary-light);"></i>
-        <h3 style="font-size:14px; font-weight:700;">Frequência de Retorno por Sede</h3>
-      </div>
-      <button onclick="fecharDrawerTabela()" style="background:none; border:none; color:var(--text-muted); font-size:18px; cursor:pointer;">&times;</button>
-    </div>
-    <div class="drawer-body">
-      <!-- Gráfico Semanal -->
-      <div style="margin-bottom:16px; background:#0f172a; padding:12px; border-radius:8px; border:1px solid var(--border-color);">
-        <div style="font-size:11px; font-weight:700; margin-bottom:8px; color:var(--text-muted);">
-          <i class="fa-solid fa-chart-bar"></i> Evolução Semanal de Vistorias e Pressão
-        </div>
-        <div style="height:170px;">
-          <canvas id="chart-semanal"></canvas>
-        </div>
-      </div>
-
-      <!-- Filtro da Tabela -->
-      <div style="margin-bottom:10px;">
-        <input type="text" id="filtro-tabela-sedes" placeholder="Buscar sede, fazenda, proprietário..." oninput="filtrarTabelaDrawer()" style="width:100%; background:#0f172a; border:1px solid var(--border-color); color:#fff; padding:8px 12px; border-radius:6px; font-size:11px; outline:none;">
-      </div>
-
-      <!-- Tabela -->
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Sede</th>
-              <th>Fazenda</th>
-              <th>Total Visitas</th>
-              <th>Última Visita</th>
-              <th>Retorno</th>
-            </tr>
-          </thead>
-          <tbody id="tbody-frequencia-sedes">
-            <!-- Linhas preenchidas via JavaScript -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- NOTIFICAÇÃO TOAST -->
-  <div id="toast">
-    <i class="fa-solid fa-circle-info"></i>
-    <span>Notificação</span>
-  </div>
-
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -812,19 +417,6 @@
 
   <!-- Dados Geográficos e Vistorias Consolidadas -->
   <script src="dados_mapa.js"></script>
-  <script>
-    // Limites de status (dias) vindos de scripts/nofly_config.json via dados_mapa.js
-    const LIM_VERDE = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.verde_max_dias) || 7;
-    const LIM_AMARELO = (typeof CONFIG_NOFLY !== "undefined" && CONFIG_NOFLY.amarelo_max_dias) || 15;
-    function aplicarTextosLimites() {
-      const fmt = s => s.replace(/\{V\}/g, LIM_VERDE).replace(/\{A1\}/g, LIM_VERDE + 1)
-                        .replace(/\{A\}/g, LIM_AMARELO).replace(/\{R\}/g, LIM_AMARELO + 1);
-      document.querySelectorAll("[data-lim-text]").forEach(el => { el.textContent = fmt(el.getAttribute("data-lim-text")); });
-      document.querySelectorAll("[data-lim-title]").forEach(el => { el.title = fmt(el.getAttribute("data-lim-title")); });
-    }
-    document.addEventListener("DOMContentLoaded", aplicarTextosLimites);
-  </script>
-
   <script>
     // =========================================================================
     // ESTADO GLOBAL DA APLICAÇÃO
@@ -851,38 +443,27 @@
 
     let semanaAtualId = "";
     let semanaComparadaId = "";
-    let chartSemanalInstance = null;
 
     // =========================================================================
     // INICIALIZAÇÃO
     // =========================================================================
-    document.addEventListener("DOMContentLoaded", async () => {
+    document.addEventListener("DOMContentLoaded", () => {
       carregarDadosBase();
       initMapLeft();
       popularSemanas();
-      atualizarKpisGerais();
       atualizarMapaEsquerdo();
-      renderizarTabelaDrawer();
-      renderizarGraficoSemanal();
-
-      setTimeout(ocultarLoadingInicial, 700);
+      focarSedeDoEndereco();
     });
 
-    window.addEventListener("load", () => {
-      setTimeout(ocultarLoadingInicial, 500);
-    });
-
-    function ocultarLoadingInicial() {
-      const ls = document.getElementById("app-loading-screen");
-      if (ls && ls.style.display !== "none") {
-        ls.style.opacity = "0";
-        ls.style.pointerEvents = "none";
-        setTimeout(() => {
-          if (ls.parentNode) ls.remove();
-        }, 450);
-      }
+    // O relatorio abre esta aba em uma sede com o endereco #sede=N
+    function focarSedeDoEndereco() {
+      const m = location.hash.match(/sede=([^&]+)/);
+      const s = m ? mapaSedes.get(decodeURIComponent(m[1])) : null;
+      if (!s) return;
+      mapLeft.setView(s.coords, 16);
+      if (mapRight) mapRight.setView(s.coords, 16);
     }
-    setTimeout(ocultarLoadingInicial, 2500);
+    window.addEventListener("hashchange", focarSedeDoEndereco);
 
     // =========================================================================
     // CARREGAMENTO E ESTRUTURAÇÃO DOS DADOS
@@ -1045,53 +626,6 @@
         if (s.id === semanaComparadaId) optR.selected = true;
         selRight.appendChild(optR);
       });
-    }
-
-    // =========================================================================
-    // KPIS GERAIS DE FREQUÊNCIA DE RETORNO
-    // =========================================================================
-    function atualizarKpisGerais() {
-      const hoje = new Date();
-      let totalVisitas = todasVistorias.length;
-      let sedesVisitadas = 0;
-      let somaIntervalos = 0;
-      let countIntervalos = 0;
-      let emDia = 0, atencao = 0, atrasadas = 0;
-
-      mapaSedes.forEach(s => {
-        const vList = s.vistorias;
-        if (vList.length > 0) {
-          sedesVisitadas++;
-          // Intervalo entre visitas sucessivas
-          for (let i = 1; i < vList.length; i++) {
-            const d1 = parseData(vList[i-1].data_vistoria || vList[i-1].data);
-            const d2 = parseData(vList[i].data_vistoria || vList[i].data);
-            const diffDias = Math.max(0, Math.round((d2 - d1) / (1000 * 60 * 60 * 24)));
-            if (diffDias > 0) {
-              somaIntervalos += diffDias;
-              countIntervalos++;
-            }
-          }
-
-          // Dias desde a última visita até hoje
-          const ultData = parseData(vList[vList.length - 1].data_vistoria || vList[vList.length - 1].data);
-          const diffHoje = Math.max(0, Math.floor((hoje - ultData) / (1000 * 60 * 60 * 24)));
-          if (diffHoje <= LIM_VERDE) emDia++;
-          else if (diffHoje <= LIM_AMARELO) atencao++;
-          else atrasadas++;
-        } else {
-          atrasadas++;
-        }
-      });
-
-      const mediaRetornoStr = countIntervalos > 0 ? (somaIntervalos / countIntervalos).toFixed(1) + " dias" : "Primeiro ciclo";
-
-      document.getElementById("kpi-total-vistorias").innerText = totalVisitas;
-      document.getElementById("kpi-sedes-vistoriadas").innerText = `${sedesVisitadas} de ${mapaSedes.size} (${Math.round(sedesVisitadas / mapaSedes.size * 100)}%)`;
-      document.getElementById("kpi-media-retorno").innerText = mediaRetornoStr;
-      document.getElementById("kpi-em-dia").innerText = emDia;
-      document.getElementById("kpi-atencao").innerText = atencao;
-      document.getElementById("kpi-atrasadas").innerText = atrasadas;
     }
 
     // =========================================================================
@@ -1500,142 +1034,6 @@
         alta: document.getElementById("stats-right-alta")
       };
       heatLayerRight = renderizarSemanaNoMapa(mapRight, semanaComparadaId, heatLayerRight, markersLayerRight, circlesLayerRight, stats);
-    }
-
-    // =========================================================================
-    // TABELA DE FREQUÊNCIA DE RETORNO (DRAWER)
-    // =========================================================================
-    function abrirDrawerTabela() {
-      document.getElementById("drawer-tabela").classList.add("open");
-    }
-
-    function fecharDrawerTabela() {
-      document.getElementById("drawer-tabela").classList.remove("open");
-    }
-
-    function renderizarTabelaDrawer(filtro = "") {
-      const tbody = document.getElementById("tbody-frequencia-sedes");
-      tbody.innerHTML = "";
-      const hoje = new Date();
-      filtro = filtro.toLowerCase().trim();
-
-      const sedesArray = Array.from(mapaSedes.values());
-
-      sedesArray.sort((a, b) => {
-        const da = a.vistorias.length > 0 ? parseData(a.vistorias[a.vistorias.length - 1].data_vistoria || a.vistorias[a.vistorias.length - 1].data) : new Date(0);
-        const db = b.vistorias.length > 0 ? parseData(b.vistorias[b.vistorias.length - 1].data_vistoria || b.vistorias[b.vistorias.length - 1].data) : new Date(0);
-        return da - db;
-      });
-
-      sedesArray.forEach(s => {
-        const texto = `${s.num_sede} ${s.nome_sede} ${s.fa} ${s.fazenda} ${s.proprietario}`.toLowerCase();
-        if (filtro && !texto.includes(filtro)) return;
-
-        const vList = s.vistorias;
-        let badgeStatus = `<span class="kpi-badge vermelho">Nunca vistoriada</span>`;
-        let diasRetornoStr = "-";
-        let ultDataStr = "-";
-
-        if (vList.length > 0) {
-          const ultV = vList[vList.length - 1];
-          const dtUlt = parseData(ultV.data_vistoria || ultV.data);
-          const diffDias = Math.max(0, Math.floor((hoje - dtUlt) / (1000 * 60 * 60 * 24)));
-          ultDataStr = `${ultV.data_vistoria || ultV.data || '-'} (${ultV.pressao || '-'})`;
-          diasRetornoStr = `${diffDias} dias atrás`;
-
-          if (diffDias <= LIM_VERDE) {
-            badgeStatus = `<span class="kpi-badge verde">Em dia (${diffDias}d)</span>`;
-          } else if (diffDias <= LIM_AMARELO) {
-            badgeStatus = `<span class="kpi-badge amarelo">Atenção (${diffDias}d)</span>`;
-          } else {
-            badgeStatus = `<span class="kpi-badge vermelho">Atrasada (${diffDias}d)</span>`;
-          }
-        }
-
-        const tr = document.createElement("tr");
-        tr.style.cursor = "pointer";
-        tr.onclick = () => {
-          mapLeft.setView(s.coords, 16);
-          if (mapRight) mapRight.setView(s.coords, 16);
-          fecharDrawerTabela();
-        };
-
-        tr.innerHTML = `
-          <td><strong>${s.num_sede}</strong> - ${s.nome_sede}</td>
-          <td>${s.fa_completo || s.fazenda || '-'}</td>
-          <td style="text-align:center;"><strong>${vList.length}</strong></td>
-          <td>${ultDataStr}</td>
-          <td>${badgeStatus}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function filtrarTabelaDrawer() {
-      const q = document.getElementById("filtro-tabela-sedes").value;
-      renderizarTabelaDrawer(q);
-    }
-
-    // =========================================================================
-    // GRÁFICO CHART.JS DE EVOLUÇÃO SEMANAL
-    // =========================================================================
-    function renderizarGraficoSemanal() {
-      const ctx = document.getElementById("chart-semanal");
-      if (!ctx) return;
-
-      const labels = [];
-      const dataAlta = [];
-      const dataMedia = [];
-      const dataBaixa = [];
-
-      const semanasCrescente = [...semanasDisponiveis].reverse();
-
-      semanasCrescente.forEach(s => {
-        labels.push(`Sem ${s.semana}`);
-        let a = 0, m = 0, b = 0;
-        s.vistorias.forEach(v => {
-          if (v.pressao === "Alta") a++;
-          else if (v.pressao === "Média") m++;
-          else b++;
-        });
-        dataAlta.push(a);
-        dataMedia.push(m);
-        dataBaixa.push(b);
-      });
-
-      if (chartSemanalInstance) {
-        chartSemanalInstance.destroy();
-      }
-
-      chartSemanalInstance = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: labels,
-          datasets: [
-            { label: "Alta", data: dataAlta, backgroundColor: "#ef4444" },
-            { label: "Média", data: dataMedia, backgroundColor: "#f97316" },
-            { label: "Baixa", data: dataBaixa, backgroundColor: "#3b82f6" }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { stacked: true, grid: { color: "#334155" }, ticks: { color: "#94a3b8", font: { size: 10 } } },
-            y: { stacked: true, grid: { color: "#334155" }, ticks: { color: "#94a3b8", font: { size: 10 } } }
-          },
-          plugins: {
-            legend: { labels: { color: "#fff", font: { size: 10 }, boxWidth: 10 } }
-          }
-        }
-      });
-    }
-
-    function showToast(msg) {
-      const t = document.getElementById("toast");
-      t.querySelector("span").innerText = msg;
-      t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 3000);
     }
   </script>
 </body>

@@ -12,8 +12,8 @@ echo             NoFly - MONITORAMENTO DE SEDES (ROTINA DE VISTORIAS)
 echo ================================================================================
 echo.
 echo   [1] Atualizar tudo e publicar (Kobo, fotos, mapa, Excel e app do celular)
-echo   [2] Abrir Relatorios (executivo e por sede - salvar PDF)
-echo   [3] Abrir Mapa de Campo e Analise de Frequencia
+echo   [2] Abrir Relatorios (executivo com Calor e Retorno e por sede - salvar PDF)
+echo   [3] Abrir Mapa de Campo
 echo   [4] Abrir Manuais (gestao e guia da equipe de campo)
 echo   [5] Abrir KoboToolbox (dados na nuvem)
 echo   [6] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
@@ -125,9 +125,8 @@ goto MENU
 
 :OP_MAPAS
 cls
-echo Abrindo o Mapa de Campo e o Painel de Analise de Frequencia e Calor...
+echo Abrindo o Mapa de Campo...
 start "" "%SITE%/"
-start "" "%SITE%/analise_frequencia.html"
 echo Pronto!
 timeout /t 3 > nul
 goto MENU

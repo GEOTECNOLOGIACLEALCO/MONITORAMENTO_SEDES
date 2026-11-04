@@ -336,7 +336,7 @@ def normalizar_submissoes(kobo_results, sedes_ref, cfg):
             "fazenda": limpar(r.get("fazenda")) or ref.get("fazenda", ""),
             "proprietario": limpar(r.get("proprietario")) or ref.get("proprietario", ""),
             "regiao": limpar(r.get("regiao")) or ref.get("regiao", ""),
-            "data_vistoria": limpar(r.get("data_vistoria")),
+            "data_vistoria": _formatar_data_excel(limpar(r.get("data_vistoria"))) if limpar(r.get("data_vistoria")) else "",
             "hora_vistoria": limpar(r.get("hora_vistoria")),
             "matricula": limpar(r.get("matricula")),
             "pressao": limpar(r.get("pressao")),

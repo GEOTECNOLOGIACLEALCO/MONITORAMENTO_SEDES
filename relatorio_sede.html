@@ -579,7 +579,9 @@
     // "dd/mm/aaaa" + "hh:mm" -> Date
     function parseDataBR(data, hora) {
       if (!data) return null;
-      const p = String(data).split("/");
+      // Aceita dd/mm/aaaa e aaaa-mm-dd
+      const iso = String(data).match(/^(\d{4})-(\d{2})-(\d{2})/);
+      const p = iso ? [iso[3], iso[2], iso[1]] : String(data).split("/");
       if (p.length !== 3) return null;
       const [hh, mm] = String(hora || "00:00").split(":");
       const d = new Date(+p[2], +p[1] - 1, +p[0], +hh || 0, +mm || 0);
@@ -631,6 +633,7 @@
         .filter(v => String(v.num_sede) === String(numSede))
         .map(v => ({ ...v, _data: parseDataBR(v.data_vistoria, v.hora_vistoria) }))
         .filter(v => v._data && (!dDe || v._data >= dDe) && (!dAte || v._data <= dAte))
+        .map(v => ({ ...v, data_vistoria: fmtData(v._data) }))
         .sort((a, b) => a._data - b._data);
     }
 

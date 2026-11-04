@@ -414,6 +414,25 @@
       border-bottom: 2px solid var(--border-color);
       margin-bottom: 16px;
       overflow-x: auto;
+      overflow-y: hidden;
+    }
+
+    /* Abas principais: Painel | Calor & Retorno */
+    .view-tabs {
+      margin-bottom: 0;
+      padding: 6px 16px 0;
+    }
+
+    #frame-calor {
+      display: block;
+      width: 100%;
+      border: 0;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        position: static;
+      }
     }
 
     .tab-btn {
@@ -443,7 +462,7 @@
     .tab-btn.active::after {
       content: "";
       position: absolute;
-      bottom: -2px;
+      bottom: 0;
       left: 0;
       width: 100%;
       height: 3px;
@@ -564,7 +583,7 @@
         background: #fff !important;
         color: #000 !important;
       }
-      header, .filter-panel, .btn-action, .tabs-header, #app-loading-screen, #banner-online {
+      header, .filter-panel, .btn-action, .tabs-header, #app-loading-screen, #banner-online, #view-calor {
         display: none !important;
       }
       .container {
@@ -594,7 +613,7 @@
       /* CARDS DE KPIS EM UMA LINHA COMPACTA NA PÁGINA 1 */
       .kpi-grid {
         display: grid !important;
-        grid-template-columns: repeat(6, 1fr) !important;
+        grid-template-columns: repeat(7, 1fr) !important;
         gap: 6px !important;
         margin-bottom: 10px !important;
         page-break-inside: avoid !important;
@@ -741,21 +760,23 @@
         color: inherit !important;
       }
 
-      /* LARGURAS EXATAS DAS 10 COLUNAS VISÍVEIS (ATÉ TOTAL VISITAS) */
+      /* LARGURAS EXATAS DAS 11 COLUNAS VISÍVEIS (ATÉ RETORNO MÉDIO) */
       #tab-content-sedes th:nth-child(1), #tab-content-sedes td:nth-child(1) { width: 5%; text-align: center !important; font-weight: 800 !important; } /* Nº Sede */
-      #tab-content-sedes th:nth-child(2), #tab-content-sedes td:nth-child(2) { width: 23%; text-align: left !important; }                               /* Nome / Fazenda */
-      #tab-content-sedes th:nth-child(3), #tab-content-sedes td:nth-child(3) { width: 12%; text-align: left !important; }                               /* Região */
-      #tab-content-sedes th:nth-child(4), #tab-content-sedes td:nth-child(4) { width: 12%; text-align: left !important; }                               /* Proprietário */
+      #tab-content-sedes th:nth-child(2), #tab-content-sedes td:nth-child(2) { width: 17%; text-align: left !important; }                               /* Nome / Fazenda */
+      #tab-content-sedes th:nth-child(3), #tab-content-sedes td:nth-child(3) { width: 10%; text-align: left !important; }                               /* Região */
+      #tab-content-sedes th:nth-child(4), #tab-content-sedes td:nth-child(4) { width: 11%; text-align: left !important; }                               /* Proprietário */
       #tab-content-sedes th:nth-child(5), #tab-content-sedes td:nth-child(5) { width: 9%; text-align: center !important; }                              /* Última Visita */
       #tab-content-sedes th:nth-child(6), #tab-content-sedes td:nth-child(6) { width: 8%; text-align: center !important; }                              /* Dias sem Visita */
       #tab-content-sedes th:nth-child(7), #tab-content-sedes td:nth-child(7) { width: 10%; text-align: center !important; }                             /* Status Atual */
       #tab-content-sedes th:nth-child(8), #tab-content-sedes td:nth-child(8) { width: 8%; text-align: center !important; }                              /* Pressão de Mosca */
-      #tab-content-sedes th:nth-child(9), #tab-content-sedes td:nth-child(9) { width: 6%; text-align: center !important; }                              /* Bandeiras */
+      #tab-content-sedes th:nth-child(9), #tab-content-sedes td:nth-child(9) { width: 8%; text-align: center !important; }                              /* Bandeiras */
       #tab-content-sedes th:nth-child(10), #tab-content-sedes td:nth-child(10) { width: 7%; text-align: center !important; font-weight: 800 !important; } /* Total Visitas */
 
+      #tab-content-sedes th:nth-child(11), #tab-content-sedes td:nth-child(11) { width: 7%; text-align: center !important; }
+
       /* OCULTAR COLUNA DE LOCALIZAÇÃO (MAPS) NA IMPRESSÃO */
-      #tab-content-sedes th:nth-child(11),
-      #tab-content-sedes td:nth-child(11),
+      #tab-content-sedes th:nth-child(12),
+      #tab-content-sedes td:nth-child(12),
       #tab-content-historico th:nth-child(12),
       #tab-content-historico td:nth-child(12) {
         display: none !important;
@@ -851,19 +872,9 @@
         <i class="fa-solid fa-print"></i> Imprimir / PDF
       </button>
 
-      <!-- Botão Recarregar -->
-      <button class="btn-action" onclick="carregarDadosRelatorio()" title="Atualizar dados em tempo real">
-        <i class="fa-solid fa-arrows-rotate" id="icon-refresh"></i> Atualizar
-      </button>
-
       <!-- Ir para o Mapa NoFly -->
       <a href="index.html" class="btn-action" title="Abrir o Mapa de Campo NoFly">
         <i class="fa-solid fa-map-location-dot"></i> Mapa de Campo
-      </a>
-
-      <!-- Ir para o Painel de Frequência -->
-      <a href="analise_frequencia.html" class="btn-action" title="Abrir o Painel de Frequência e Calor">
-        <i class="fa-solid fa-chart-line"></i> Retorno & Calor
       </a>
 
       <!-- Abrir Manual do Usuário e Guia de Campo -->
@@ -873,7 +884,22 @@
     </div>
   </header>
 
-  <div class="container">
+  <!-- ABAS PRINCIPAIS -->
+  <div class="tabs-header view-tabs">
+    <button class="tab-btn active" id="view-btn-painel" onclick="alternarVisao('painel')">
+      <i class="fa-solid fa-table-columns"></i> Painel
+    </button>
+    <button class="tab-btn" id="view-btn-calor" onclick="alternarVisao('calor')">
+      <i class="fa-solid fa-fire"></i> Calor &amp; Retorno
+    </button>
+  </div>
+
+  <!-- ABA CALOR & RETORNO: mapa semanal, carregado só ao abrir a aba -->
+  <div id="view-calor" style="display:none;">
+    <iframe id="frame-calor" title="Mapa de calor e frequência de retorno"></iframe>
+  </div>
+
+  <div class="container" id="view-painel">
 
     <!-- CABEÇALHO EXCLUSIVO PARA IMPRESSÃO EM PDF -->
     <div class="print-header">
@@ -937,6 +963,15 @@
         <div class="kpi-value" id="kpi-pressao-alta" style="color:#f43f5e;">0</div>
         <div class="kpi-sub">Sedes em alerta máximo</div>
       </div>
+
+      <div class="kpi-card total">
+        <div class="kpi-header">
+          <span>Retorno Médio</span>
+          <i class="fa-solid fa-repeat" style="color:#38bdf8;"></i>
+        </div>
+        <div class="kpi-value" id="kpi-retorno-medio">-</div>
+        <div class="kpi-sub">Intervalo entre vistorias da mesma sede</div>
+      </div>
     </div>
 
     <!-- SEÇÃO DE GRÁFICOS EXECUTIVOS -->
@@ -944,7 +979,7 @@
       <!-- 1. Evolução Semanal de Vistorias (Largura Total Superior) -->
       <div class="chart-box chart-box-semanal">
         <div class="chart-title">
-          <i class="fa-solid fa-chart-column" style="color:#38bdf8;"></i> Evolução Semanal de Vistorias
+          <i class="fa-solid fa-chart-column" style="color:#38bdf8;"></i> Evolução Semanal de Vistorias e Pressão
         </div>
         <div class="chart-wrapper">
           <canvas id="chart-semanal"></canvas>
@@ -1025,17 +1060,18 @@
               <th>Região</th>
               <th>Proprietário</th>
               <th>Última Visita</th>
-              <th>Dias sem Visita</th>
-              <th>Status Atual</th>
-              <th>Pressão de Mosca</th>
+              <th>Dias</th>
+              <th>Status</th>
+              <th>Pressão</th>
               <th>Bandeiras</th>
-              <th>Total Visitas</th>
-              <th>Localização</th>
+              <th>Visitas</th>
+              <th>Retorno</th>
+              <th>Mapa</th>
             </tr>
           </thead>
           <tbody id="tbody-sedes">
             <tr>
-              <td colspan="11" style="text-align:center; padding:30px; color:var(--text-muted);">
+              <td colspan="12" style="text-align:center; padding:30px; color:var(--text-muted);">
                 <i class="fa-solid fa-spinner fa-spin"></i> Carregando dados das sedes...
               </td>
             </tr>
@@ -1104,6 +1140,10 @@
     let listaSedesGeral = [];
     let listaHistoricoGeral = [];
     let abaAtiva = "sedes";
+    const URL_RELATORIO = "https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html";
+
+    // Sem animação: o PDF nunca pega um gráfico pela metade
+    Chart.defaults.animation = false;
 
     let chartSemanal = null;
     let chartStatus = null;
@@ -1111,6 +1151,7 @@
 
     document.addEventListener("DOMContentLoaded", () => {
       carregarDadosRelatorio();
+      if (location.hash === "#calor") alternarVisao("calor");
       setTimeout(ocultarLoadingInicial, 700);
     });
 
@@ -1132,9 +1173,6 @@
     // CARREGAR DADOS CONSOLIDADOS
     // =========================================================================
     async function carregarDadosRelatorio() {
-      const icon = document.getElementById("icon-refresh");
-      if (icon) icon.classList.add("fa-spin");
-
       // 1. Carregar Vistorias
       let vistorias = [];
       try {
@@ -1180,7 +1218,7 @@
             nome_sede: p.nome_sede || `Sede ${n}`,
             fa: p.fa || "SEM FA",
             fazenda: p.fazenda || p.nome_sede || "-",
-            proprietario: p.proprietar || "-",
+            proprietario: p.proprietario || "-",
             regiao: p.regiao || "Região Clealco",
             lat: lat,
             lon: lon,
@@ -1203,6 +1241,14 @@
         sede.vistorias.sort((a, b) => parseDataBR(b.data_vistoria || b.data) - parseDataBR(a.data_vistoria || a.data));
         const totalV = sede.vistorias.length;
         const ult = totalV > 0 ? sede.vistorias[0] : null;
+
+        // Intervalos em dias entre vistorias sucessivas da sede
+        const intervalos = [];
+        for (let i = 1; i < totalV; i++) {
+          const dias = Math.round((parseDataBR(sede.vistorias[i - 1].data_vistoria || sede.vistorias[i - 1].data) -
+                                   parseDataBR(sede.vistorias[i].data_vistoria || sede.vistorias[i].data)) / 86400000);
+          if (dias > 0) intervalos.push(dias);
+        }
 
         let dias = 999;
         let dataUltima = "-";
@@ -1242,7 +1288,9 @@
           status_texto: statusTexto,
           ultima_pressao: pressao,
           ultimas_bandeiras: bandeiras,
-          ultima_vistoria_obj: ult
+          ultima_vistoria_obj: ult,
+          intervalos: intervalos,
+          retorno_medio: intervalos.length ? intervalos.reduce((a, b) => a + b, 0) / intervalos.length : null
         };
       });
 
@@ -1266,10 +1314,6 @@
       document.getElementById("data-atualizacao-topo").innerText = txtData;
       const pDate = document.getElementById("print-date");
       if (pDate) pDate.innerText = `Relatório gerado em: ${dNow.toLocaleDateString("pt-BR")} às ${dNow.toLocaleTimeString("pt-BR")}`;
-
-      if (icon) {
-        setTimeout(() => icon.classList.remove("fa-spin"), 500);
-      }
     }
 
     function parseDataBR(s) {
@@ -1280,6 +1324,10 @@
       }
       const d = new Date(s);
       return isNaN(d) ? null : d;
+    }
+
+    function formatarDias(n) {
+      return n.toFixed(1).replace(".", ",");
     }
 
     // =========================================================================
@@ -1301,6 +1349,9 @@
       document.getElementById("kpi-atencao").innerText = atencao;
       document.getElementById("kpi-atrasadas").innerText = atrasadas;
       document.getElementById("kpi-pressao-alta").innerText = pressaoAlta;
+      const intervalos = listaSedesGeral.flatMap(s => s.intervalos);
+      document.getElementById("kpi-retorno-medio").innerText = intervalos.length
+        ? `${formatarDias(intervalos.reduce((a, b) => a + b, 0) / intervalos.length)} dias` : "Primeiro ciclo";
 
       document.getElementById("badge-count-sedes").innerText = listaSedesGeral.length;
       document.getElementById("badge-count-historico").innerText = totalV;
@@ -1310,41 +1361,38 @@
     // ATUALIZAÇÃO DOS GRÁFICOS (CHART.JS)
     // =========================================================================
     function atualizarGraficos() {
-      // 1. Gráfico Semanal
+      // 1. Gráfico Semanal: vistorias por nível de pressão, da mais antiga à mais recente
       const semanasMap = new Map();
       listaHistoricoGeral.forEach(v => {
         const dt = parseDataBR(v.data_vistoria || v.data);
         if (dt) {
-          const sem = getSemanaAnoTexto(dt);
-          semanasMap.set(sem, (semanasMap.get(sem) || 0) + 1);
+          const sem = getSemana(dt);
+          if (!semanasMap.has(sem.id)) semanasMap.set(sem.id, { rotulo: sem.rotulo, Alta: 0, "Média": 0, Baixa: 0 });
+          const contagem = semanasMap.get(sem.id);
+          if (contagem[v.pressao] !== undefined) contagem[v.pressao]++;
         }
       });
 
-      const semLabels = Array.from(semanasMap.keys()).slice(-8); // ultimas 8 semanas
-      const semData = semLabels.map(k => semanasMap.get(k));
+      const semanas = Array.from(semanasMap.keys()).sort().slice(-8).map(k => semanasMap.get(k)); // ultimas 8 semanas
+      const serieSemanal = (nivel, cor) => ({ label: nivel, data: semanas.map(s => s[nivel]), backgroundColor: cor });
 
       if (chartSemanal) chartSemanal.destroy();
       const ctxSem = document.getElementById("chart-semanal").getContext("2d");
       chartSemanal = new Chart(ctxSem, {
         type: "bar",
         data: {
-          labels: semLabels.length ? semLabels : ["Sem dados"],
-          datasets: [{
-            label: "Vistorias Realizadas",
-            data: semData.length ? semData : [0],
-            backgroundColor: "#38bdf8",
-            borderRadius: 6
-          }]
+          labels: semanas.length ? semanas.map(s => s.rotulo) : ["Sem dados"],
+          datasets: [serieSemanal("Alta", "#ef4444"), serieSemanal("Média", "#f97316"), serieSemanal("Baixa", "#38bdf8")]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { display: false }
+            legend: { labels: { color: "#cbd5e1", font: { size: 11 }, boxWidth: 12 } }
           },
           scales: {
-            x: { grid: { color: "#334155" }, ticks: { color: "#94a3b8", font: { size: 10 } } },
-            y: { grid: { color: "#334155" }, ticks: { color: "#94a3b8", stepSize: 1 } }
+            x: { stacked: true, grid: { color: "#334155" }, ticks: { color: "#94a3b8", font: { size: 10 } } },
+            y: { stacked: true, grid: { color: "#334155" }, ticks: { color: "#94a3b8", stepSize: 1 } }
           }
         }
       });
@@ -1453,7 +1501,7 @@
       });
     }
 
-    function getSemanaAnoTexto(d) {
+    function getSemana(d) {
       const target = new Date(d.valueOf());
       const dayNr = (d.getDay() + 6) % 7;
       target.setDate(target.getDate() - dayNr + 3);
@@ -1463,7 +1511,7 @@
         target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
       }
       const week = 1 + Math.ceil((firstThursday - target) / 604800000);
-      return `Sem ${week}`;
+      return { id: `${target.getFullYear()}-W${String(week).padStart(2, "0")}`, rotulo: `Sem ${week}` };
     }
 
     // =========================================================================
@@ -1526,7 +1574,7 @@
     function renderizarTabelaSedes(sedes) {
       const tbody = document.getElementById("tbody-sedes");
       if (!sedes.length) {
-        tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:30px; color:var(--text-muted);">Nenhuma sede encontrada com os filtros selecionados.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; padding:30px; color:var(--text-muted);">Nenhuma sede encontrada com os filtros selecionados.</td></tr>';
         document.getElementById("footer-sedes-info").innerText = "0 sedes encontradas";
         return;
       }
@@ -1550,8 +1598,10 @@
             <td><span class="badge ${badgePClass}">${s.ultima_pressao}</span></td>
             <td style="font-weight:700;">${s.ultimas_bandeiras}</td>
             <td style="text-align:center;"><span style="background:#334155; padding:2px 8px; border-radius:6px; font-weight:700;">${s.total_vistorias}</span></td>
+            <td style="text-align:center;">${s.retorno_medio !== null ? `${formatarDias(s.retorno_medio)} d` : '-'}</td>
             <td>
               ${linkMaps ? `<a href="${linkMaps}" target="_blank" class="link-maps"><i class="fa-solid fa-location-dot"></i> Maps</a>` : '-'}
+              <a href="#calor" onclick="abrirCalorNaSede('${s.num_sede}'); return false;" class="link-maps"><i class="fa-solid fa-fire"></i> Calor</a>
             </td>
           </tr>
         `;
@@ -1632,6 +1682,40 @@
     }
 
     // =========================================================================
+    // ABAS PRINCIPAIS: PAINEL E CALOR & RETORNO
+    // =========================================================================
+    function alternarVisao(visao) {
+      const calor = visao === "calor";
+      const frame = document.getElementById("frame-calor");
+      document.getElementById("view-btn-painel").classList.toggle("active", !calor);
+      document.getElementById("view-btn-calor").classList.toggle("active", calor);
+      document.getElementById("view-painel").style.display = calor ? "none" : "block";
+      document.getElementById("view-calor").style.display = calor ? "block" : "none";
+      history.replaceState(null, "", calor ? "#calor" : location.pathname + location.search);
+
+      if (calor) {
+        if (!frame.getAttribute("src")) frame.src = "analise_frequencia.html";
+        window.scrollTo(0, 0);
+        ajustarAlturaCalor();
+      } else {
+        [chartSemanal, chartStatus, chartPressao].forEach(c => { if (c) c.resize(); });
+      }
+    }
+
+    function ajustarAlturaCalor() {
+      const frame = document.getElementById("frame-calor");
+      frame.style.height = `${Math.max(480, window.innerHeight - frame.getBoundingClientRect().top)}px`;
+    }
+    window.addEventListener("resize", () => {
+      if (document.getElementById("view-calor").style.display !== "none") ajustarAlturaCalor();
+    });
+
+    function abrirCalorNaSede(numSede) {
+      document.getElementById("frame-calor").src = `analise_frequencia.html#sede=${encodeURIComponent(numSede)}`;
+      alternarVisao("calor");
+    }
+
+    // =========================================================================
     // EXPORTAR EXCEL COMPLETO (.XLSX) DIRETAMENTE NO NAVEGADOR
     // =========================================================================
     function exportarExcelCompleto() {
@@ -1654,6 +1738,7 @@
         "Pressão de Mosca": s.ultima_pressao,
         "Bandeiras": s.ultimas_bandeiras,
         "Total de Vistorias": s.total_vistorias,
+        "Retorno Médio (dias)": s.retorno_medio !== null ? Number(s.retorno_medio.toFixed(1)) : "",
         "Latitude Sede": s.lat,
         "Longitude Sede": s.lon,
         "Link Google Maps": (s.lat && s.lon) ? `https://www.google.com/maps?q=${s.lat},${s.lon}` : ""
@@ -1698,12 +1783,11 @@
     // COMPARTILHAR LINK ONLINE PARA CELULAR / WHATSAPP
     // =========================================================================
     function compartilharRelatorio() {
-      const url = "https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html";
       if (navigator.share) {
         navigator.share({
           title: "NoFly | Relatório Online de Vistorias - Clealco",
           text: "Acesse o Relatório Executivo de Vistorias NoFly:",
-          url: url
+          url: URL_RELATORIO
         }).catch(() => {});
       } else {
         copiarLinkOnline();
@@ -1711,7 +1795,7 @@
     }
 
     function copiarLinkOnline() {
-      const url = "https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html";
+      const url = URL_RELATORIO;
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(() => {
           alert("✅ Link oficial do NoFly copiado com sucesso!\n\n" + url + "\n\nVocê já pode colar no WhatsApp ou enviar para qualquer pessoa abrir no celular.");
@@ -1727,6 +1811,7 @@
     // AJUSTES DINÂMICOS PARA IMPRESSÃO (LEGENDAS PRETAS E LINHAS FINAS)
     // =========================================================================
     function prepararEImprimir() {
+      alternarVisao("painel");
       ajustarGraficosParaImpressao();
       setTimeout(() => {
         window.print();
@@ -1749,6 +1834,7 @@
         chartPressao.resize();
       }
       if (chartSemanal) {
+        chartSemanal.options.plugins.legend.labels.color = "#000000";
         chartSemanal.options.scales.x.ticks.color = "#000000";
         chartSemanal.options.scales.y.ticks.color = "#000000";
         chartSemanal.options.scales.x.grid.color = "#e2e8f0";
@@ -1774,6 +1860,7 @@
         chartPressao.resize();
       }
       if (chartSemanal) {
+        chartSemanal.options.plugins.legend.labels.color = "#cbd5e1";
         chartSemanal.options.scales.x.ticks.color = "#94a3b8";
         chartSemanal.options.scales.y.ticks.color = "#94a3b8";
         chartSemanal.options.scales.x.grid.color = "#334155";

@@ -83,12 +83,12 @@ A. RELATÓRIO ONLINE EXECUTIVO (relatorio.html):
    • Exportar Excel (.xlsx): Gera em 1 clique o relatório formatado com 2 abas.
    • Imprimir / PDF: Impressão executiva A4 (Página 1: Dashboard; Página 2: Tabela).
 
-B. ANÁLISE DE FREQUÊNCIA E MAPA DE CALOR (analise_frequencia.html):
-   Link: https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/analise_frequencia.html
+B. CALOR & RETORNO (aba do relatório executivo):
+   Link: https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html#calor
    • Raio físico de 300 metros em torno de cada sede.
    • Comparação semanal com tela dividida (Split Screen).
    • Mapa de calor por Pressão de Moscas ou Frequência de Vistorias.
-   • Cálculo automático do intervalo médio de retorno da equipe às sedes.
+   • O intervalo médio de retorno às sedes fica no painel e na tabela do relatório.
 
 
 ================================================================================
@@ -103,15 +103,15 @@ A. ESTRUTURA ORGANIZADA DE DIRETÓRIOS:
    ├── ⚙️ scripts/                    (baixar_planilha_visitas_kobo.py, atualizar_base_web.py)
    ├── 🌐 index.html                  (App de Campo mobile/desktop)
    ├── 📊 relatorio.html              (Relatório Executivo Online com Excel e PDF)
-   ├── 📈 analise_frequencia.html     (Painel de Frequência e Calor 300m)
+   ├── 📈 analise_frequencia.html     (Mapa da aba Calor & Retorno do relatório)
    ├── 📖 manual.html                 (Manual Oficial Interativo Web)
    ├── ⚙️ MENU_MONITORAMENTO.bat      (Central de Operações em 1 clique)
    └── 📄 LEIA-ME_MANUAL_DO_USUARIO.txt (Este arquivo)
 
 B. MENU DE OPERAÇÕES NO WINDOWS (MENU_MONITORAMENTO.bat):
    [1] Atualizar tudo e publicar (Kobo, fotos, mapa, Excel e app do celular)
-   [2] Abrir Relatórios (executivo e por sede - salvar PDF)
-   [3] Abrir Mapa de Campo e Análise de Frequência
+   [2] Abrir Relatórios (executivo com Calor & Retorno e por sede - salvar PDF)
+   [3] Abrir Mapa de Campo
    [4] Abrir Manuais (gestão e guia da equipe de campo)
    [5] Abrir KoboToolbox (dados na nuvem)
    [6] Abrir Projeto no QGIS (MONITORAMENTO QUEIROZ.qgz)
