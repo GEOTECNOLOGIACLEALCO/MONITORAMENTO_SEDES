@@ -138,8 +138,16 @@
       margin-bottom: 14px;
     }
     .doc-header img {
+      width: 120px;
       height: 46px;
       object-fit: contain;
+      object-position: right;
+    }
+    /* O arquivo do logo tem margem branca: a margem negativa compensa o espaço */
+    .doc-header img.logo-clealco {
+      height: 88px;
+      margin: -8px 0 -8px -14px;
+      object-position: left;
     }
     .doc-title {
       text-align: center;
@@ -659,7 +667,7 @@
 
       el.innerHTML = `
         <div class="doc-header">
-          <img src="logos/logo clealco.png" alt="Clealco" onerror="this.style.visibility='hidden'">
+          <img class="logo-clealco" src="logos/logo clealco.png" alt="Clealco" onerror="this.style.visibility='hidden'">
           <div class="doc-title">
             <h1>Relatório de Monitoramento de Sede</h1>
             <p>Levantamento e tratativas de mosca-dos-estábulos • ${esc(periodoTexto)}</p>
