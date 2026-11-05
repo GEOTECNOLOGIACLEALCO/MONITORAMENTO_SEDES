@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Funcoes compartilhadas do NoFly (Monitoramento de Sedes).
-Usado por atualizar_base_web.py e baixar_planilha_visitas_kobo.py.
+Usado por atualizar_base_web.py.
 """
 import os
 import re

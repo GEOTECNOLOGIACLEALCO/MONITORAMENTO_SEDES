@@ -96,11 +96,11 @@ B. CALOR & RETORNO (aba do relatório executivo):
 ================================================================================
 
 A. ESTRUTURA ORGANIZADA DE DIRETÓRIOS:
-   📁 10_Monitoramento_Sede/
+   📁 01_NoFly/
    ├── 🖼️ logos/                      (Logos NoFly e ícones PWA para celular)
    ├── 🗺️ banco de dados geograficos/ (Sede.shp, AREAS.shp e MONITORAMENTO QUEIROZ.qgz)
    ├── 📊 relatorios e formularios/  (Visitas_Monitoramento_Sedes_Kobo.xlsx)
-   ├── ⚙️ scripts/                    (baixar_planilha_visitas_kobo.py, atualizar_base_web.py)
+   ├── ⚙️ scripts/                    (atualizar_base_web.py e nofly_core.py)
    ├── 🌐 index.html                  (App de Campo mobile/desktop)
    ├── 📊 relatorio.html              (Relatório Executivo Online com Excel e PDF)
    ├── 📈 analise_frequencia.html     (Mapa da aba Calor & Retorno do relatório)
@@ -122,7 +122,7 @@ B. MENU DE OPERAÇÕES NO WINDOWS (MENU_MONITORAMENTO.bat):
    "Atualizar dados" faz o mesmo que a opção [1] direto no GitHub.
 
 C. MIGRAÇÃO PARA OUTRO COMPUTADOR:
-   1. Copie a pasta '10_Monitoramento_Sede' ou clone pelo GitHub:
+   1. Copie a pasta '01_NoFly' ou clone pelo GitHub:
       git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
    2. Instale as bibliotecas Python pelo menu, opção [7]
       (ou: pip install -r requirements.txt).

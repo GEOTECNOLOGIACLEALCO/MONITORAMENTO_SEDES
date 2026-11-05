@@ -16,3 +16,7 @@ __pycache__/
 scripts/.env
 dados_locais/
 relatorios e formularios/Visitas_Monitoramento_Sedes_Kobo.xlsx
+
+# Arquivos criados pelo Windows na rede
+Thumbs.db
+desktop.ini
