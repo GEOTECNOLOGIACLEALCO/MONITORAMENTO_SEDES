@@ -77,7 +77,7 @@
       height: 34px;
       border-radius: 8px;
     }
-    .toolbar label {
+    .toolbar label, .campo-sedes {
       display: flex;
       flex-direction: column;
       gap: 3px;
@@ -85,7 +85,7 @@
       font-weight: 700;
       color: #94a3b8;
     }
-    .toolbar select, .toolbar input {
+    .toolbar .btn-sedes, .toolbar input {
       background: var(--bg-dark);
       color: #f8fafc;
       border: 1px solid var(--border-color);
@@ -94,10 +94,88 @@
       font-size: 13px;
       font-weight: 600;
     }
-    .toolbar select {
-      min-width: 280px;
+    .seletor-sedes {
+      position: relative;
+      min-width: 300px;
       max-width: 100%;
     }
+    .btn-sedes {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .btn-sedes span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .painel-sedes {
+      display: none;
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: min(460px, calc(100vw - 32px));
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      padding: 10px;
+      z-index: 2000;
+    }
+    .painel-sedes.aberto {
+      display: block;
+    }
+    .painel-sedes input[type="search"] {
+      width: 100%;
+    }
+    .painel-acoes {
+      display: flex;
+      gap: 6px;
+      margin: 8px 0;
+    }
+    .painel-acoes .btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .lista-sedes {
+      max-height: 300px;
+      overflow-y: auto;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .toolbar .lista-sedes label {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 7px 4px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #f8fafc;
+      cursor: pointer;
+    }
+    .lista-sedes label small {
+      display: block;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .toolbar .lista-sedes input {
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .painel-rodape {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
     .btn {
       border: none;
       border-radius: 8px;
@@ -466,11 +544,11 @@
       .tratativas, .fotos-grid {
         grid-template-columns: 1fr;
       }
-      .toolbar select {
+      .seletor-sedes {
         min-width: 0;
         width: 100%;
       }
-      .toolbar label {
+      .toolbar label, .campo-sedes {
         flex: 1 1 100%;
       }
       .table-wrap {
@@ -545,9 +623,25 @@
       <img src="logos/NoFly_512.jpg" alt="NoFly" onerror="this.src='logos/icon-192.png'">
       Relatório por Sede
     </div>
-    <label>Sede / Fazenda
-      <select id="sel-sede" onchange="gerarRelatorio()"></select>
-    </label>
+    <div class="campo-sedes">Sede / Fazenda
+      <div class="seletor-sedes" id="seletor-sedes">
+        <button type="button" class="btn-sedes" onclick="alternarPainelSedes(event)">
+          <span id="sedes-resumo"></span><i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="painel-sedes" id="painel-sedes">
+          <input type="search" id="busca-sedes" placeholder="Buscar sede, fazenda ou proprietário..." oninput="filtrarListaSedes()">
+          <div class="painel-acoes">
+            <button type="button" class="btn" onclick="marcarTodasComVistoria()"><i class="fa-solid fa-check-double"></i> Todas com vistoria no período</button>
+            <button type="button" class="btn" onclick="limparSedes()">Limpar</button>
+          </div>
+          <div class="lista-sedes" id="lista-sedes"></div>
+          <div class="painel-rodape">
+            <span id="sedes-contagem"></span>
+            <button type="button" class="btn btn-pdf" onclick="fecharPainelSedes()">Gerar relatórios</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <label>De (opcional)
       <input type="date" id="filtro-de" onchange="gerarRelatorio()">
     </label>
@@ -574,6 +668,11 @@
     const VISTORIAS = typeof DADOS_VISTORIAS_KOBO !== "undefined" ? DADOS_VISTORIAS_KOBO : [];
     const SEDE_PADRAO = "30";
     const TODAS = "todas";
+
+    // Sedes marcadas; modoTodas acompanha o período quando as datas mudam
+    let selecao = new Set();
+    let modoTodas = false;
+    let selecaoAlterada = false;
     const MAX_FOTOS = 6;
 
     const ROTULO_FOTO = {
@@ -625,20 +724,98 @@
       return { cor: "#dc2626", texto: "Atrasada" };
     }
 
-    function montarSeletor() {
-      const sel = document.getElementById("sel-sede");
-      const contagem = {};
-      VISTORIAS.forEach(v => { contagem[v.num_sede] = (contagem[v.num_sede] || 0) + 1; });
-      sel.innerHTML = `<option value="${TODAS}">Todas as sedes com vistoria no período</option>` + SEDES.map(f => {
-        const p = f.properties;
-        const n = contagem[p.num_sede] || 0;
-        return `<option value="${esc(p.num_sede)}">Sede ${esc(p.nome_sede || p.num_sede)} • ${esc(p.fa_completo || p.fazenda || "Sem fazenda")} (${n} vistoria${n === 1 ? "" : "s"})</option>`;
-      }).join("");
-
-      const daUrl = new URLSearchParams(location.search).get("sede");
-      const inicial = [daUrl, SEDE_PADRAO].find(s => s && (s === TODAS || SEDES.some(f => String(f.properties.num_sede) === String(s))));
-      if (inicial) sel.value = inicial;
+    function sedesComVistoria() {
+      return SEDES.map(f => String(f.properties.num_sede)).filter(n => vistoriasDaSede(n).length > 0);
     }
+
+    function montarSeletor() {
+      const daUrl = new URLSearchParams(location.search).get("sede") || SEDE_PADRAO;
+      const existe = n => SEDES.some(f => String(f.properties.num_sede) === n);
+      if (daUrl === TODAS) {
+        modoTodas = true;
+      } else {
+        selecao = new Set(daUrl.split(",").filter(existe));
+      }
+      if (!modoTodas && !selecao.size && existe(SEDE_PADRAO)) selecao.add(SEDE_PADRAO);
+    }
+
+    function montarListaSedes() {
+      const contagem = {};
+      SEDES.forEach(f => { contagem[f.properties.num_sede] = vistoriasDaSede(f.properties.num_sede).length; });
+      document.getElementById("lista-sedes").innerHTML = [...SEDES].sort((a, b) => (contagem[b.properties.num_sede] > 0) - (contagem[a.properties.num_sede] > 0)).map(f => {
+        const p = f.properties;
+        const n = contagem[p.num_sede];
+        return `<label data-busca="${esc(`${p.nome_sede} ${p.fa_completo || p.fazenda || ""} ${p.proprietario || ""}`.toLowerCase())}">
+          <input type="checkbox" value="${esc(p.num_sede)}" ${selecao.has(String(p.num_sede)) ? "checked" : ""} onchange="marcarSede(this)">
+          <span>Sede ${esc(p.nome_sede || p.num_sede)}<small>${esc(p.fa_completo || p.fazenda || "Sem fazenda")} • ${n} vistoria${n === 1 ? "" : "s"}</small></span>
+        </label>`;
+      }).join("");
+      filtrarListaSedes();
+    }
+
+    function filtrarListaSedes() {
+      const termo = document.getElementById("busca-sedes").value.toLowerCase().trim();
+      document.querySelectorAll("#lista-sedes label").forEach(l => {
+        l.style.display = l.dataset.busca.includes(termo) ? "" : "none";
+      });
+    }
+
+    function atualizarResumoSedes() {
+      const n = selecao.size;
+      const unica = n === 1 ? SEDES.find(f => selecao.has(String(f.properties.num_sede))) : null;
+      document.getElementById("sedes-resumo").textContent = modoTodas
+        ? "Todas as sedes com vistoria no período"
+        : unica ? `Sede ${unica.properties.nome_sede || unica.properties.num_sede}`
+        : n ? `${n} sedes selecionadas` : "Selecione as sedes";
+      document.getElementById("sedes-contagem").textContent = `${n} selecionada${n === 1 ? "" : "s"}`;
+    }
+
+    function sincronizarCaixas() {
+      document.querySelectorAll("#lista-sedes input").forEach(c => { c.checked = selecao.has(c.value); });
+      selecaoAlterada = true;
+      atualizarResumoSedes();
+    }
+
+    function marcarSede(caixa) {
+      modoTodas = false;
+      if (caixa.checked) selecao.add(caixa.value); else selecao.delete(caixa.value);
+      selecaoAlterada = true;
+      atualizarResumoSedes();
+    }
+
+    function marcarTodasComVistoria() {
+      modoTodas = true;
+      selecao = new Set(sedesComVistoria());
+      sincronizarCaixas();
+    }
+
+    function limparSedes() {
+      modoTodas = false;
+      selecao = new Set();
+      sincronizarCaixas();
+    }
+
+    function alternarPainelSedes(e) {
+      e.preventDefault();
+      const painel = document.getElementById("painel-sedes");
+      if (painel.classList.contains("aberto")) return fecharPainelSedes();
+      if (modoTodas) selecao = new Set(sedesComVistoria());
+      montarListaSedes();
+      atualizarResumoSedes();
+      painel.classList.add("aberto");
+    }
+
+    // Os relatórios só são refeitos ao fechar, para não recarregar a cada marcação
+    function fecharPainelSedes() {
+      document.getElementById("painel-sedes").classList.remove("aberto");
+      if (selecaoAlterada) gerarRelatorio();
+      selecaoAlterada = false;
+    }
+
+    document.addEventListener("click", e => {
+      const painel = document.getElementById("painel-sedes");
+      if (painel.classList.contains("aberto") && !document.getElementById("seletor-sedes").contains(e.target)) fecharPainelSedes();
+    });
 
     function vistoriasDaSede(numSede) {
       const de = document.getElementById("filtro-de").value;
@@ -654,28 +831,28 @@
     }
 
     function gerarRelatorio() {
-      const valor = document.getElementById("sel-sede").value;
       const el = document.getElementById("relatorios");
-      history.replaceState(null, "", `?sede=${encodeURIComponent(valor)}`);
+      if (modoTodas) selecao = new Set(sedesComVistoria());
+      atualizarResumoSedes();
+      history.replaceState(null, "", `?sede=${modoTodas ? TODAS : [...selecao].join(",")}`);
 
-      const lote = valor === TODAS;
-      const sedes = lote
-        ? SEDES.filter(f => vistoriasDaSede(f.properties.num_sede).length > 0)
-        : SEDES.filter(f => String(f.properties.num_sede) === String(valor));
+      const sedes = SEDES.filter(f => selecao.has(String(f.properties.num_sede)));
+      const lote = modoTodas || sedes.length > 1;
 
       mapas.forEach(m => m.remove());
       mapas = [];
       mapasProntos = [];
       if (!sedes.length) {
-        el.innerHTML = `<div class="doc"><div class="vazio">${lote
+        el.innerHTML = `<div class="doc"><div class="vazio">${modoTodas
           ? "Nenhuma sede tem vistoria no período selecionado."
-          : 'Nenhuma sede encontrada na base. Clique em "Atualizar dados".'}</div></div>`;
+          : "Selecione ao menos uma sede em Sede / Fazenda."}</div></div>`;
         return;
       }
 
+      const semVistoria = sedes.filter(f => !vistoriasDaSede(f.properties.num_sede).length).length;
       const aviso = lote
         ? `<div class="aviso-lote"><strong>${sedes.length} relatório${sedes.length === 1 ? "" : "s"}</strong> no período.
-           Sedes sem vistoria no período não entram. O PDF sai em um único arquivo.</div>`
+           ${modoTodas ? "Sedes sem vistoria no período não entram. " : ""}${semVistoria ? `${semVistoria} sem vistoria no período. ` : ""}O PDF sai em um único arquivo.</div>`
         : "";
       el.innerHTML = aviso + sedes.map(montarRelatorioSede).join("");
       sedes.forEach(f => montarMapa(f, vistoriasDaSede(f.properties.num_sede)));
@@ -932,15 +1109,15 @@
       btn.disabled = false;
       btn.innerHTML = textoBotao;
 
-      const valor = document.getElementById("sel-sede").value;
       const hoje = new Date().toISOString().slice(0, 10);
-      const feat = SEDES.find(f => String(f.properties.num_sede) === String(valor));
-      const fazenda = feat ? (feat.properties.fazenda || "").replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_") : "";
+      const valor = [...selecao][0];
+      const feat = SEDES.find(f => String(f.properties.num_sede) === valor);
+      const fazenda = feat ? (feat.properties.fazenda || "").normalize("NFD").replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_") : "";
       const de = document.getElementById("filtro-de").value;
       const ate = document.getElementById("filtro-ate").value;
       const tituloOriginal = document.title;
       // O navegador usa o título como nome sugerido do PDF
-      document.title = valor === TODAS
+      document.title = modoTodas || selecao.size > 1
         ? `Relatorios_Sedes_${de || "inicio"}_a_${ate || hoje}`
         : `Relatorio_Sede_${valor}_${fazenda}_${hoje}`;
       window.print();
