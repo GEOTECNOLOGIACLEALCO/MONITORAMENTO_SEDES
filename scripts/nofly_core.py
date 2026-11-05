@@ -29,6 +29,21 @@ OUT_JSON_PUBLICO = os.path.join(ROOT_DIR, "vistorias_kobo.json")
 SW_PATH = os.path.join(ROOT_DIR, "sw.js")
 CONFIG_PATH = os.path.join(SCRIPT_DIR, "nofly_config.json")
 
+
+def configurar_gis_do_qgis():
+    """O Python do QGIS, usado fora do QGIS, nao acha os dados do PROJ e do GDAL sozinho."""
+    raiz = os.path.dirname(os.path.dirname(sys.prefix))  # ...\QGIS x\apps\Python312
+    proj = os.path.join(raiz, "share", "proj")
+    if os.path.exists(os.path.join(proj, "proj.db")):
+        os.environ.setdefault("PROJ_DATA", proj)
+        os.environ.setdefault("PROJ_LIB", proj)
+    gdal = os.path.join(raiz, "apps", "gdal", "share", "gdal")
+    if os.path.exists(os.path.join(gdal, "header.dxf")):
+        os.environ.setdefault("GDAL_DATA", gdal)
+
+
+configurar_gis_do_qgis()
+
 CONFIG_PADRAO = {
     "kobo": {"servidor": "kf.kobotoolbox.org", "asset_uid": "a6xVWc5GTZEWFzSceegC4G", "tamanho_pagina": 1000},
     "status": {"verde_max_dias": 7, "amarelo_max_dias": 15},
