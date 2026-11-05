@@ -226,22 +226,6 @@
       -webkit-user-select: none !important;
     }
 
-    /* Tooltip das Áreas/Talhões elegante sem interferir no toque */
-    .area-tooltip {
-      background: rgba(15, 23, 42, 0.94) !important;
-      color: #ffffff !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      border-radius: 8px !important;
-      font-size: 11px !important;
-      font-weight: 700 !important;
-      padding: 5px 9px !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
-      pointer-events: none !important;
-    }
-    .area-tooltip::before {
-      border-top-color: rgba(15, 23, 42, 0.94) !important;
-    }
-
     /* Responsividade refinada para Mobile */
     @media (max-width: 680px) {
       header {
@@ -1997,7 +1981,6 @@
 
     let map;
     let markersLayer = L.layerGroup();
-    let areasLayer = L.layerGroup();
     let sedesData = [];
     let sedeSelecionada = null;
     let historicoVisitas = [];
@@ -2333,7 +2316,6 @@
 
       L.control.layers(baseMaps, null, { position: "topright" }).addTo(map);
 
-      areasLayer.addTo(map);
       markersLayer.addTo(map);
 
       // Fechar card ao clicar no mapa e remover qualquer foco/contorno ativo
@@ -2376,46 +2358,7 @@
     }
 
     function carregarCamadas() {
-      // 1. Áreas / Perímetros das Fazendas
-      if (typeof DADOS_AREAS !== "undefined" && DADOS_AREAS.features) {
-        L.geoJSON(DADOS_AREAS, {
-          style: {
-            color: "#ffffff",
-            opacity: 0.28,
-            weight: 1,
-            fillColor: "#ffffff",
-            fillOpacity: 0.28
-          },
-          onEachFeature: (feature, layer) => {
-            const p = feature.properties || {};
-            if (p.fazenda || p.fa) {
-              layer.bindTooltip(`<b>${p.fa ? 'FA ' + p.fa + ' - ' : ''}${p.fazenda || ''}</b>`, {
-                sticky: true,
-                className: "area-tooltip",
-                direction: "auto"
-              });
-            }
-
-            // Desativar caixa preta de foco / outline ao tocar no talhão
-            layer.on('click', (e) => {
-              if (e.originalEvent && e.originalEvent.target && typeof e.originalEvent.target.blur === 'function') {
-                e.originalEvent.target.blur();
-              }
-            });
-
-            layer.on('add', () => {
-              const el = layer.getElement ? layer.getElement() : null;
-              if (el) {
-                el.removeAttribute('tabindex');
-                el.setAttribute('tabindex', '-1');
-                el.style.outline = 'none';
-              }
-            });
-          }
-        }).addTo(areasLayer);
-      }
-
-      // 2. Pontos das Sedes
+      // Pontos das Sedes
       if (typeof DADOS_SEDES !== "undefined" && DADOS_SEDES.features) {
         sedesData = DADOS_SEDES.features;
         renderizarSedes();

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Atualiza a base do app web (dados_mapa.js e vistorias_kobo.json) e o Excel consolidado.
-Fluxo: Sede.shp + AREAS.shp + vistorias do KoboToolbox -> arquivos do site.
+Fluxo: Sede.shp + vistorias do KoboToolbox -> arquivos do site.
 O token do Kobo fica em scripts/.env (veja scripts/.env.example).
 """
 import os
@@ -99,28 +99,7 @@ for idx, row in pts.iterrows():
                      "properties": props})
 print(f"   [OK] {len(features)} sedes processadas.")
 
-# 4. Areas ------------------------------------------------------------------
-areas_features = []
-areas_shp = core.localizar_shp("AREAS.shp")
-if areas_shp:
-    import geopandas as gpd
-    areas = gpd.read_file(areas_shp, encoding="utf-8").to_crs(epsg=4326)
-    areas["geometry"] = areas.geometry.simplify(0.0001, preserve_topology=True)
-    for _, row in areas.iterrows():
-        if row.geometry is None or row.geometry.is_empty:
-            continue
-        areas_features.append({
-            "type": "Feature",
-            "geometry": row.geometry.__geo_interface__,
-            "properties": {
-                "fa": core.limpar(row.get("FA", "")),
-                "fazenda": core.limpar(row.get("FAZENDA", "")),
-                "num_sede": core.limpar(row.get("NUM_SEDE", "")),
-            },
-        })
-    print(f"   [OK] {len(areas_features)} poligonos de areas processados.")
-
-# 5. dados_mapa.js ----------------------------------------------------------
+# 4. dados_mapa.js ----------------------------------------------------------
 agora = datetime.now()
 config_js = {
     "verde_max_dias": cfg["status"]["verde_max_dias"],
@@ -134,15 +113,13 @@ with open(core.OUT_JS, "w", encoding="utf-8") as f:
     f.write("const CONFIG_NOFLY = " + json.dumps(config_js) + ";\n\n")
     f.write("const DADOS_VISTORIAS_KOBO = " + json.dumps(publicas, ensure_ascii=False) + ";\n\n")
     f.write("const DADOS_SEDES = " + json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False) + ";\n\n")
-    f.write("const DADOS_AREAS = " + json.dumps({"type": "FeatureCollection", "features": areas_features}, ensure_ascii=False) + ";\n\n")
     f.write("const DADOS_PONTOS = DADOS_SEDES;\n")
-    f.write("const DADOS_PERIMETROS = DADOS_AREAS;\n")
 print(f"   [OK] dados_mapa.js atualizado ({os.path.getsize(core.OUT_JS) / 1048576:.2f} MB)")
 
-# 6. Excel (dados completos, so no computador) ------------------------------
+# 5. Excel (dados completos, so no computador) ------------------------------
 core.gravar_excel(vistorias, core.linhas_status_sedes(sedes_ref, ultimas, cfg))
 
-# 7. Nova versao do cache do app --------------------------------------------
+# 6. Nova versao do cache do app --------------------------------------------
 core.atualizar_versao_sw()
 
 print("=" * 70)

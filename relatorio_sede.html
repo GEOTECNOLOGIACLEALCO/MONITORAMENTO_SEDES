@@ -752,7 +752,6 @@
           <div class="legenda" style="margin-top:6px;">
             <span><i class="bola" style="background:#15803d"></i>Sede</span>
             <span><i class="bola" style="background:#facc15"></i>GPS das vistorias</span>
-            <span>Polígono: área da fazenda</span>
           </div>
         </div>
 
@@ -867,11 +866,6 @@
       L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", { maxZoom: 20, keepBuffer: 6 }).addTo(mapa);
 
       const grupo = L.featureGroup().addTo(mapa);
-      if (typeof DADOS_AREAS !== "undefined") {
-        DADOS_AREAS.features
-          .filter(a => String(a.properties.num_sede) === String(feat.properties.num_sede))
-          .forEach(a => L.geoJSON(a, { style: { color: "#22c55e", weight: 2, fillOpacity: 0.12 } }).addTo(grupo));
-      }
       L.circleMarker([lat, lon], { radius: 9, color: "#fff", weight: 3, fillColor: "#15803d", fillOpacity: 1 })
         .bindTooltip(`Sede ${esc(feat.properties.nome_sede || feat.properties.num_sede)}`, { permanent: true, direction: "top", offset: [0, -8] })
         .addTo(grupo);

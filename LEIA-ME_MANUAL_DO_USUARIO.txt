@@ -98,7 +98,7 @@ B. CALOR & RETORNO (aba do relatório executivo):
 A. ESTRUTURA ORGANIZADA DE DIRETÓRIOS:
    📁 01_NoFly/
    ├── 🖼️ logos/                      (Logos NoFly e ícones PWA para celular)
-   ├── 🗺️ banco de dados geograficos/ (Sede.shp, AREAS.shp e MONITORAMENTO QUEIROZ.qgz)
+   ├── 🗺️ banco de dados geograficos/ (Sede.shp e MONITORAMENTO QUEIROZ.qgz)
    ├── 📊 relatorios e formularios/  (Visitas_Monitoramento_Sedes_Kobo.xlsx)
    ├── ⚙️ scripts/                    (atualizar_base_web.py e nofly_core.py)
    ├── 🌐 index.html                  (App de Campo mobile/desktop)

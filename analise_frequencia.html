@@ -434,8 +434,6 @@
     let markersLayerRight = null;
     let circlesLayerLeft = null;
     let circlesLayerRight = null;
-    let areasLayerLeft = null;
-    let areasLayerRight = null;
 
     let todasVistorias = [];
     let mapaSedes = new Map(); // num_sede -> { props, coords, vistorias: [] }
@@ -646,11 +644,9 @@
       });
       getTileLayer().addTo(mapLeft);
 
-      areasLayerLeft = L.layerGroup().addTo(mapLeft);
       circlesLayerLeft = L.layerGroup().addTo(mapLeft);
       markersLayerLeft = L.layerGroup().addTo(mapLeft);
 
-      carregarAreasNoMapa(areasLayerLeft);
       setupSyncEvent(mapLeft, () => mapRight);
 
       // Ajuste dinâmico de escala do raio de calor ao dar zoom
@@ -671,11 +667,9 @@
       });
       getTileLayer().addTo(mapRight);
 
-      areasLayerRight = L.layerGroup().addTo(mapRight);
       circlesLayerRight = L.layerGroup().addTo(mapRight);
       markersLayerRight = L.layerGroup().addTo(mapRight);
 
-      carregarAreasNoMapa(areasLayerRight);
       setupSyncEvent(mapRight, () => mapLeft);
 
       mapRight.on("zoomend", () => {
@@ -694,22 +688,6 @@
       const metersPerPixel = (156543.03392 * Math.cos(lat * Math.PI / 180)) / Math.pow(2, z);
       const px = Math.round(300 / metersPerPixel);
       return Math.max(20, Math.min(px, 300));
-    }
-
-    // Carrega perímetros de fazendas se existirem
-    function carregarAreasNoMapa(layerGroup) {
-      if (typeof DADOS_AREAS !== "undefined" && DADOS_AREAS.features) {
-        L.geoJSON(DADOS_AREAS, {
-          style: {
-            color: "#38bdf8",
-            weight: 1.2,
-            opacity: 0.6,
-            fillColor: "#0284c7",
-            fillOpacity: 0.08,
-            dashArray: "3, 4"
-          }
-        }).addTo(layerGroup);
-      }
     }
 
     // Sincronizador bidirecional suave entre mapas
