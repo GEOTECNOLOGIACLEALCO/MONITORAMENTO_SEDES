@@ -389,7 +389,16 @@
       margin-bottom: 8px;
     }
 
-    #mapa-sede {
+    .aviso-lote {
+      max-width: 210mm;
+      margin: 16px auto -4px;
+      padding: 0 12px;
+      color: #cbd5e1;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .mapa-sede {
       height: 195px;
       border-radius: 8px;
       border: 1px solid var(--doc-border);
@@ -491,8 +500,13 @@
       body {
         background: #fff !important;
       }
-      .toolbar {
+      .toolbar, .aviso-lote {
         display: none !important;
+      }
+      .doc + .doc {
+        break-before: page;
+        page-break-before: always;
+        padding-top: 10px;
       }
       .doc {
         width: auto;
@@ -541,10 +555,10 @@
       <input type="date" id="filtro-ate" onchange="gerarRelatorio()">
     </label>
     <button class="btn" onclick="NoFlyAtualizacao.abrir()" title="Buscar vistorias e fotos novas no KoboToolbox"><i class="fa-solid fa-cloud-arrow-down"></i> Atualizar dados</button>
-    <button class="btn btn-pdf" onclick="salvarPdf()"><i class="fa-solid fa-file-pdf"></i> Salvar PDF</button>
+    <button class="btn btn-pdf" id="btn-pdf" onclick="salvarPdf()"><i class="fa-solid fa-file-pdf"></i> Salvar PDF</button>
   </div>
 
-  <div class="doc" id="relatorio"></div>
+  <div id="relatorios"></div>
 
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -559,6 +573,7 @@
       .slice().sort((a, b) => (parseInt(a.properties.num_sede) || 0) - (parseInt(b.properties.num_sede) || 0));
     const VISTORIAS = typeof DADOS_VISTORIAS_KOBO !== "undefined" ? DADOS_VISTORIAS_KOBO : [];
     const SEDE_PADRAO = "30";
+    const TODAS = "todas";
     const MAX_FOTOS = 6;
 
     const ROTULO_FOTO = {
@@ -569,7 +584,8 @@
     };
     const COR_PRESSAO = { "Baixa": "#38bdf8", "Média": "#f97316", "Alta": "#ef4444" };
 
-    let mapa = null;
+    let mapas = [];
+    let mapasProntos = [];
 
     function esc(str) {
       return String(str === undefined || str === null ? "" : str)
@@ -613,14 +629,14 @@
       const sel = document.getElementById("sel-sede");
       const contagem = {};
       VISTORIAS.forEach(v => { contagem[v.num_sede] = (contagem[v.num_sede] || 0) + 1; });
-      sel.innerHTML = SEDES.map(f => {
+      sel.innerHTML = `<option value="${TODAS}">Todas as sedes com vistoria no período</option>` + SEDES.map(f => {
         const p = f.properties;
         const n = contagem[p.num_sede] || 0;
         return `<option value="${esc(p.num_sede)}">Sede ${esc(p.nome_sede || p.num_sede)} • ${esc(p.fa_completo || p.fazenda || "Sem fazenda")} (${n} vistoria${n === 1 ? "" : "s"})</option>`;
       }).join("");
 
       const daUrl = new URLSearchParams(location.search).get("sede");
-      const inicial = [daUrl, SEDE_PADRAO].find(s => s && SEDES.some(f => String(f.properties.num_sede) === String(s)));
+      const inicial = [daUrl, SEDE_PADRAO].find(s => s && (s === TODAS || SEDES.some(f => String(f.properties.num_sede) === String(s))));
       if (inicial) sel.value = inicial;
     }
 
@@ -638,17 +654,36 @@
     }
 
     function gerarRelatorio() {
-      const numSede = document.getElementById("sel-sede").value;
-      const feat = SEDES.find(f => String(f.properties.num_sede) === String(numSede));
-      const el = document.getElementById("relatorio");
-      if (!feat) {
-        el.innerHTML = `<div class="vazio">Nenhuma sede encontrada na base. Clique em "Atualizar dados".</div>`;
+      const valor = document.getElementById("sel-sede").value;
+      const el = document.getElementById("relatorios");
+      history.replaceState(null, "", `?sede=${encodeURIComponent(valor)}`);
+
+      const lote = valor === TODAS;
+      const sedes = lote
+        ? SEDES.filter(f => vistoriasDaSede(f.properties.num_sede).length > 0)
+        : SEDES.filter(f => String(f.properties.num_sede) === String(valor));
+
+      mapas.forEach(m => m.remove());
+      mapas = [];
+      mapasProntos = [];
+      if (!sedes.length) {
+        el.innerHTML = `<div class="doc"><div class="vazio">${lote
+          ? "Nenhuma sede tem vistoria no período selecionado."
+          : 'Nenhuma sede encontrada na base. Clique em "Atualizar dados".'}</div></div>`;
         return;
       }
-      history.replaceState(null, "", `?sede=${encodeURIComponent(numSede)}`);
 
+      const aviso = lote
+        ? `<div class="aviso-lote"><strong>${sedes.length} relatório${sedes.length === 1 ? "" : "s"}</strong> no período.
+           Sedes sem vistoria no período não entram. O PDF sai em um único arquivo.</div>`
+        : "";
+      el.innerHTML = aviso + sedes.map(montarRelatorioSede).join("");
+      sedes.forEach(f => montarMapa(f, vistoriasDaSede(f.properties.num_sede)));
+    }
+
+    function montarRelatorioSede(feat) {
       const p = feat.properties;
-      const vis = vistoriasDaSede(numSede);
+      const vis = vistoriasDaSede(p.num_sede);
       const hoje = new Date();
       const primeira = vis.length ? vis[0]._data : null;
       const ultima = vis.length ? vis[vis.length - 1]._data : null;
@@ -689,7 +724,7 @@
            Em cada visita foram avaliados o nível de pressão da mosca e a presença de larvas e pupas, conforme detalhado neste relatório.${fraseTratativas}`
         : `Não há vistorias registradas para a <strong>Sede ${esc(nomeSede)}</strong> (${esc(fazenda)}) no período selecionado.`;
 
-      el.innerHTML = `
+      return `<div class="doc">
         <div class="doc-header">
           <img class="logo-clealco" src="logos/logo clealco.png" alt="Clealco" onerror="this.style.visibility='hidden'">
           <div class="doc-title">
@@ -748,7 +783,7 @@
 
         <div class="section">
           <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> Localização da sede e pontos das vistorias</div>
-          <div id="mapa-sede"></div>
+          <div class="mapa-sede" id="mapa-sede-${esc(p.num_sede)}"></div>
           <div class="legenda" style="margin-top:6px;">
             <span><i class="bola" style="background:#15803d"></i>Sede</span>
             <span><i class="bola" style="background:#facc15"></i>GPS das vistorias</span>
@@ -764,9 +799,7 @@
           <span>Gerado pelo NoFly em ${fmtData(hoje)} ${hoje.toTimeString().slice(0, 5)}</span>
           <span>${typeof DADOS_ATUALIZADO_EM !== "undefined" ? `Base atualizada em ${fmtData(new Date(DADOS_ATUALIZADO_EM))}` : ""}</span>
         </div>
-      `;
-
-      montarMapa(feat, vis);
+      </div>`;
     }
 
     function montarLinhaDoTempo(vis) {
@@ -857,12 +890,14 @@
     }
 
     function montarMapa(feat, vis) {
-      if (mapa) { mapa.remove(); mapa = null; }
       const [lon, lat] = feat.geometry.coordinates;
       // Sem animação e com tiles extras em volta: o PDF sai sem quadros cinza
-      mapa = L.map("mapa-sede", { zoomControl: true, attributionControl: false, fadeAnimation: false, zoomAnimation: false })
+      const mapa = L.map(`mapa-sede-${feat.properties.num_sede}`, { zoomControl: true, attributionControl: false, fadeAnimation: false, zoomAnimation: false })
         .setView([lat, lon], 15);
-      L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", { maxZoom: 20, keepBuffer: 6 }).addTo(mapa);
+      const fundo = L.tileLayer("https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}", { maxZoom: 20, keepBuffer: 6 });
+      mapasProntos.push(new Promise(resolve => fundo.once("load", resolve)));
+      fundo.addTo(mapa);
+      mapas.push(mapa);
 
       const grupo = L.featureGroup().addTo(mapa);
       L.circleMarker([lat, lon], { radius: 9, color: "#fff", weight: 3, fillColor: "#15803d", fillOpacity: 1 })
@@ -880,18 +915,39 @@
       if (grupo.getLayers().length > 1) mapa.fitBounds(grupo.getBounds().pad(0.15), { maxZoom: 17 });
     }
 
-    function salvarPdf() {
-      const sel = document.getElementById("sel-sede");
-      const feat = SEDES.find(f => String(f.properties.num_sede) === String(sel.value));
+    // Espera mapas e fotos para o PDF nao sair com partes em branco
+    function aguardarConteudo() {
+      const fotos = [...document.querySelectorAll("#relatorios img")].filter(i => !i.complete)
+        .map(i => new Promise(resolve => { i.onload = resolve; i.onerror = resolve; }));
+      const limite = new Promise(resolve => setTimeout(resolve, 30000));
+      return Promise.race([Promise.all([...mapasProntos, ...fotos]), limite]);
+    }
+
+    async function salvarPdf() {
+      const btn = document.getElementById("btn-pdf");
+      const textoBotao = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Preparando...';
+      await aguardarConteudo();
+      btn.disabled = false;
+      btn.innerHTML = textoBotao;
+
+      const valor = document.getElementById("sel-sede").value;
+      const hoje = new Date().toISOString().slice(0, 10);
+      const feat = SEDES.find(f => String(f.properties.num_sede) === String(valor));
       const fazenda = feat ? (feat.properties.fazenda || "").replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "_") : "";
+      const de = document.getElementById("filtro-de").value;
+      const ate = document.getElementById("filtro-ate").value;
       const tituloOriginal = document.title;
       // O navegador usa o título como nome sugerido do PDF
-      document.title = `Relatorio_Sede_${sel.value}_${fazenda}_${new Date().toISOString().slice(0, 10)}`;
+      document.title = valor === TODAS
+        ? `Relatorios_Sedes_${de || "inicio"}_a_${ate || hoje}`
+        : `Relatorio_Sede_${valor}_${fazenda}_${hoje}`;
       window.print();
       setTimeout(() => { document.title = tituloOriginal; }, 1000);
     }
 
-    window.addEventListener("beforeprint", () => { if (mapa) mapa.invalidateSize(); });
+    window.addEventListener("beforeprint", () => mapas.forEach(m => m.invalidateSize()));
 
     montarSeletor();
     gerarRelatorio();
