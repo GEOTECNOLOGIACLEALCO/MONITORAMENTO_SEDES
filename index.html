@@ -2008,6 +2008,9 @@
       iniciarGpsTempoReal();
       iniciarFilaEnvio();
       montarCamposFoto();
+      const formVistoria = document.getElementById("form-modal");
+      formVistoria.addEventListener("change", atualizarCamposFoto);
+      formVistoria.addEventListener("input", atualizarCamposFoto);
       mostrarDataAtualizacao();
 
       // Preencher Data da Vistoria automática (ex: 27/10/2026)
@@ -2753,8 +2756,8 @@
         causador = `Outro: ${especificado}`;
       }
 
-      // Uma foto com coordenada para cada item preenchido
-      const camposPreenchidos = ["pressao", "bandeiras", "larva_pupa", "inseticida"].concat(causador ? ["causador"] : []);
+      // Uma foto com coordenada para cada item com algo a registrar
+      const camposPreenchidos = Object.keys(FOTO_CAMPOS).filter(fotoExigida);
       const semFoto = camposPreenchidos.find(c => !fotosVistoria[c]);
       if (semFoto) {
         showToast(`Tire a foto do item "${FOTO_CAMPOS[semFoto]}"!`, "error");
@@ -3133,6 +3136,22 @@ ${fotosSalvar.map(f => `  <foto_${f.campo}>${escapeXml(f.nome)}</foto_${f.campo}
 
     function montarCamposFoto() {
       document.querySelectorAll(".foto-campo[data-foto]").forEach(el => renderizarCampoFoto(el.dataset.foto));
+      atualizarCamposFoto();
+    }
+
+    // Sem bandeira, sem larva/pupa, sem inseticida ou sem causador nao ha o que fotografar
+    function fotoExigida(campo) {
+      const valor = valorAtualCampo(campo);
+      if (campo === "bandeiras") return parseInt(valor) > 0;
+      if (campo === "larva_pupa") return valor === "Presença";
+      if (campo === "inseticida") return valor === "Aplicado";
+      return valor !== "";
+    }
+
+    function atualizarCamposFoto() {
+      document.querySelectorAll(".foto-campo[data-foto]").forEach(el => {
+        el.style.display = fotoExigida(el.dataset.foto) ? "" : "none";
+      });
     }
 
     function renderizarCampoFoto(campo) {
