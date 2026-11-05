@@ -272,5 +272,46 @@
         "arquivo": "fotos/908943804_foto_bandeiras_sede9_1793898637579.jpg"
       }
     ]
+  },
+  {
+    "num_sede": "40",
+    "nome_sede": "40 - JORGE NAGIBE",
+    "fa": "SEM FA",
+    "fazenda": "FAZENDA BOA ESPERANÇA",
+    "proprietario": "JORGE NAGIBE",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "05/11/2026",
+    "hora_vistoria": "14:45",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "15",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.793342437069505,
+    "lon": -50.20174613060917,
+    "latitude_gps_lancamento": -21.793342437069505,
+    "longitude_gps_lancamento": -50.20174613060917,
+    "lat_sede": -21.793318,
+    "lon_sede": -50.201639,
+    "localizacao_sede": "-21.793318, -50.201639",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.793318,-50.201639",
+    "distancia_sede_metros": 11.4,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-05T17:53:35",
+    "kobo_id": 908969166,
+    "instance_id": "uuid:fcfa37dc-cd94-4d84-8d0c-a2930de282d8",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/908969166_foto_pressao_sede40_1793900750861.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/908969166_foto_bandeiras_sede40_1793900758752.jpg"
+      }
+    ]
   }
 ]
