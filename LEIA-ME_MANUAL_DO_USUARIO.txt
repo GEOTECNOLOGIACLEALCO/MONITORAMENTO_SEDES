@@ -121,6 +121,10 @@ B. MENU DE OPERAÇÕES NO WINDOWS (MENU_MONITORAMENTO.bat):
    Sem acesso a este computador: nos relatórios online, o botão
    "Atualizar dados" faz o mesmo que a opção [1] direto no GitHub.
 
+Primeiro uso em outro computador: dê duplo clique em PRIMEIRO_ACESSO.bat, nesta
+   pasta. Ele libera o Git só para esta pasta; depois, use o menu normalmente.
+   Quem só usa os relatórios online não precisa disso.
+
 C. MIGRAÇÃO PARA OUTRO COMPUTADOR:
    1. Copie a pasta '01_NoFly' ou clone pelo GitHub:
       git clone https://github.com/GEOTECNOLOGIACLEALCO/MONITORAMENTO_SEDES.git
