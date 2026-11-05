@@ -46,6 +46,7 @@ configurar_gis_do_qgis()
 
 CONFIG_PADRAO = {
     "kobo": {"servidor": "kf.kobotoolbox.org", "asset_uid": "a6xVWc5GTZEWFzSceegC4G", "tamanho_pagina": 1000},
+    "monitoramento": {"inicio": ""},
     "status": {"verde_max_dias": 7, "amarelo_max_dias": 15},
     "validacao": {"distancia_max_metros": 500, "matricula_regex": r"^\d{1,6}$"},
     "privacidade": {"mascarar_matricula_no_site": True, "publicar_gps_avaliador_no_site": True},
@@ -459,14 +460,22 @@ def ler_cache_completo():
     return []
 
 
+def no_periodo(data, enviado_em, cfg):
+    """Vistorias anteriores ao inicio do monitoramento (testes) ficam fora do sistema."""
+    inicio = parse_data(cfg["monitoramento"].get("inicio"))
+    dt = parse_data(data, enviado_em)
+    return not inicio or (dt is not None and dt >= inicio)
+
+
 def obter_vistorias(sedes_ref, cfg):
     """Baixa do Kobo (ou usa cache), aplica datas manuais do Excel e grava o cache completo."""
     brutos = baixar_kobo(cfg)
     if brutos is None:
-        vistorias = ler_cache_completo()
+        vistorias = [v for v in ler_cache_completo() if no_periodo(v.get("data_vistoria"), v.get("submetido_em"), cfg)]
         for v in vistorias:
             v.setdefault("alertas", validar_vistoria(v, cfg))
     else:
+        brutos = [r for r in brutos if no_periodo(r.get("data_vistoria"), r.get("_submission_time"), cfg)]
         vistorias = normalizar_submissoes(brutos, sedes_ref, cfg)
         fotos = baixar_fotos_kobo(brutos)
         for v in vistorias:

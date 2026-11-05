@@ -846,7 +846,6 @@
       });
       if (!fotos.length) {
         return `<div class="aviso-fotos"><i class="fa-solid fa-camera"></i> Nenhuma foto registrada para esta sede no período.<br>
-          As fotos com coordenada passaram a ser registradas nas vistorias a partir de 03/11/2026.
           Se a vistoria é recente, clique em "Atualizar dados".</div>`;
       }
       return `<div class="fotos-grid">${fotos.slice(0, MAX_FOTOS).map(f => `

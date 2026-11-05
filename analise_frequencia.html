@@ -474,7 +474,7 @@
 
       // Mesclar vistorias locais do navegador caso existam
       try {
-        const local = JSON.parse(localStorage.getItem("visitas_historico") || "[]");
+        const local = JSON.parse(localStorage.getItem("visitas_historico") || "[]").filter(visitaNoPeriodo);
         local.forEach(lv => {
           const jaExiste = todasVistorias.some(tv => 
             String(tv.num_sede) === String(lv.num_sede) &&
@@ -485,7 +485,7 @@
         });
       } catch (e) {}
 
-      // 2. Mapear as 77 Sedes Oficiais
+      // 2. Mapear as Sedes Oficiais
       if (typeof DADOS_SEDES !== "undefined" && DADOS_SEDES.features) {
         DADOS_SEDES.features.forEach(feat => {
           const p = feat.properties;

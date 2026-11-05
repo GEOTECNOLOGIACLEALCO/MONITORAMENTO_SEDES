@@ -45,7 +45,7 @@ for idx, row in pts.iterrows():
     num = core.limpar(row.get("NUM_SEDE", idx + 1)) or str(idx + 1)
     ref = sedes_ref[num]
     fa, faz = ref["fa"], ref["fazenda"]
-    if fa == "-":
+    if fa in ("-", "SEM FA"):
         fa = ""
     if fa and faz:
         fa_completo = f"{fa} - {faz}"
@@ -99,18 +99,30 @@ for idx, row in pts.iterrows():
                      "properties": props})
 print(f"   [OK] {len(features)} sedes processadas.")
 
+# Vistorias de teste guardadas no celular nao entram nos mapas e relatorios
+JS_VISITA_NO_PERIODO = """function visitaNoPeriodo(v) {
+  const data = String(v.data_vistoria || v.data || "");
+  const p = data.split("/");
+  const iso = p.length === 3 ? `${p[2]}-${p[1]}-${p[0]}` : data.slice(0, 10);
+  return iso >= CONFIG_NOFLY.inicio_monitoramento;
+}
+
+"""
+
 # 4. dados_mapa.js ----------------------------------------------------------
 agora = datetime.now()
 config_js = {
     "verde_max_dias": cfg["status"]["verde_max_dias"],
     "amarelo_max_dias": cfg["status"]["amarelo_max_dias"],
     "distancia_max_metros": cfg["validacao"]["distancia_max_metros"],
+    "inicio_monitoramento": cfg["monitoramento"].get("inicio", ""),
 }
 with open(core.OUT_JS, "w", encoding="utf-8") as f:
     f.write("// BASE DE DADOS COMPILADA DO MONITORAMENTO DE SEDES CLEALCO\n")
     f.write(f"// Atualizado em: {agora.strftime('%d/%m/%Y %H:%M:%S')}\n\n")
     f.write(f"const DADOS_ATUALIZADO_EM = \"{agora.strftime('%Y-%m-%dT%H:%M:%S')}\";\n\n")
     f.write("const CONFIG_NOFLY = " + json.dumps(config_js) + ";\n\n")
+    f.write(JS_VISITA_NO_PERIODO)
     f.write("const DADOS_VISTORIAS_KOBO = " + json.dumps(publicas, ensure_ascii=False) + ";\n\n")
     f.write("const DADOS_SEDES = " + json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False) + ";\n\n")
     f.write("const DADOS_PONTOS = DADOS_SEDES;\n")

@@ -4,7 +4,7 @@
 ================================================================================
 
 Este projeto é uma aplicação georreferenciada completa (PWA) e plataforma de gestão
-de rotinas de vistorias técnicas das 77 sedes rurais vizinhas às unidades da Clealco,
+de rotinas de vistorias técnicas das sedes rurais vizinhas às unidades da Clealco,
 focada no monitoramento, controle e prevenção de moscas-dos-estábulos.
 
 MANUAL WEB INTERATIVO (RECOMENDADO):
@@ -78,7 +78,7 @@ A. RELATÓRIO ONLINE EXECUTIVO (relatorio.html):
    Link: https://geotecnologiaclealco.github.io/MONITORAMENTO_SEDES/relatorio.html
    • Indicadores Executivos em Tempo Real (KPIs de sedes visitadas e atrasadas).
    • Gráficos dinâmicos com valores expressos dentro das roscas e nas legendas.
-   • Tabela completa das 77 sedes ordenadas por criticidade, com link para traçar
+   • Tabela completa das sedes ordenadas por criticidade, com link para traçar
      rotas no Google Maps.
    • Exportar Excel (.xlsx): Gera em 1 clique o relatório formatado com 2 abas.
    • Imprimir / PDF: Impressão executiva A4 (Página 1: Dashboard; Página 2: Tabela).
@@ -136,6 +136,7 @@ C. MIGRAÇÃO PARA OUTRO COMPUTADOR:
    4. Pronto! Abra pelo MENU_MONITORAMENTO.bat.
 
 D. CONFIGURAÇÕES (scripts\nofly_config.json):
+   • monitoramento: data de início; vistorias anteriores são ignoradas.
    • status: dias limite para Verde e Amarelo (vale para mapa, relatório e análise).
    • validacao: distância máxima (m) entre o GPS da vistoria e a sede, e formato
      da matrícula. Vistorias fora da regra aparecem na coluna ALERTAS_VALIDACAO

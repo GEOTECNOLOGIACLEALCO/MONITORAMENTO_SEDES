@@ -4,6 +4,9 @@
     "asset_uid": "a6xVWc5GTZEWFzSceegC4G",
     "tamanho_pagina": 1000
   },
+  "monitoramento": {
+    "inicio": "2026-11-05"
+  },
   "status": {
     "verde_max_dias": 7,
     "amarelo_max_dias": 15

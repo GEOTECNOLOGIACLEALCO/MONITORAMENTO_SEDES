@@ -2214,7 +2214,7 @@
 
       let localVisitas = [];
       try {
-        localVisitas = JSON.parse(localStorage.getItem("visitas_historico") || "[]");
+        localVisitas = JSON.parse(localStorage.getItem("visitas_historico") || "[]").filter(visitaNoPeriodo);
       } catch (e) {
         localVisitas = [];
       }
