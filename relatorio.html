@@ -138,27 +138,27 @@
       background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
-      padding: 12px 20px;
+      padding: 6px 16px;
       position: sticky;
       top: 0;
       z-index: 1000;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 6px 12px;
       flex-wrap: wrap;
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
     }
 
     .brand-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
       object-fit: cover;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
       border: 1.5px solid rgba(255,255,255,0.18);
@@ -166,33 +166,35 @@
     }
 
     .brand-text h1 {
-      font-size: 17px;
+      font-size: 15px;
       font-weight: 800;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.2px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      white-space: nowrap;
     }
 
     .brand-text span {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
       display: block;
-      margin-top: 2px;
+      margin-top: 1px;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
+      margin-left: auto;
     }
 
     .btn-action {
       background: var(--bg-card);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 7px 12px;
+      padding: 6px 10px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
@@ -416,10 +418,12 @@
       overflow-y: hidden;
     }
 
-    /* Abas principais: Painel | Calor & Retorno */
+    /* Abas principais: Painel | Calor & Retorno (dentro do cabeçalho) */
     .view-tabs {
       margin-bottom: 0;
-      padding: 6px 16px 0;
+      border-bottom: none;
+      gap: 4px;
+      flex: 0 0 auto;
     }
 
     #frame-calor {
@@ -431,6 +435,10 @@
     @media (max-width: 768px) {
       header {
         position: static;
+      }
+      .view-tabs {
+        order: 3;
+        flex: 1 1 100%;
       }
     }
 
@@ -467,6 +475,40 @@
       height: 3px;
       background: var(--primary-light);
       border-radius: 3px 3px 0 0;
+    }
+
+    .view-tabs .tab-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+
+    .view-tabs .tab-btn.active {
+      background: rgba(34, 197, 94, 0.14);
+    }
+
+    .view-tabs .tab-btn.active::after {
+      display: none;
+    }
+
+    /* Notebooks: mantém cabeçalho, abas e botões em uma só linha */
+    @media (max-width: 1500px) {
+      header {
+        padding: 6px 10px;
+        column-gap: 8px;
+      }
+      .brand-text h1 {
+        font-size: 13px;
+      }
+      .header-actions {
+        gap: 4px;
+      }
+      .btn-action,
+      .view-tabs .tab-btn {
+        padding: 5px 7px;
+        font-size: 11px;
+        gap: 4px;
+      }
     }
 
     .tab-badge {
@@ -845,6 +887,16 @@
       </div>
     </div>
 
+    <!-- ABAS PRINCIPAIS -->
+    <div class="tabs-header view-tabs">
+      <button class="tab-btn active" id="view-btn-painel" onclick="alternarVisao('painel')">
+        <i class="fa-solid fa-table-columns"></i> Painel
+      </button>
+      <button class="tab-btn" id="view-btn-calor" onclick="alternarVisao('calor')">
+        <i class="fa-solid fa-fire"></i> Calor &amp; Retorno
+      </button>
+    </div>
+
     <div class="header-actions">
       <!-- Buscar vistorias e fotos novas no Kobo (GitHub Actions) -->
       <button class="btn-action" onclick="NoFlyAtualizacao.abrir()" title="Buscar vistorias e fotos novas no KoboToolbox">
@@ -882,16 +934,6 @@
       </a>
     </div>
   </header>
-
-  <!-- ABAS PRINCIPAIS -->
-  <div class="tabs-header view-tabs">
-    <button class="tab-btn active" id="view-btn-painel" onclick="alternarVisao('painel')">
-      <i class="fa-solid fa-table-columns"></i> Painel
-    </button>
-    <button class="tab-btn" id="view-btn-calor" onclick="alternarVisao('calor')">
-      <i class="fa-solid fa-fire"></i> Calor &amp; Retorno
-    </button>
-  </div>
 
   <!-- ABA CALOR & RETORNO: mapa semanal, carregado só ao abrir a aba -->
   <div id="view-calor" style="display:none;">
@@ -1705,9 +1747,12 @@
       const frame = document.getElementById("frame-calor");
       frame.style.height = `${Math.max(480, window.innerHeight - frame.getBoundingClientRect().top)}px`;
     }
-    window.addEventListener("resize", () => {
+    function reajustarCalorSeVisivel() {
       if (document.getElementById("view-calor").style.display !== "none") ajustarAlturaCalor();
-    });
+    }
+    window.addEventListener("resize", reajustarCalorSeVisivel);
+    // O cabeçalho muda de altura quando os botões quebram linha ou a fonte termina de carregar
+    new ResizeObserver(reajustarCalorSeVisivel).observe(document.querySelector("header"));
 
     function abrirCalorNaSede(numSede) {
       document.getElementById("frame-calor").src = `analise_frequencia.html#sede=${encodeURIComponent(numSede)}`;

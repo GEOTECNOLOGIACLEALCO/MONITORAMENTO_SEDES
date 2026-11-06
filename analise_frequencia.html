@@ -61,11 +61,11 @@
       background: rgba(15, 23, 42, 0.96);
       backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border-color);
-      padding: 10px 16px;
+      padding: 4px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 4px 12px;
       z-index: 1000;
       flex-wrap: wrap;
     }
@@ -92,7 +92,7 @@
       color: var(--text-muted);
       font-size: 12px;
       font-weight: 600;
-      padding: 6px 12px;
+      padding: 4px 10px;
       border-radius: 6px;
       cursor: pointer;
       display: flex;
@@ -141,6 +141,14 @@
       gap: 10px;
       z-index: 500;
       flex-wrap: wrap;
+    }
+
+    /* Em Tela Cheia a barra da semana sobe para a linha dos controles */
+    header > .panel-header {
+      flex: 1 1 auto;
+      background: none;
+      border-bottom: none;
+      padding: 0;
     }
 
     .panel-title-tag {
@@ -268,6 +276,24 @@
       padding: 6px 10px;
       border-radius: 6px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    /* Notebooks: mantém controles e semana em uma só linha */
+    @media (max-width: 1500px) {
+      .header-controls {
+        gap: 6px;
+      }
+      .btn-toggle {
+        padding: 4px 7px;
+        font-size: 11px;
+      }
+      header > .panel-header .panel-select-semana {
+        max-width: 190px;
+      }
+      header > .panel-header .panel-stats-inline {
+        gap: 8px;
+        font-size: 10px;
+      }
     }
 
     @media (max-width: 768px) {
@@ -446,6 +472,7 @@
     // INICIALIZAÇÃO
     // =========================================================================
     document.addEventListener("DOMContentLoaded", () => {
+      posicionarBarraSemana("single");
       carregarDadosBase();
       initMapLeft();
       popularSemanas();
@@ -719,8 +746,16 @@
     // =========================================================================
     // ALTERNAR MODOS DE VISUALIZAÇÃO E CALOR
     // =========================================================================
+    function posicionarBarraSemana(modo) {
+      const painel = document.getElementById("panel-left");
+      const barra = document.querySelector("#panel-left .panel-header, header > .panel-header");
+      if (modo === "single") document.querySelector("header").appendChild(barra);
+      else painel.prepend(barra);
+    }
+
     function alternarModoVisualizacao(modo) {
       modoVisualizacao = modo;
+      posicionarBarraSemana(modo);
       const btnS = document.getElementById("btn-mode-single");
       const btnM = document.getElementById("btn-mode-split");
       const panelRight = document.getElementById("panel-right");
