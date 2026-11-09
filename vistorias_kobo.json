@@ -518,5 +518,339 @@
         "arquivo": "fotos/910138511_foto_bandeiras_sede52_1794071442232.jpg"
       }
     ]
+  },
+  {
+    "num_sede": "4",
+    "nome_sede": "4 - MANÉ GARCIA",
+    "fa": "SEM FA",
+    "fazenda": "FAZ SANTA CATARINA",
+    "proprietario": "MANÉ GARCIA",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "10:07",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "59",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.8559041490785,
+    "lon": -50.194987018269664,
+    "latitude_gps_lancamento": -21.8559041490785,
+    "longitude_gps_lancamento": -50.194987018269664,
+    "lat_sede": -21.858294,
+    "lon_sede": -50.199863,
+    "localizacao_sede": "-21.858294, -50.199863",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.858294,-50.199863",
+    "distancia_sede_metros": 569.1,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T13:26:38",
+    "kobo_id": 910998407,
+    "instance_id": "uuid:8ec3b397-70c1-4c84-87d4-e38f1c76d600",
+    "alertas": [
+      "GPS a 569 m da sede (limite 500 m)"
+    ],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/910998407_foto_pressao_sede4_1794229876423.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/910998407_foto_bandeiras_sede4_1794229893382.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "44",
+    "nome_sede": "44 - MORELATO",
+    "fa": "SEM FA",
+    "fazenda": "FAZ OURO BRANCO",
+    "proprietario": "MORELATO",
+    "regiao": "GRANJA",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "11:09",
+    "matricula": "***73",
+    "pressao": "Média",
+    "bandeiras": "14",
+    "larva_pupa": "Ausência",
+    "inseticida": "Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.902155861460567,
+    "lon": -50.26996583030367,
+    "latitude_gps_lancamento": -21.902155861460567,
+    "longitude_gps_lancamento": -50.26996583030367,
+    "lat_sede": -21.901763,
+    "lon_sede": -50.269798,
+    "localizacao_sede": "-21.901763, -50.269798",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.901763,-50.269798",
+    "distancia_sede_metros": 47.0,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T14:12:01",
+    "kobo_id": 911031756,
+    "instance_id": "uuid:ad5f8372-952a-48ee-b2cb-91e9a26ef5bf",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911031756_foto_pressao_sede44_1794233439951.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911031756_foto_bandeiras_sede44_1794233426357.jpg"
+      },
+      {
+        "campo": "inseticida",
+        "arquivo": "fotos/911031756_foto_inseticida_sede44_1794233506612.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "43",
+    "nome_sede": "43 - RENAN/FÁBIO INÁCIO",
+    "fa": "SEM FA",
+    "fazenda": "FAZ SANTA ISABEL",
+    "proprietario": "RENAN/FÁBIO INÁCIO",
+    "regiao": "GRANJA",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "11:48",
+    "matricula": "***73",
+    "pressao": "Média",
+    "bandeiras": "30",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "Não aplicamos com a costal por que o trator do jat já estava aplicando no momento do atendimento",
+    "lat": -21.89317255300882,
+    "lon": -50.25326511729594,
+    "latitude_gps_lancamento": -21.89317255300882,
+    "longitude_gps_lancamento": -50.25326511729594,
+    "lat_sede": -21.891908,
+    "lon_sede": -50.255815,
+    "localizacao_sede": "-21.891908, -50.255815",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.891908,-50.255815",
+    "distancia_sede_metros": 298.3,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T14:52:29",
+    "kobo_id": 911060536,
+    "instance_id": "uuid:faa35e17-aa9e-461e-97b0-44a356913831",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911060536_foto_pressao_sede43_1794235927679.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911060536_foto_bandeiras_sede43_1794235752083.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "18",
+    "nome_sede": "18 - FABRÍCIO SANTOS",
+    "fa": "SEM FA",
+    "fazenda": "SÍTIO SÃO PEDRO",
+    "proprietario": "FABRÍCIO SANTOS",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "15:10",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "13",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.79222133646828,
+    "lon": -50.238799095082314,
+    "latitude_gps_lancamento": -21.79222133646828,
+    "longitude_gps_lancamento": -50.238799095082314,
+    "lat_sede": -21.792103,
+    "lon_sede": -50.238641,
+    "localizacao_sede": "-21.792103, -50.238641",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.792103,-50.238641",
+    "distancia_sede_metros": 21.0,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T18:11:24",
+    "kobo_id": 911178716,
+    "instance_id": "uuid:282a3303-eb84-484a-9ed4-58b9d63702a6",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911178716_foto_pressao_sede18_1794247879031.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911178716_foto_bandeiras_sede18_1794247845262.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "20",
+    "nome_sede": "20 - PEDRO PAULO",
+    "fa": "SEM FA",
+    "fazenda": "FAZ N S APARECIDA",
+    "proprietario": "PEDRO PAULO",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "15:17",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "15",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.790831054682517,
+    "lon": -50.23890087589664,
+    "latitude_gps_lancamento": -21.790831054682517,
+    "longitude_gps_lancamento": -50.23890087589664,
+    "lat_sede": -21.790962,
+    "lon_sede": -50.238395,
+    "localizacao_sede": "-21.790962, -50.238395",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.790962,-50.238395",
+    "distancia_sede_metros": 54.2,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T18:21:35",
+    "kobo_id": 911183836,
+    "instance_id": "uuid:5156ddad-ac98-4325-a0ca-ac909cd98ae1",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911183836_foto_pressao_sede20_1794248471706.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911183836_foto_bandeiras_sede20_1794248484984.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "19",
+    "nome_sede": "19 - VAGNER (DAU)",
+    "fa": "SEM FA",
+    "fazenda": "FAZ N S APARECIDA",
+    "proprietario": "VAGNER (DAU)",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "15:48",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "14",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.78818051916427,
+    "lon": -50.23851632429825,
+    "latitude_gps_lancamento": -21.78818051916427,
+    "longitude_gps_lancamento": -50.23851632429825,
+    "lat_sede": -21.790935,
+    "lon_sede": -50.239382,
+    "localizacao_sede": "-21.790935, -50.239382",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.790935,-50.239382",
+    "distancia_sede_metros": 319.1,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T18:55:08",
+    "kobo_id": 911199271,
+    "instance_id": "uuid:3e66724d-95a6-41c4-8bf9-5f8f03c506ca",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911199271_foto_pressao_sede19_1794250389471.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911199271_foto_bandeiras_sede19_1794250504964.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "38",
+    "nome_sede": "38 - MAURO VIEIRA",
+    "fa": "SEM FA",
+    "fazenda": "ESTÂNCIA ANGÉLICA",
+    "proprietario": "MAURO VIEIRA",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "16:17",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "19",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.79264426613605,
+    "lon": -50.22652427337621,
+    "latitude_gps_lancamento": -21.79264426613605,
+    "longitude_gps_lancamento": -50.22652427337621,
+    "lat_sede": -21.792302,
+    "lon_sede": -50.226189,
+    "localizacao_sede": "-21.792302, -50.226189",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.792302,-50.226189",
+    "distancia_sede_metros": 51.4,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T19:21:46",
+    "kobo_id": 911212470,
+    "instance_id": "uuid:f908cde2-d2ff-470b-9974-02c19d8fd6da",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911212470_foto_pressao_sede38_1794251883833.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911212470_foto_bandeiras_sede38_1794252097454.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "39",
+    "nome_sede": "39 - MARIA VIEIRA",
+    "fa": "SEM FA",
+    "fazenda": "SÍTIO VIRADOURO",
+    "proprietario": "MARIA VIEIRA",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "09/11/2026",
+    "hora_vistoria": "16:21",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "14",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.7924100300781,
+    "lon": -50.22662457801784,
+    "latitude_gps_lancamento": -21.7924100300781,
+    "longitude_gps_lancamento": -50.22662457801784,
+    "lat_sede": -21.792285,
+    "lon_sede": -50.227002,
+    "localizacao_sede": "-21.792285, -50.227002",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.792285,-50.227002",
+    "distancia_sede_metros": 41.4,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-09T19:33:42",
+    "kobo_id": 911217728,
+    "instance_id": "uuid:fd026e84-917e-4a5c-8cb1-8bb1598925a0",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911217728_foto_pressao_sede39_1794252771637.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911217728_foto_bandeiras_sede39_1794252779627.jpg"
+      }
+    ]
   }
 ]
