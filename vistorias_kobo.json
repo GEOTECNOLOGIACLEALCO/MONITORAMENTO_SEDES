@@ -395,5 +395,128 @@
         "arquivo": "fotos/909513240_foto_bandeiras_sede33_1793902656481.jpg"
       }
     ]
+  },
+  {
+    "num_sede": "51",
+    "nome_sede": "51 - JAIR",
+    "fa": "SEM FA",
+    "fazenda": "SEDE",
+    "proprietario": "JAIR",
+    "regiao": "CLEMENTINA",
+    "data_vistoria": "07/11/2026",
+    "hora_vistoria": "08:59",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "0",
+    "larva_pupa": "Ausência",
+    "inseticida": "Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.558784751461925,
+    "lon": -50.43043960649269,
+    "latitude_gps_lancamento": -21.558784751461925,
+    "longitude_gps_lancamento": -50.43043960649269,
+    "lat_sede": -21.559077,
+    "lon_sede": -50.430747,
+    "localizacao_sede": "-21.559077, -50.430747",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.559077,-50.430747",
+    "distancia_sede_metros": 45.5,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-07T11:59:47",
+    "kobo_id": 910003090,
+    "instance_id": "uuid:eb36af42-e481-4995-81f8-f3c98e223889",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/910003090_foto_pressao_sede51_1794052752559.jpg"
+      },
+      {
+        "campo": "inseticida",
+        "arquivo": "fotos/910003090_foto_inseticida_sede51_1794052766012.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "49",
+    "nome_sede": "49 - JAIR",
+    "fa": "SEM FA",
+    "fazenda": "VARJÃO",
+    "proprietario": "JAIR",
+    "regiao": "CLEMENTINA",
+    "data_vistoria": "07/11/2026",
+    "hora_vistoria": "10:55",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "37",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "Não foi necessário renovar todas as bandeiras",
+    "lat": -21.583527574591706,
+    "lon": -50.40896005617759,
+    "latitude_gps_lancamento": -21.583527574591706,
+    "longitude_gps_lancamento": -50.40896005617759,
+    "lat_sede": -21.583166,
+    "lon_sede": -50.41027,
+    "localizacao_sede": "-21.583166, -50.41027",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.583166,-50.41027",
+    "distancia_sede_metros": 141.3,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-07T17:09:30",
+    "kobo_id": 910137595,
+    "instance_id": "uuid:c8e78947-b8f6-4c4c-b17c-103146757d5b",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/910137595_foto_pressao_sede49_1794059765889.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/910137595_foto_bandeiras_sede49_1794059775252.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "52",
+    "nome_sede": "52 - CARLA BRANDÃO",
+    "fa": "SEM FA",
+    "fazenda": "FAZ STA LUIZA",
+    "proprietario": "CARLA BRANDÃO",
+    "regiao": "CLEMENTINA",
+    "data_vistoria": "07/11/2026",
+    "hora_vistoria": "14:09",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "27",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "Não foi necessário renovar todas as bandeiras.",
+    "lat": -21.590715393825374,
+    "lon": -50.445790764447935,
+    "latitude_gps_lancamento": -21.590715393825374,
+    "longitude_gps_lancamento": -50.445790764447935,
+    "lat_sede": -21.590489,
+    "lon_sede": -50.445915,
+    "localizacao_sede": "-21.590489, -50.445915",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.590489,-50.445915",
+    "distancia_sede_metros": 28.3,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-07T17:11:31",
+    "kobo_id": 910138511,
+    "instance_id": "uuid:c641e2a5-b496-4f73-98d2-7921899677b4",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/910138511_foto_pressao_sede52_1794071392645.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/910138511_foto_bandeiras_sede52_1794071442232.jpg"
+      }
+    ]
   }
 ]
