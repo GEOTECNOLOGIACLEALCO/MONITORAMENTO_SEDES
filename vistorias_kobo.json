@@ -852,5 +852,439 @@
         "arquivo": "fotos/911217728_foto_bandeiras_sede39_1794252779627.jpg"
       }
     ]
+  },
+  {
+    "num_sede": "31",
+    "nome_sede": "31 - IVONETE",
+    "fa": "SEM FA",
+    "fazenda": "FAZENDA REALEZA",
+    "proprietario": "IVONETE",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "08:04",
+    "matricula": "***73",
+    "pressao": "Média",
+    "bandeiras": "15",
+    "larva_pupa": "Ausência",
+    "inseticida": "Aplicado",
+    "possiveis_causadores": "Outro: Chiqueiro de porco",
+    "observacoes": "",
+    "lat": -21.789209325764897,
+    "lon": -50.2129586641754,
+    "latitude_gps_lancamento": -21.789209325764897,
+    "longitude_gps_lancamento": -50.2129586641754,
+    "lat_sede": -21.788363,
+    "lon_sede": -50.212968,
+    "localizacao_sede": "-21.788363, -50.212968",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.788363,-50.212968",
+    "distancia_sede_metros": 94.1,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T11:38:35",
+    "kobo_id": 911617402,
+    "instance_id": "uuid:e883b8cd-cd8c-4683-8dbc-298476ba1596",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911617402_foto_pressao_sede31_1794310668091.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911617402_foto_bandeiras_sede31_1794310482020.jpg"
+      },
+      {
+        "campo": "inseticida",
+        "arquivo": "fotos/911617402_foto_inseticida_sede31_1794308825662.jpg"
+      },
+      {
+        "campo": "causador",
+        "arquivo": "fotos/911617402_foto_causador_sede31_1794308863406.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "17",
+    "nome_sede": "17 - JU LÁZARO",
+    "fa": "SEM FA",
+    "fazenda": "SEDE JU LÁZARO",
+    "proprietario": "JU LÁZARO",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "10:16",
+    "matricula": "***73",
+    "pressao": "Média",
+    "bandeiras": "21",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "Torta",
+    "observacoes": "Foto ilustrativa, pois o possível ponto é a torta depositada na fazenda realeza",
+    "lat": -21.792419022453057,
+    "lon": -50.22190843465144,
+    "latitude_gps_lancamento": -21.792419022453057,
+    "longitude_gps_lancamento": -50.22190843465144,
+    "lat_sede": -21.793018,
+    "lon_sede": -50.222225,
+    "localizacao_sede": "-21.793018, -50.222225",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.793018,-50.222225",
+    "distancia_sede_metros": 74.2,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T13:21:43",
+    "kobo_id": 911701640,
+    "instance_id": "uuid:68fc02fa-5c13-4067-a963-8f941d9a3dba",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911701640_foto_pressao_sede17_1794316634066.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911701640_foto_bandeiras_sede17_1794316651131.jpg"
+      },
+      {
+        "campo": "causador",
+        "arquivo": "fotos/911701640_foto_causador_sede17_1794316845145.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "37",
+    "nome_sede": "37 - ROSA CURSI",
+    "fa": "SEM FA",
+    "fazenda": "SÍTIO SANTA MARIA",
+    "proprietario": "ROSA CURSI",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "10:35",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "21",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.793109688486833,
+    "lon": -50.2235624961976,
+    "latitude_gps_lancamento": -21.793109688486833,
+    "longitude_gps_lancamento": -50.2235624961976,
+    "lat_sede": -21.793111,
+    "lon_sede": -50.22361,
+    "localizacao_sede": "-21.793111, -50.22361",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.793111,-50.22361",
+    "distancia_sede_metros": 4.9,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T13:41:12",
+    "kobo_id": 911718929,
+    "instance_id": "uuid:40f233aa-0935-4b13-bc9a-0110643a3760",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911718929_foto_pressao_sede37_1794317763065.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911718929_foto_bandeiras_sede37_1794318052571.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "5",
+    "nome_sede": "5 - STANLEY SOLER",
+    "fa": "SEM FA",
+    "fazenda": "SÍTIO SANTA CRUZ",
+    "proprietario": "STANLEY SOLER",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "10:26",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "18",
+    "larva_pupa": "Ausência",
+    "inseticida": "Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.848830857913548,
+    "lon": -50.20901495867705,
+    "latitude_gps_lancamento": -21.848830857913548,
+    "longitude_gps_lancamento": -50.20901495867705,
+    "lat_sede": -21.849017,
+    "lon_sede": -50.208623,
+    "localizacao_sede": "-21.849017, -50.208623",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.849017,-50.208623",
+    "distancia_sede_metros": 45.4,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T14:29:29",
+    "kobo_id": 911760055,
+    "instance_id": "uuid:ef0b502c-e632-4dfe-9791-79da56cba2d6",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911760055_foto_pressao_sede5_1794317313731.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911760055_foto_bandeiras_sede5_1794317302781.jpg"
+      },
+      {
+        "campo": "inseticida",
+        "arquivo": "fotos/911760055_foto_inseticida_sede5_1794317342420.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "45",
+    "nome_sede": "45 - WALTER RODRIGO DA SILVA",
+    "fa": "SEM FA",
+    "fazenda": "ESTÂNCIA BETINA",
+    "proprietario": "WALTER RODRIGO DA SILVA",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "11:29",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "25",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "Presença de moscas varejeira",
+    "lat": -21.854119954366606,
+    "lon": -50.214850033350075,
+    "latitude_gps_lancamento": -21.854119954366606,
+    "longitude_gps_lancamento": -50.214850033350075,
+    "lat_sede": -21.854548,
+    "lon_sede": -50.215946,
+    "localizacao_sede": "-21.854548, -50.215946",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.854548,-50.215946",
+    "distancia_sede_metros": 122.7,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T14:35:03",
+    "kobo_id": 911764501,
+    "instance_id": "uuid:c060de55-5168-4261-bc16-070c2eed045b",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911764501_foto_pressao_sede45_1794320967610.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911764501_foto_bandeiras_sede45_1794320991653.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "6",
+    "nome_sede": "6 - STANLEY SOLER",
+    "fa": "SEM FA",
+    "fazenda": "FAZ BOM JESUS",
+    "proprietario": "STANLEY SOLER",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "12:17",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "20",
+    "larva_pupa": "Presença",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "Outro: Acúmulo de esterco",
+    "observacoes": "",
+    "lat": -21.8430866158254,
+    "lon": -50.20073753059264,
+    "latitude_gps_lancamento": -21.8430866158254,
+    "longitude_gps_lancamento": -50.20073753059264,
+    "lat_sede": -21.842444,
+    "lon_sede": -50.201499,
+    "localizacao_sede": "-21.842444, -50.201499",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.842444,-50.201499",
+    "distancia_sede_metros": 106.2,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T16:09:06",
+    "kobo_id": 911840934,
+    "instance_id": "uuid:6a43476f-0970-4596-aec0-4cfd814c09bb",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911840934_foto_pressao_sede6_1794324820409.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911840934_foto_bandeiras_sede6_1794324533719.jpg"
+      },
+      {
+        "campo": "larva_pupa",
+        "arquivo": "fotos/911840934_foto_larva_pupa_sede6_1794324793088.jpg"
+      },
+      {
+        "campo": "causador",
+        "arquivo": "fotos/911840934_foto_causador_sede6_1794324769793.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "22",
+    "nome_sede": "22 - HEITOR RODRIGUES",
+    "fa": "SEM FA",
+    "fazenda": "SEDE HEITOR 1",
+    "proprietario": "HEITOR RODRIGUES",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "13:45",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "25",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.875483373091917,
+    "lon": -50.204968465853554,
+    "latitude_gps_lancamento": -21.875483373091917,
+    "longitude_gps_lancamento": -50.204968465853554,
+    "lat_sede": -21.875086,
+    "lon_sede": -50.204481,
+    "localizacao_sede": "-21.875086, -50.204481",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.875086,-50.204481",
+    "distancia_sede_metros": 67.0,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T17:00:32",
+    "kobo_id": 911878392,
+    "instance_id": "uuid:abb33a08-4e65-459e-963e-c985dac9c00c",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911878392_foto_pressao_sede22_1794329170035.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911878392_foto_bandeiras_sede22_1794329984183.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "21",
+    "nome_sede": "21 - IZAQUEU PEREIRA",
+    "fa": "SEM FA",
+    "fazenda": "FAZ SÃO JOSÉ",
+    "proprietario": "IZAQUEU PEREIRA",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "14:05",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "33",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.78493847074506,
+    "lon": -50.22847693826668,
+    "latitude_gps_lancamento": -21.78493847074506,
+    "longitude_gps_lancamento": -50.22847693826668,
+    "lat_sede": -21.785088,
+    "lon_sede": -50.228946,
+    "localizacao_sede": "-21.785088, -50.228946",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.785088,-50.228946",
+    "distancia_sede_metros": 51.2,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T17:08:30",
+    "kobo_id": 911883426,
+    "instance_id": "uuid:461f376f-bd61-45c8-97e5-a989eac79697",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911883426_foto_pressao_sede21_1794330503799.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911883426_foto_bandeiras_sede21_1794330415787.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "26",
+    "nome_sede": "26 - JOSÉ HUMBERTO",
+    "fa": "SEM FA",
+    "fazenda": "FAZENDA SANTA BÁRBARA",
+    "proprietario": "JOSÉ HUMBERTO",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "14:59",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "18",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "Na foto da pressão de moscas, o gado está junto mas por ser cocho, e não aglomeração por moscas",
+    "lat": -21.798969312267435,
+    "lon": -50.25638948055233,
+    "latitude_gps_lancamento": -21.798969312267435,
+    "longitude_gps_lancamento": -50.25638948055233,
+    "lat_sede": -21.796551,
+    "lon_sede": -50.255748,
+    "localizacao_sede": "-21.796551, -50.255748",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.796551,-50.255748",
+    "distancia_sede_metros": 276.9,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T18:01:37",
+    "kobo_id": 911918824,
+    "instance_id": "uuid:06cb1f71-0437-448e-b757-05f544cc3ca7",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911918824_foto_pressao_sede26_1794333673282.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911918824_foto_bandeiras_sede26_1794333643500.jpg"
+      }
+    ]
+  },
+  {
+    "num_sede": "9",
+    "nome_sede": "9 - FERNANDO SANTOS",
+    "fa": "SEM FA",
+    "fazenda": "SÍTIO N S APARECIDA",
+    "proprietario": "FERNANDO SANTOS",
+    "regiao": "QUEIROZ",
+    "data_vistoria": "10/11/2026",
+    "hora_vistoria": "17:01",
+    "matricula": "***73",
+    "pressao": "Baixa",
+    "bandeiras": "44",
+    "larva_pupa": "Ausência",
+    "inseticida": "Não Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.81134569243368,
+    "lon": -50.24933495572415,
+    "latitude_gps_lancamento": -21.81134569243368,
+    "longitude_gps_lancamento": -50.24933495572415,
+    "lat_sede": -21.811985,
+    "lon_sede": -50.249707,
+    "localizacao_sede": "-21.811985, -50.249707",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.811985,-50.249707",
+    "distancia_sede_metros": 80.8,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-10T20:02:47",
+    "kobo_id": 911980433,
+    "instance_id": "uuid:8153e37d-d433-4a6d-a2ac-540d5fbb9da1",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/911980433_foto_pressao_sede9_1794340962062.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/911980433_foto_bandeiras_sede9_1794340955036.jpg"
+      }
+    ]
   }
 ]
