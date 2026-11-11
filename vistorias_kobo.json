@@ -1409,5 +1409,50 @@
         "arquivo": "fotos/912456205_foto_bandeiras_sede67_1794401468111.jpg"
       }
     ]
+  },
+  {
+    "num_sede": "64",
+    "nome_sede": "64 - EDENILSON",
+    "fa": "SEM FA",
+    "fazenda": "FILHA",
+    "proprietario": "EDENILSON",
+    "regiao": "CLEMENTINA",
+    "data_vistoria": "11/11/2026",
+    "hora_vistoria": "10:20",
+    "matricula": "***96",
+    "pressao": "Baixa",
+    "bandeiras": "12",
+    "larva_pupa": "Ausência",
+    "inseticida": "Aplicado",
+    "possiveis_causadores": "",
+    "observacoes": "",
+    "lat": -21.60225563224067,
+    "lon": -50.469347353132356,
+    "latitude_gps_lancamento": -21.60225563224067,
+    "longitude_gps_lancamento": -50.469347353132356,
+    "lat_sede": -21.601915,
+    "lon_sede": -50.46989,
+    "localizacao_sede": "-21.601915, -50.46989",
+    "link_google_maps_sede": "https://www.google.com/maps?q=-21.601915,-50.46989",
+    "distancia_sede_metros": 67.7,
+    "origem": "KoboToolbox",
+    "submetido_em": "2026-11-11T13:22:37",
+    "kobo_id": 912482494,
+    "instance_id": "uuid:1ddede2b-ec65-465c-b888-7a8ece2167f8",
+    "alertas": [],
+    "fotos_arquivos": [
+      {
+        "campo": "pressao",
+        "arquivo": "fotos/912482494_foto_pressao_sede64_1794403233989.jpg"
+      },
+      {
+        "campo": "bandeiras",
+        "arquivo": "fotos/912482494_foto_bandeiras_sede64_1794403258197.jpg"
+      },
+      {
+        "campo": "inseticida",
+        "arquivo": "fotos/912482494_foto_inseticida_sede64_1794403245845.jpg"
+      }
+    ]
   }
 ]
