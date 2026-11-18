@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NoFly mudou de endereço</title>
+<style>
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#eef2ec;color:#0f1f2a;
+    display:flex;justify-content:center;padding:48px 16px}
+  main{max-width:420px;background:#fff;border-radius:14px;padding:24px;box-shadow:0 10px 30px rgba(15,31,42,.12)}
+  h1{font-size:20px;margin:0 0 10px}
+  p{font-size:15px;line-height:1.5;margin:0 0 12px}
+  a.botao{display:block;text-align:center;background:#1b4332;color:#fff;text-decoration:none;font-weight:800;padding:12px;border-radius:8px}
+  .alerta{background:#fdecea;color:#8a1c12;border-radius:8px;padding:10px 12px;font-weight:700}
+</style>
+</head>
+<body>
+<main>
+  <h1>O NoFly mudou de endereço</h1>
+  <p id="texto">Abrindo o NoFly com login...</p>
+  <a class="botao" id="ir" href="https://nofly-clealco.pages.dev/">Abrir o NoFly</a>
+</main>
+<script>
+// Endereco antigo do NoFly: so redireciona (nenhum dado fica aqui).
+(function () {
+  var NOVO = "https://nofly-clealco.pages.dev";
+  var pagina = location.pathname.replace(/^\/MONITORAMENTO_SEDES/i, "") || "/";
+  var destino = NOVO + pagina + location.search + location.hash;
+  document.getElementById("ir").href = destino;
+  var n = 0;
+  try { n = JSON.parse(localStorage.getItem("nofly_fila_envio") || "[]").length; } catch (e) {}
+  if (n > 0) {
+    // Vistorias que ficaram presas neste endereco: nao apagar o app, a Geotecnologia recupera
+    var t = document.getElementById("texto");
+    t.className = "alerta";
+    t.textContent = "Este celular tem " + n + " vistoria(s) que não foram enviadas pelo app antigo. " +
+      "Não desinstale o app e avise a Geotecnologia. Para continuar trabalhando, use o botão abaixo.";
+    return;
+  }
+  location.replace(destino);
+})();
+</script>
+</body>
+</html>
